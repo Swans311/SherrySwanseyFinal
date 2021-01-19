@@ -1,19 +1,6 @@
 <?php
     include (__DIR__.'/NavBar.php');
     include (__DIR__. '/model/ModelReview.php');
-
-    $Cat2 = getMostCommonCategoriesAllItems(6);
-
-    
-
-
-
-
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gourmandize | Sign Up</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <script
+    <script>
 	    src="https://code.jquery.com/jquery-3.3.1.min.js"
 	    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous">
