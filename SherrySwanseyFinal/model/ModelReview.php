@@ -757,7 +757,7 @@
         {
             $categories = explode(",", $itemReview['Category']);
             foreach($categories as $category)
-                array_push($itemCatArray, $category);
+                array_push($itemCatArray, ucfirst(trim($category)));
         }
         //An array with the categories as labels and number of instances as values
         $countArray = array_count_values($itemCatArray);
