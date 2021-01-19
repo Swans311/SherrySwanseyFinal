@@ -39,6 +39,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gourmandize | Search</title>
+    <link rel="stylesheet" type="text/css" href="misc/css/Style.css">
 </head>
 <body>
     <div class="container gz-div-glow">
@@ -64,9 +65,15 @@
                     </div>
                     <div class="form-group m-3" style="float:left;">
                         <h2 class="text-white display-5" style="font-family: textFont">Type</h2>
-                        <input type="radio" id="restaurantRadio" name="type" value="restaurant"/>
+                        <label class="switch">
+                            <input type="radio" id="restaurantRadio" name="type" value="restaurant"/>
+                            <span class="slider round"></span>
+                        </label>
                         <label for="restaurantRadio" >Restaurant</label>
-                        <input type="radio" id="foodRadio" name="type" value="food" <?= $_GET['type'] == 'food'? "checked" : "" ?>/>
+                        <label class="switch">
+                            <input type="radio" id="foodRadio" name="type" value="food" <?= $_GET['type'] == 'food'? "checked" : "" ?>/>
+                            <span class="slider round"></span>
+                        </label>
                         <label for="foodRadio">Food</label>
                     </div>
                     <div style="clear: both;">
