@@ -21,22 +21,23 @@
         $userarray=getUserByID($uID);
         $reviewarray=getAllResReviewsByUser($uID);
         $amtOreviews=count($reviewarray);
+        var_dump($amtOreviews);
         $revTable=getAllReviewsByUser($uID);
         $avgStar=calculateAvgStarRatingFromUser($uID);
-        foreach($reviewarray as $reviewarray):{
-            array_push($resID, $reviewarray['Restaurant_ID']);
-            $resname=getRestaurantName($reviewarray['Restaurant_ID']);
+        foreach($reviewarray as $Rarray):{
+            array_push($resID, $Rarray['Restaurant_ID']);
+            $resname=getRestaurantName($Rarray['Restaurant_ID']);
             array_push($resName,$resname);
-            array_push($resreview,$reviewarray['Review']);
+            array_push($resreview,$Rarray['Review']);
             
         }
         endforeach;
         
-        foreach($revTable as $revTable):{
-            $itemname=getItemName($revTable["Item_ID"]);
+        foreach($revTable as $rTable):{
+            $itemname=getItemName($rTable["Item_ID"]);
             array_push($foodname, $itemname);
-            array_push($foodstars,$revTable['Star_lvl']);
-            array_push($txtreview, $revTable['Review']);
+            array_push($foodstars,$rTable['Star_lvl']);
+            array_push($txtreview, $rTable['Review']);
         }
         endforeach;
     }
@@ -77,7 +78,7 @@
                         <div>
                             <!-- Adjust data-->
                             <h3>Restaurant's Name: <?=$resName[$loopcount]?></h3>
-                            <h3>Stars: <?=$reviewarray['Star_lvl'];?></h3>
+                            <h3>Stars: <?=$Rarray['Star_lvl'];?></h3>
                             <p style="min-height: 110px"><?=$resreview[$loopcount];?></p>
 
                         </div>
