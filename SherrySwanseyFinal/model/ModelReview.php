@@ -743,22 +743,27 @@
     function getMostCommonCategoriesAllItems($numCategories)
     {
         $allItems = searchByItem("","", -1);
-        $itemReviews = [];
+        //$itemReviews = [];
+        $itemCatArray = [];
 
         foreach($allItems as $item)
         {
             $temp = getAllReviewsForItem($item['Item_ID']);
-           foreach($temp as $review)
-                array_push($itemReviews, $review);
+            foreach($temp as $review)
+            {
+                    $categories = explode(",", $review['Category']);
+                    foreach($categories as $category)
+                        array_push($itemCatArray, ucfirst(trim($category)));
+            }
         }
-        $itemCatArray = [];
-
+        
+        /*
         foreach($itemReviews as $itemReview)
         {
             $categories = explode(",", $itemReview['Category']);
             foreach($categories as $category)
                 array_push($itemCatArray, ucfirst(trim($category)));
-        }
+        }*/
         //An array with the categories as labels and number of instances as values
         $countArray = array_count_values($itemCatArray);
 
