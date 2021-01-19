@@ -21,7 +21,6 @@
         $userarray=getUserByID($uID);
         $reviewarray=getAllResReviewsByUser($uID);
         $amtOreviews=count($reviewarray);
-        var_dump($amtOreviews);
         $revTable=getAllReviewsByUser($uID);
         $avgStar=calculateAvgStarRatingFromUser($uID);
         foreach($reviewarray as $Rarray):{
