@@ -1,49 +1,3 @@
-@font-face{
-	font-family: logoFont;
-	src: url(../fonts/Neon.TTF);
-  }
-  @font-face{
-	font-family: titleFont;
-	src: url(../fonts/AirstreamNF.ttf);
-  }
-  @font-face{
-	font-family: textFont;
-	src: url(../fonts/CherryCreamSoda-Regular.ttf);
-  }
-  /* .glow and @-webkit-keyframes glow create the glowing effect on the project logo*/
-  .glow{
-	animation: glow 1s ease-in-out infinite alternate;
-  }
-  @-webkit-keyframes glow {
-	from {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-	}
-	to {
-		text-shadow: 0 0 40px #fff, 0 0 60px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6, 0 0 90px #ff4da6, 0 0 100px #ff4da6;
-	}
-  }
-  /* Creates the black/white checkered background*/
-  .gz-body-bg{
-	background-color: #eee;
-	background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
-					  linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
-	background-size: 90px 90px; 
-	background-attachment: fixed;
-  }
-  .gz-nav-bg{
-	background-image: radial-gradient(ellipse at top, #e75480,#f71a08)
-  }
-  .gz-nav-link{
-	font-family: textFont; 
-	font-size: 20px;
-  }
-  .gz-div-glow{
-	background-color: #fff; margin-top: 50px; border-radius: 25px; box-shadow: 0 0 10px 6px #0cf, 0 0 20px 12px #fff; padding: 0px;
-  }
-  .gz-div-inner{
-	width:100%; background-color: #0095EF; border-radius: 25px; 
-  }
-
 /* Sliders for selection on Search Page */
 
 .switch {
@@ -105,6 +59,57 @@
   .slider.round:before {
 	border-radius: 50%;
   }
+
+
+
+
+
+@font-face{
+	font-family: logoFont;
+	src: url(../fonts/Neon.TTF);
+  }
+  @font-face{
+	font-family: titleFont;
+	src: url(../fonts/AirstreamNF.ttf);
+  }
+  @font-face{
+	font-family: textFont;
+	src: url(../fonts/CherryCreamSoda-Regular.ttf);
+  }
+  /* .glow and @-webkit-keyframes glow create the glowing effect on the project logo*/
+  .glow{
+	animation: glow 1s ease-in-out infinite alternate;
+  }
+  @-webkit-keyframes glow {
+	from {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+	}
+	to {
+		text-shadow: 0 0 40px #fff, 0 0 60px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6, 0 0 90px #ff4da6, 0 0 100px #ff4da6;
+	}
+  }
+  /* Creates the black/white checkered background*/
+  .gz-body-bg{
+	background-color: #eee;
+	background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
+					  linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
+	background-size: 90px 90px; 
+	background-attachment: fixed;
+  }
+  .gz-nav-bg{
+	background-image: radial-gradient(ellipse at top, #e75480,#f71a08)
+  }
+  .gz-nav-link{
+	font-family: textFont; 
+	font-size: 20px;
+  }
+  .gz-div-glow{
+	background-color: #fff; margin-top: 50px; border-radius: 25px; box-shadow: 0 0 10px 6px #0cf, 0 0 20px 12px #fff; padding: 0px;
+  }
+  .gz-div-inner{
+	width:100%; background-color: #0095EF; border-radius: 25px; 
+  }
+
 
 
 
