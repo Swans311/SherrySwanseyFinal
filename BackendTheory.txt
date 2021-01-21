@@ -1,0 +1,32 @@
+SQL server: For mods and rusers
+
+If user signs up and has clicked the (OWNER) radio button, mods would get a notification from a POST request.
+Mods would accept or decline the user's request for becoming a ResOwner on Gourmandize.
+
+SQL categories:
+ResOwner (BIT) (allows null)
+RESPONDED (BIT) (not null)
+UserID (int) (FK) (not null)
+ResID (int)(FK) (not null)
+
+User ID would be used to string together the Restaurant ID for the one that they own, and the ResOwner Bit is to
+verify if they are restaurant owners (duh). Responded is for any/all mods/admins to see if their request has been approved.
+
+
+ResOwner: null
+Responded: 0
+UserID: 1
+ResID: 1
+RequestID: 1
+
+
+ResOwner:null
+Responded:0
+UserID: 1
+ResID:3
+RequestID: 2
+
+Message system to and from mods and restaurant owners.
+Mods are able to delete reviews, and approve requests for restaurant owners.
+Res owners are able to respond to reviews on owned restaurants, as well as alter
+menu items, and categories that they deem not fit to aptly describe their restaurant.
