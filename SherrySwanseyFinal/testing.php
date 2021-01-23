@@ -1,4 +1,37 @@
-<?php?>
+<?php 
+
+    if(isset($_POST))
+    {
+        $searchResults = [];
+        if(isset($_POST['type']))
+        {
+            if($_POST['type'] ==  "food")
+            {
+                $minStars = $_POST['minRating'] == "" ? -1 : number_format($_POST['minRating']);
+                $searchResults = searchByItem($_POST['name'], $_POST['categories'], $minStars);
+            }
+            elseif($_POST['type'] == "restaurant")
+            {
+                $minStars = $_POST['minRating'] == "" ? -1 : number_format($_POST['minRating']);
+                $searchResults = searchByRestaurant($_POST['name'], $_POST['categories'], $minStars);
+            }
+        }
+        
+        // /var_dump($searchResults);
+    }
+
+    if(isset($_GET['categories'])){
+        $CATTY=filter_input(INPUT_GET,'categories');
+        $CATTY = $_GET['categories'];
+        $TYPEY=filter_input(INPUT_GET,'type');
+        $TYPEY=$_GET['type'];
+    } else {
+        $CATTY = '';
+        $_GET['type']='';
+    }
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,26 +100,38 @@ input:checked + .slider:before {
 </head>
 <body>
 
-
-<label class="switch">
-  <input type="checkbox">
-  <span class="slider"></span>
+<label>Restaurant
+    <label class="switch">
+    <input type="radio" value="Restaurant">
+    <span class="slider round"></span>
+    </label>
 </label>
 
-<label class="switch">
-  <input type="checkbox" checked>
-  <span class="slider"></span>
-</label><br><br>
-
-<label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span>
+<label>Food
+    <label class="switch">
+    <input type="radio" value="Food">
+    <span class="slider round"></span>
+    </label>
 </label>
 
-<label class="switch">
-  <input type="checkbox" checked>
-  <span class="slider round"></span>
-</label>
+
+
+<hr/>
+<hr/>
+<div class="form-group m-3" style="float:left;">
+    <h2 class="text-white display-5" style="font-family: textFont">Type</h2>
+    <label class="switch">
+        <input type="radio" id="restaurantRadio" name="type" value="restaurant"/>
+        <span class="slider round"></span>
+    </label>
+    <label for="restaurantRadio" >Restaurant</label>
+    <label class="switch">
+        <input type="radio" id="foodRadio" name="type" value="food" <?= $_GET['type'] == 'food'? "checked" : "" ?>/>
+        <span class="slider round"></span>
+    </label>
+    <label for="foodRadio">Food</label>
+</div>
+
 
 </body>
 </html>
