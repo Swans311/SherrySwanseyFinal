@@ -411,6 +411,26 @@
         }
         return $resReviewList;
     }
+    function getAllReviewsForRestaurantChronological($restaurantID, $limit)
+    {
+        global $db;
+        //get connected ItemReviews
+        $stmt = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE Restaurant_ID = :ID ORDER BY ReviewDate DESC LIMIT :Lim;");
+        $stmt->bindValue(':ID', $restaurantID);
+        $stmt->bindValue(':Lim', $limit);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $resReviewList = array();
+        //loop through and append to list
+        foreach($results as $result)
+        {
+            $resReviewID = $result['ResReview_ID'];
+            array_push($resReviewList, getRestaurantReview($resReviewID));
+        }
+        return $resReviewList;
+    }
     function getAllReviewsForItem($itemID)
     {
         global $db;
@@ -430,12 +450,52 @@
         }
         return $itemReviewList;
     }
+    function getAllReviewsForItemChronological($itemID, $limit)
+    {
+        global $db;
+        //get connected ItemReviews
+        $stmt = $db->prepare("SELECT Review_ID FROM review WHERE Item_ID = :ID ORDER BY ReviewDate DESC LIMIT :Lim;");
+        $stmt->bindValue(':ID', $itemID);
+        $stmt->bindValue(':Lim', $limit);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $itemReviewList = array();
+        //loop through and append to list
+        foreach($results as $result)
+        {
+            $reviewID = $result['Review_ID'];
+            array_push($itemReviewList, getItemReview($reviewID));
+        }
+        return $itemReviewList;
+    }
     function getAllResReviewsByUser($userID)
     {
         global $db;
         //get connected ItemReviews
         $stmt = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :ID;");
         $stmt->bindValue(':ID', $userID);
+
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);   
+
+        $resReviewList = array();
+        //loop through and append to list
+        foreach($results as $result)
+        {
+            $reviewID = $result['ResReview_ID'];
+            array_push($resReviewList, getRestaurantReview($reviewID));
+        }
+        return $resReviewList;
+    }
+    function getAllResReviewsByUserChronological($userID, $limit)
+    {
+        global $db;
+        //get connected ItemReviews
+        $stmt = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :ID ORDER BY ReviewDate DESC LIMIT :Lim;");
+        $stmt->bindValue(':ID', $userID);
+        $stmt->bindValue(':Lim', $limit);
 
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);   
@@ -757,13 +817,6 @@
             }
         }
         
-        /*
-        foreach($itemReviews as $itemReview)
-        {
-            $categories = explode(",", $itemReview['Category']);
-            foreach($categories as $category)
-                array_push($itemCatArray, ucfirst(trim($category)));
-        }*/
         //An array with the categories as labels and number of instances as values
         $countArray = array_count_values($itemCatArray);
 
@@ -773,32 +826,19 @@
         //Slices the first $numCategories values and returns an array with the categories
         return array_keys(array_slice($countArray, 0, $numCategories <= count($countArray) ? $numCategories : count($countArray)));
     }
-    //Code for datetime sorting taken from here https://stackoverflow.com/questions/2910611/php-sort-a-multidimensional-array-by-element-containing-date/2910642
-    function dateCompare($listA,$listB)
-    {
-        return strtotime($listA['ReviewDate']) - strtotime($listB['ReviewDate']);
-    }
-    function sortResultsByDateTime($arrays)
-    {
-        uasort($arrays, "dateCompare");
-        return $arrays;
-    }
     function getMostRecentReviewsByUser($userID, $numReviews)
     {
-        $resReviews = getAllResReviewsByUser($userID);
-        $resReviews = sortResultsByDateTime($resReviews);
+        $resReviews = getAllResReviewsByUserChronological($userID, $numReviews);
         return array_slice($resReviews, 0,  $numReviews <= count($resReviews)? $numReviews : count($resReviews));   
     }
     function getMostRecentReviewsByRestaurant($restaurantID, $numReviews)
     {
-        $resReviews = getAllReviewsForRestaurant($restaurantID);
-        $resReviews = sortResultsByDateTime($resReviews);
+        $resReviews = getAllReviewsForRestaurantChronological($restaurantID, $numReviews);
         return array_slice($resReviews, 0,  $numReviews <= count($resReviews)? $numReviews : count($resReviews));   
     }
     function getMostRecentReviewsByItem($itemID, $numReviews)
     {
-        $itemReviews = getAllReviewsForItem($itemID);
-        $itemReviews = sortResultsByDateTime($itemReviews);
+        $itemReviews = getAllReviewsForItemChronological($itemID, $numReviews);
         return array_slice($itemReviews, 0,  $numReviews <= count($itemReviews)? $numReviews : count($itemReviews));   
     }
     function isPostRequest(){
