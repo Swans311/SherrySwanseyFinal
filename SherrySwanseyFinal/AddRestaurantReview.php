@@ -146,41 +146,7 @@
     function regenerateFoodReviewAreas()
     {
         var div = document.getElementById("inputs");
-        /* GAVE UP ON MAKING THIS CODE WORK TO KEEP IT STICKY 
-        THIS IS THE 4TH ATTEMPTED METHOD AND EVEN IF IT COULD
-        WORK THIS IS INSANELY SLOW
-        div.innerHTML += <?php /*
-            for($i = 2; $i < $_SESSION['numFoodReviews']; $i++)
-            {
-                `<div class="row border border-outline-white rounded m-2 p-2">`
-                . `<div class="row mx-2 p-1">`
-                    . `<div class="col form-group">`
-                        . `<h2 class="display-5 mb-5">Food Item Review</h2>`
-                        . `<label for="exampleFormControlFile`.$i.`">Upload Image Here:</label>`
-                        . `<input type="file" class="form-control-file" id="exampleFormControlFile`.$i.`">`
-                    . `</div>`
-                    . `<div class="col">`
-                        . `<div class="form-group mt-4">`
-                            . `<input size="25"type="text" name="food`.$i.`" id="food`.$i.`" placeholder="Food" value=`.(isset($_POST['food'.$i])? $_POST['food'.$i]: '') . `"/>`
-                            . `</div>`
-                            . `<div class="form-group">`
-                            . `<input size="25"type="text" name="foodCategories`.$i.`" id="foodCategories`.$i.`" placeholder="Categories"  value="`.(isset($_POST['foodCategories'.$i])? $_POST['foodCategories'.$i]: '').`"/>`
-                            . `</div>`
-                            . `<div class="form-group">`
-                            . `<label for="foodRating`.$i.`">Star Rating:</label>`
-                            . `<input type="number" name="foodRating`.$i.`" id="foodRating`.$i.`" min="0" max="5" step="0.1" value="`. (isset($_POST['foodRating'.$i])? $_POST['foodRating'.$i]: '') .`"/>`
-                            . `</div>`
-                            . `</div>`
-                        . `<div class="col form-group">`
-                        . `<div class="d-flex justify-content-end mb-2">`
-                        . `<h2 class="text-white mr-auto" style="font-family: textFont">Review</h2>`
-                            . `<button id="removeFoodButton`.$i.`" class="btn btn-outline-danger text-white border-white"type="submit">Remove Food Item</button>`
-                        . `</div>`
-                        . `<textarea class="form-control" name="foodReview1" rows="4">`. (isset($_POST['foodReview'.$i])? $_POST['foodReview'.$i]: '').`</textarea>`
-                    . `</div></div></div>`;
-            }
         
-        */?>*/
         for(let x = 2; x <= <?=$_SESSION['numFoodReviews']?> ; x++)
         {
             console.log(x)
