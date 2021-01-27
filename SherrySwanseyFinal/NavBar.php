@@ -20,7 +20,7 @@ if (!isset($_SESSION['loggedin'])) {
 <body class="gz-body-bg"> 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark text-white shadow-lg p-3 mb-6 gz-nav-bg">
     <!-- Project Name/Logo-->
-    <a class="navbar-brand glow" href="NavBar.php" style="font-family: logoFont; font-size: 30px;">Gourmandize</a>
+    <a class="navbar-brand glow" href="homepage.php" style="font-family: logoFont; font-size: 30px;">Gourmandize</a>
       <!-- Nav links, pushed to left-->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">

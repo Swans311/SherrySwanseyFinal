@@ -124,7 +124,6 @@
 
                                 }
                                 else{
-                                    echo $loop2;
                                     echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                     echo '<div class="media my-3">';
                                         echo'<!-- Adjust image source-->';
