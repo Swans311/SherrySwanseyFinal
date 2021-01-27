@@ -415,7 +415,7 @@
     {
         global $db;
         $string = "SELECT ResReview_ID FROM restaurantreview WHERE Restaurant_ID = :ID ORDER BY ReviewDate ";
-        $string += $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
+        $string .= $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':ID', $restaurantID);
@@ -456,7 +456,7 @@
     {
         global $db;
         $string = "SELECT Review_ID FROM review WHERE Item_ID = :ID ORDER BY ReviewDate ";
-        $string += $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
+        $string .= $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':ID', $itemID);
@@ -497,7 +497,7 @@
     {
         global $db;
         $string = "SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :ID ORDER BY ReviewDate ";
-        $string += $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
+        $string .= $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':ID', $userID);
@@ -851,7 +851,7 @@
         return (filter_input(INPUT_SERVER, 'REQUEST_METHOD')=== 'POST');
     }
 
-
+    
     function addpicture($Img, $Restaurant_ID, $Review_ID){
         $stmt = $db->prepare("INSERT INTO rimages SET Img = :Img, Restaurant_ID = :Restaurant_ID, Review_ID = :Review_ID");
 
