@@ -102,8 +102,6 @@
                                 if($resReviewID[$loop2]==$resReviewID[$loop2+1] )
                                 {
                                     while($resReviewID[$loop2]==$resReviewID[$loop2] || $resReviewID[$loop2] == $resReviewID[$loop2-1]){
-                                        echo $loop2;
-                                        echo 'Hello this should be for index 1+2';
                                         echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                         echo '<div class="media my-3">';
                                             echo'<!-- Adjust image source-->';
@@ -127,7 +125,6 @@
                                 }
                                 else{
                                     echo $loop2;
-                                    echo 'This should be for index 0';
                                     echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                     echo '<div class="media my-3">';
                                         echo'<!-- Adjust image source-->';
