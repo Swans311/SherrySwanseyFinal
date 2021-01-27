@@ -16,14 +16,14 @@
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="media mr-auto mb-5">
-                <img class="mr-3 align-self-center" style="height: 300px; width: auto;" src="misc\images\Restaurant_Test.jpg" alt="img">
-                <div class="media-body">
+                <img class="mr-3 align-self-center" style="height: 300px; width: 40%;" src="misc\images\Restaurant_Test.jpg" alt="img"/>
+                <div class="media-body ms-auto">
                     <?php
-                        echo '<h1 class="display-4"style="font-family: titleFont;">'.$restaurantInfo['Restaurant_Name'].'</h1>';
-                        echo '<h1 class="display-4">'.round(calculateRestaurantStarRating($restaurantInfo['Restaurant_ID']),2).' Stars</h1>';
-                        echo '<h1 class="display-5">'.$restaurantInfo['ResAddress'].'</h1>';
-                        echo '<h1 class="display-5">'.$restaurantInfo['Phone'].'</h1>';
-                        echo '<h1 class="display-5"><a href = "'.$restaurantInfo['Restaurant_URL'].'" target="_blank">'.$restaurantInfo['Restaurant_URL'].'</a></h1>';
+                        echo '<h1 class="display-4"style="font-family: titleFont; width:50%">'.$restaurantInfo['Restaurant_Name'].'</h1>';
+                        echo '<h1 class="display-4" style="width:50%">'.round(calculateRestaurantStarRating($restaurantInfo['Restaurant_ID']),2).' Stars</h1>';
+                        echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['ResAddress'].'</h1>';
+                        echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['Phone'].'</h1>';
+                        echo '<h1 class="display-5" style="width:50%"><a href = "'.$restaurantInfo['Restaurant_URL'].'" target="_blank">Restaurant Site</a></h1>';
                     ?>
                 </div>
             </div>

@@ -844,3 +844,20 @@
     function isPostRequest(){
         return (filter_input(INPUT_SERVER, 'REQUEST_METHOD')=== 'POST');
     }
+
+
+    function addpicture($Img, $Restaurant_ID, $Review_ID){
+        $stmt = $db->prepare("INSERT INTO rimages SET Img = :Img, Restaurant_ID = :Restaurant_ID, Review_ID = :Review_ID");
+
+            $stmt -> bindValue(':Img', $Img);
+            $stmt -> bindValue(':Restaurant_ID', $Restaurant_ID);
+            $stmt -> bindValue(':Review_ID', $Review_ID);
+
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+            {
+                $results = 'Data Added';
+            }
+        return ($results);
+
+    }
