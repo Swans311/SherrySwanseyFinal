@@ -59,4 +59,11 @@
         </div>
     </div>
 </body>
+<footer>
+  <hr style="color:red;"/>
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+    © 2021 Copyright:
+    <a class="text-dark" href="AboutUs.php">About Us</a>
+  </div>
+  </footer>
 </html>

@@ -26,17 +26,24 @@ if (!isset($_SESSION['loggedin'])) {
         <li class="nav-item">
           <a class="nav-link gz-nav-link" href="homepage.php">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link gz-nav-link" href="SearchResults.php">Search</a>
-        </li>
       </ul>
+
+      <form method="GET">
+        <div class="input-group">
+          <div class="form-outline">
+            <input type="search" id="form1" class="form-control"/>
+          </div>
+          <button type="button" class="btn btn-primary" >
+            <i class="fas fa-search">Search</i>
+          </button>
+        </div>
+      </form>
+
 
     <!-- Nav links, pushed to right-->
     <div class="nav-item ml-auto">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link gz-nav-link" href="AboutUs.php">About Us</a>
-        </li>
+        
         <!-- Logic to switch between buttons depending on if the user is logged in-->
         <?php if($loggedin == False) :?>
           <li class="nav-item">
@@ -56,5 +63,7 @@ if (!isset($_SESSION['loggedin'])) {
       </ul>
     </div>
   </nav>
+
 </body>
+
 </html>
