@@ -411,11 +411,13 @@
         }
         return $resReviewList;
     }
-    function getAllReviewsForRestaurantChronological($restaurantID, $limit)
+    function getAllReviewsForRestaurantChronological($restaurantID, $limit, $newsestFirst)
     {
         global $db;
+        $string = "SELECT ResReview_ID FROM restaurantreview WHERE Restaurant_ID = :ID ORDER BY ReviewDate ";
+        $string += $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
-        $stmt = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE Restaurant_ID = :ID ORDER BY ReviewDate DESC LIMIT :Lim;");
+        $stmt = $db->prepare($string);
         $stmt->bindValue(':ID', $restaurantID);
         $stmt->bindValue(':Lim', $limit);
 
@@ -450,11 +452,13 @@
         }
         return $itemReviewList;
     }
-    function getAllReviewsForItemChronological($itemID, $limit)
+    function getAllReviewsForItemChronological($itemID, $limit, $newestFirst)
     {
         global $db;
+        $string = "SELECT Review_ID FROM review WHERE Item_ID = :ID ORDER BY ReviewDate ";
+        $string += $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
-        $stmt = $db->prepare("SELECT Review_ID FROM review WHERE Item_ID = :ID ORDER BY ReviewDate DESC LIMIT :Lim;");
+        $stmt = $db->prepare($string);
         $stmt->bindValue(':ID', $itemID);
         $stmt->bindValue(':Lim', $limit);
 
@@ -489,11 +493,13 @@
         }
         return $resReviewList;
     }
-    function getAllResReviewsByUserChronological($userID, $limit)
+    function getAllResReviewsByUserChronological($userID, $limit, $newestFirst)
     {
         global $db;
+        $string = "SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :ID ORDER BY ReviewDate ";
+        $string += $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
-        $stmt = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :ID ORDER BY ReviewDate DESC LIMIT :Lim;");
+        $stmt = $db->prepare($string);
         $stmt->bindValue(':ID', $userID);
         $stmt->bindValue(':Lim', $limit);
 
@@ -828,17 +834,17 @@
     }
     function getMostRecentReviewsByUser($userID, $numReviews)
     {
-        $resReviews = getAllResReviewsByUserChronological($userID, $numReviews);
+        $resReviews = getAllResReviewsByUserChronological($userID, $numReviews, True);
         return array_slice($resReviews, 0,  $numReviews <= count($resReviews)? $numReviews : count($resReviews));   
     }
     function getMostRecentReviewsByRestaurant($restaurantID, $numReviews)
     {
-        $resReviews = getAllReviewsForRestaurantChronological($restaurantID, $numReviews);
+        $resReviews = getAllReviewsForRestaurantChronological($restaurantID, $numReviews, True);
         return array_slice($resReviews, 0,  $numReviews <= count($resReviews)? $numReviews : count($resReviews));   
     }
     function getMostRecentReviewsByItem($itemID, $numReviews)
     {
-        $itemReviews = getAllReviewsForItemChronological($itemID, $numReviews);
+        $itemReviews = getAllReviewsForItemChronological($itemID, $numReviews, True);
         return array_slice($itemReviews, 0,  $numReviews <= count($itemReviews)? $numReviews : count($itemReviews));   
     }
     function isPostRequest(){
