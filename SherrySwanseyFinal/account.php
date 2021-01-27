@@ -41,7 +41,6 @@
             
         }
         endforeach;
-        var_dump($reviewDate);
         
         foreach($revTable as $rTable):{
             $itemname=getItemName($rTable["Item_ID"]);
