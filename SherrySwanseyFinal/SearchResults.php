@@ -31,6 +31,15 @@
         $_GET['type']='';
     }
 
+    if(isset($_GET['Totalsearch'])){
+      $Src=filter_input(INPUT_GET,'Totalsearch');
+      $Src= $_GET['Totalsearch'];
+      header("Location: SearchResults.php?Totalsearch=".$Src."");
+    }
+
+
+
+
 
 ?>
 <!DOCTYPE html>

@@ -110,7 +110,6 @@
                                                     echo '<!-- Adjust data-->';
                                                     echo'<h3>Food Name: '. $foodname[$loop2] .'</h3>'; 
                                                     echo '<h3>Stars '.$foodstars[$loop2].'</h3>';
-                                                    echo '<p>'.$reviewID[$loop2].'</p>';
                                                     echo '<p>'.$txtreview[$loop2].' </p>';
                                                 echo '</div>';
                                             echo '</div>';
@@ -132,7 +131,6 @@
                                                 echo '<!-- Adjust data-->';
                                                 echo'<h3>Food Name: '. $foodname[$loop2] .'</h3>'; 
                                                 echo '<h3>Stars '.$foodstars[$loop2].'</h3>';
-                                                echo '<p>'.$reviewID[$loop2].'</p>';
                                                 echo '<p>'.$txtreview[$loop2].' </p>';
                                             echo '</div>';
                                         echo '</div>';

@@ -7,6 +7,9 @@ if (!isset($_SESSION['loggedin'])) {
   $loggedin=$_SESSION['loggedin'];
 }
 
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,13 +34,12 @@ if (!isset($_SESSION['loggedin'])) {
       <form method="GET">
         <div class="input-group">
           <div class="form-outline">
-            <input type="search" id="form1" class="form-control"/>
+            <input type="search" name="Totalsearch" id="form1" class="form-control"/>
           </div>
-          <button type="button" class="btn btn-primary" >
-            <i class="fas fa-search">Search</i>
-          </button>
+            <input id="nav-search-submit-button" type="submit" class="fas fa-search" value="Search" />
         </div>
       </form>
+
 
 
     <!-- Nav links, pushed to right-->
