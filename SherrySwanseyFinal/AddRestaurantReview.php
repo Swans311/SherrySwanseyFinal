@@ -207,16 +207,16 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>"/>
+                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>"/>
+                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>"/>
+                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>"/>
+                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>" disabled/>
                                 </div>
                                 <div class="form-group">
                                     <input size="25"type="text" name="restaurantCategories" id="restaurantCategories" placeholder="EX: Fast Food, Burger, Fried"  value="<?=isset($_POST['restaurantCategories'])? $_POST['restaurantCategories']: '' ?>"/>

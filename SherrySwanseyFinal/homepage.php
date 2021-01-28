@@ -2,11 +2,16 @@
     include (__DIR__.'/NavBar.php');
     include (__DIR__. '/model/ModelReview.php');
 
+
+    //this code needs to get added to the top of each page that will have the search bar
+
     if(isset($_GET['Totalsearch'])){
       $Src=filter_input(INPUT_GET,'Totalsearch');
       $Src= $_GET['Totalsearch'];
       header("Location: SearchResults.php?Totalsearch=".$Src."");
     }
+    //end necessary code
+    
 
 ?>
 
