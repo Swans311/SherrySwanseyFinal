@@ -867,3 +867,76 @@
         return ($results);
 
     }
+
+
+
+    function SearchResName($Totalsearch){
+        global $db;
+        //get connected ItemReviews
+        $stmt = $db->prepare("SELECT * FROM restaurant WHERE Restaurant_Name LIKE :Totalsearch;");
+        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results='';
+        }
+        return $results;
+}
+
+    function SearchMenuItems($Totalsearch){
+        global $db;
+
+        $stmt= $db->prepare("SELECT * FROM menuitem WHERE ItemName LIKE :Totalsearch;");
+        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        if ($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results='';
+        }
+        return $results;
+}
+
+    function SearchFoodCategory($Totalsearch){
+        global $db;
+
+        $stmt=$db->prepare("SELECT * FROM review WHERE Category LIKE :Totalsearch;");
+        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        if ($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results='';
+        }
+        return $results;
+    }
+
+    function SearchResCategory($Totalsearch){
+        global $db;
+
+        $stmt=$db->prepare("SELECT * FROM restaurantreview WHERE Category LIKE :Totalsearch;");
+        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        if ($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results='';
+        }
+        return $results;
+    }
+
+
+    function FindMenuItemName($Totalsearch){
+        global $db;
+
+        $stmt =$db->prepare("SELECT * FROM menuitem WHERE ITEM_ID = :Totalsearch;");
+        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results=$stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results='';
+        }
+        return $results;
+    }
