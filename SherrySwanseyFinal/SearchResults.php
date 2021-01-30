@@ -51,13 +51,24 @@
       $Results1=SearchMenuItems($Src);
       $Results0=SearchResName($Src);
       
+        if($Results0!=''){
+            array_push($resname, $Results0['Restaurant_Name']);
+        }
 
-      array_push($resname, $Results0['Restaurant_Name']);
-      array_push($foodname, $Results1['ItemName']);
-      array_push($FoodCat, $Results2['Review_ID']);
-      array_push($ResCat, $Results3['ResReview_ID']);
-      $Results3_2=getRestaurantByID($Results3['Restaurant_ID']);
-      $Results2_2=FindMenuItemName($Results2['Item_ID']);
+        if($Results1!=''){      
+            array_push($foodname, $Results1['ItemName']);
+        }
+
+        if($Results2!=''){      
+            array_push($FoodCat, $Results2['Review_ID']);
+            $Results2_2=FindMenuItemName($Results2['Item_ID']);
+        }
+
+        if($Results3!=''){
+            array_push($ResCat, $Results3['ResReview_ID']);
+            $Results3_2=getRestaurantByID($Results3['Restaurant_ID']);
+        }
+      
     }
 
 
