@@ -52,14 +52,14 @@ if (!isset($_SESSION['loggedin'])) {
             <a class="nav-link gz-nav-link" href="Login.php">Log In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link gz-nav-link" href="SignUp.php"><img src="misc/img/user.svg" alt="Profile Icon" style="height: 24px; weight:24px;">  Sign Up</a>
+            <a class="nav-link gz-nav-link" href="SignUp.php"><img src="misc/images/user.svg" alt="Profile Icon" style="height: 24px; weight:24px;">  Sign Up</a>
           </li>
         <?php else:?>
           <li class="nav-item">
             <a class="nav-link gz-nav-link" href="logout.php"  >Log Out</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link gz-nav-link" href="account.php"><img src="misc/img/user.svg" alt="Profile Icon" style="height: 24px; weight:24px;">  Account</a>
+            <a class="nav-link gz-nav-link" href="account.php"><img src="misc/images/user.svg" alt="Profile Icon" style="height: 24px; weight:24px;">  Account</a>
           </li>
         <?php endif ?>
       </ul>

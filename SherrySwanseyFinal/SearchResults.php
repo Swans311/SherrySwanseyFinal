@@ -273,6 +273,10 @@
                 }
             }
 
+            if($Results0='' && $Results1='' && $Results2='' && $Results3=''){
+                echo "No Search results found";
+            }
+
                 if(isset($_POST['type']))
                 {
                     if($_POST['type'] == 'restaurant')
