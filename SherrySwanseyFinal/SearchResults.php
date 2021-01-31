@@ -43,32 +43,36 @@
     }
 
     if(isset($_GET['Totalsearch'])){
-      $Src=filter_input(INPUT_GET,'Totalsearch');
-      $Src= $_GET['Totalsearch'];
+        $Src=filter_input(INPUT_GET,'Totalsearch');
+        $Src= $_GET['Totalsearch'];
 
-      $Results3=SearchResCategory($Src);
-      $Results2=SearchFoodCategory($Src);
-      $Results1=SearchMenuItems($Src);
-      $Results0=SearchResName($Src);
-      
-        if($Results0!=''){
-            array_push($resname, $Results0['Restaurant_Name']);
-        }
+        $Results3=SearchResCategory($Src);
+        $Results2=SearchFoodCategory($Src);
+        if($Results3=='' && $Results2=='')
+        {   
+            $Results1=SearchMenuItems($Src);
+            $Results0=SearchResName($Src);
+        
+            if($Results0!=''){
+                array_push($resname, $Results0['Restaurant_Name']);
+            }
 
-        if($Results1!=''){      
-            array_push($foodname, $Results1['ItemName']);
+            if($Results1!=''){      
+                array_push($foodname, $Results1['ItemName']);
+            }
         }
-
-        if($Results2!=''){      
-            array_push($FoodCat, $Results2['Review_ID']);
-            $Results2_2=getItemName($Results2['Item_ID']);
+        else
+        {
+            if($Results3!=''){
+                array_push($ResCat, $Results3['ResReview_ID']);
+                $Results3_2=getRestaurantByID($Results3['Restaurant_ID']);
+            }
+            
+            if($Results2!=''){     
+                array_push($FoodCat, $Results2['Review_ID']);
+                $Results2_2=getItemName($Results2['Item_ID']);
+            }
         }
-
-        if($Results3!=''){
-            array_push($ResCat, $Results3['ResReview_ID']);
-            $Results3_2=getRestaurantByID($Results3['Restaurant_ID']);
-        }
-      
     }
 
 
@@ -239,7 +243,7 @@
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
-                                    echo '<h3>'.$Results2_2['ItemName'].'</h3>';
+                                    echo '<h3>'.$Results2_2.'</h3>';
                                     echo '<h3>'.getRestaurantName($Results2['Restaurant_ID']).'</h3>';
                                     echo '<h3>'.round(calculateItemStarRating($Results2['Item_ID']),2 ).' Stars</h3>';
                                     echo '<h5>'.implode(', ', getCommonItemCategories($Results2['Item_ID'], 3)).'</h5>';
