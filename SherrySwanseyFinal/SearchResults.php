@@ -2,9 +2,7 @@
     include(__DIR__.'/NavBar.php');
     include(__DIR__.'/model/ModelReview.php');
     $ResultsByResName=[];
-    $resname=array();
     $ResultsByItemName=[];
-    $foodname=array();
     $ResultsByItemCats=[];
     $ResultsByResCats=[];
 
@@ -44,9 +42,8 @@
 
         $ResultsByResCats=searchByRestaurant("", $Src, -1);
         $ResultsByItemCats=SearchByItem("", $Src, -1);
-        
-        if(!isset($ResultsByResCats) && !isset($ResultsByItemCats))
-        {   
+        if($ResultsByResCats == array() && $ResultsByItemCats == array())
+        {
             $ResultsByItemName=SearchMenuItems($Src);
             $ResultsByResName=SearchResName($Src);
         }
@@ -171,7 +168,7 @@
             </div>    
             <?php
             if($ResultsByResName!=''){
-                foreach($resname as $Result0)
+                foreach($ResultsByResName as $ResultByResName)
                 {
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
@@ -179,20 +176,20 @@
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
-                                    echo '<h3>'.$ResultsByResName['Restaurant_Name'].'</h3>';
-                                    echo '<h3>'.round(calculateRestaurantStarRating($ResultsByResName['Restaurant_ID']),2 ).' Stars</h3>';
-                                    echo '<h5>'.$ResultsByResName['ResAddress'].'</h5>';
-                                    echo '<h5>'.$ResultsByResName['Phone'].'</h5>';
-                                    echo '<h5><a href = "'.$ResultsByResName['Restaurant_URL'].'" target="_blank">'.$ResultsByResName['Restaurant_URL'].'</a></h5>';
+                                    echo '<h3>'.$ResultByResName['Restaurant_Name'].'</h3>';
+                                    echo '<h3>'.round(calculateRestaurantStarRating($ResultByResName['Restaurant_ID']),2 ).' Stars</h3>';
+                                    echo '<h5>'.$ResultByResName['ResAddress'].'</h5>';
+                                    echo '<h5>'.$ResultByResName['Phone'].'</h5>';
+                                    echo '<h5><a href = "'.$ResultByResName['Restaurant_URL'].'" target="_blank">'.$ResultByResName['Restaurant_URL'].'</a></h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewRestaurant.php?id='.$ResultsByResName['Restaurant_ID'].'`">View Reviews</button>';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?RestaurantID='.$ResultsByResName['Restaurant_ID'].'`">Add Review</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewRestaurant.php?id='.$ResultByResName['Restaurant_ID'].'`">View Reviews</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?RestaurantID='.$ResultByResName['Restaurant_ID'].'`">Add Review</button>';
                                 echo '</div></div></div></div></div>';
                 }
             }
             if($ResultsByItemName!=''){
-                foreach($foodname as $Result1){
+                foreach($ResultsByItemName as $ResultByItemName){
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
@@ -200,14 +197,14 @@
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
-                                    echo '<h3>'.$ResultsByItemName['ItemName'].'</h3>';
-                                    echo '<h3>'.getRestaurantName($ResultsByItemName['Restaurant_ID']).'</h3>';
-                                    echo '<h3>'.round(calculateItemStarRating($ResultsByItemName['Item_ID']),2 ).' Stars</h3>';
-                                    echo '<h5>'.implode(', ', getCommonItemCategories($ResultsByItemName['Item_ID'], 3)).'</h5>';
+                                    echo '<h3>'.$ResultByItemName['ItemName'].'</h3>';
+                                    echo '<h3>'.getRestaurantName($ResultByItemName['Restaurant_ID']).'</h3>';
+                                    echo '<h3>'.round(calculateItemStarRating($ResultByItemName['Item_ID']),2 ).' Stars</h3>';
+                                    echo '<h5>'.implode(', ', getCommonItemCategories($ResultByItemName['Item_ID'], 3)).'</h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewItem.php?id='.$ResultsByItemName['Item_ID'].'`">View Reviews</button>';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$ResultsByItemName['Item_ID'].'`">Add Review</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewItem.php?id='.$ResultByItemName['Item_ID'].'`">View Reviews</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$ResultByItemName['Item_ID'].'`">Add Review</button>';
                                 echo '</div></div></div></div></div>';
             }
             }

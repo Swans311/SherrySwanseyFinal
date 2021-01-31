@@ -875,9 +875,9 @@
         global $db;
         //get connected ItemReviews
         $stmt = $db->prepare("SELECT * FROM restaurant WHERE Restaurant_Name LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        $stmt->bindValue(':Totalsearch', '%'.$Totalsearch.'%');
         if ($stmt->execute() && $stmt->rowCount() > 0) {
-            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         else{
             $results='';
@@ -889,9 +889,9 @@
         global $db;
 
         $stmt= $db->prepare("SELECT * FROM menuitem WHERE ItemName LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        $stmt->bindValue(':Totalsearch', '%'.$Totalsearch.'%');
         if ($stmt->execute() && $stmt->rowCount()>0){
-            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         else{
             $results='';
