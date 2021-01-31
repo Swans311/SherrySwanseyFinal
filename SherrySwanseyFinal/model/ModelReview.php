@@ -763,7 +763,8 @@
             $count++;
             $star += $itemReview['Star_lvl'];
         }
-        $star /= $count;
+        $star = isset($star)? $star : 0;
+        $star /= $count >= 0 ? $count : 1;
         return $star;
     }
     function getCommonItemCategories($itemID, $numCategories)
@@ -874,9 +875,9 @@
         global $db;
         //get connected ItemReviews
         $stmt = $db->prepare("SELECT * FROM restaurant WHERE Restaurant_Name LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        $stmt->bindValue(':Totalsearch', '%'.$Totalsearch.'%');
         if ($stmt->execute() && $stmt->rowCount() > 0) {
-            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         else{
             $results='';
@@ -888,55 +889,12 @@
         global $db;
 
         $stmt= $db->prepare("SELECT * FROM menuitem WHERE ItemName LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
+        $stmt->bindValue(':Totalsearch', '%'.$Totalsearch.'%');
         if ($stmt->execute() && $stmt->rowCount()>0){
-            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         else{
             $results='';
         }
         return $results;
 }
-
-    function SearchFoodCategory($Totalsearch){
-        global $db;
-
-        $stmt=$db->prepare("SELECT * FROM review WHERE Category LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
-        if ($stmt->execute() && $stmt->rowCount()>0){
-            $results = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-        else{
-            $results='';
-        }
-        return $results;
-    }
-
-    function SearchResCategory($Totalsearch){
-        global $db;
-
-        $stmt=$db->prepare("SELECT * FROM restaurantreview WHERE Category LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
-        if ($stmt->execute() && $stmt->rowCount()>0){
-            $results = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-        else{
-            $results='';
-        }
-        return $results;
-    }
-
-
-    function FindMenuItemName($Totalsearch){
-        global $db;
-
-        $stmt =$db->prepare("SELECT * FROM menuitem WHERE ITEM_ID = :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
-        if($stmt->execute() && $stmt->rowCount()>0){
-            $results=$stmt->fetch(PDO::FETCH_ASSOC);
-        }
-        else{
-            $results='';
-        }
-        return $results;
-    }
