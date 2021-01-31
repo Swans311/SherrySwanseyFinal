@@ -926,18 +926,3 @@
         }
         return $results;
     }
-
-
-    function FindMenuItemName($Totalsearch){
-        global $db;
-
-        $stmt =$db->prepare("SELECT * FROM menuitem WHERE ITEM_ID = :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', $Totalsearch);
-        if($stmt->execute() && $stmt->rowCount()>0){
-            $results=$stmt->fetch(PDO::FETCH_ASSOC);
-        }
-        else{
-            $results='';
-        }
-        return $results;
-    }

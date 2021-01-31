@@ -61,7 +61,7 @@
 
         if($Results2!=''){      
             array_push($FoodCat, $Results2['Review_ID']);
-            $Results2_2=FindMenuItemName($Results2['Item_ID']);
+            $Results2_2=getItemName($Results2['Item_ID']);
         }
 
         if($Results3!=''){
