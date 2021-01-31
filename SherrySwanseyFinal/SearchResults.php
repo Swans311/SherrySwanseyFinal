@@ -6,11 +6,7 @@
     $ResultsByItemName=[];
     $foodname=array();
     $ResultsByItemCats=[];
-    $FoodCat=array();
-    $ResultsByItemCats_Name=array();
     $ResultsByResCats=[];
-    $ResCat=array();
-    $ResultsByResCats_Restaurant=array();
 
 
     if(isset($_POST))
@@ -46,32 +42,13 @@
         $Src=filter_input(INPUT_GET,'Totalsearch');
         $Src= $_GET['Totalsearch'];
 
-        $ResultsByResCats=SearchResCategory($Src);
-        $ResultsByItemCats=SearchFoodCategory($Src);
-        if($ResultsByResCats=='' && $ResultsByItemCats=='')
+        $ResultsByResCats=searchByRestaurant("", $Src, -1);
+        $ResultsByItemCats=SearchByItem("", $Src, -1);
+        
+        if(!isset($ResultsByResCats) && !isset($ResultsByItemCats))
         {   
             $ResultsByItemName=SearchMenuItems($Src);
             $ResultsByResName=SearchResName($Src);
-        
-            if($ResultsByResName!=''){
-                array_push($resname, $ResultsByResName['Restaurant_Name']);
-            }
-
-            if($ResultsByItemName!=''){      
-                array_push($foodname, $ResultsByItemName['ItemName']);
-            }
-        }
-        else
-        {
-            if($ResultsByResCats!=''){
-                array_push($ResCat, $ResultsByResCats['ResReview_ID']);
-                $ResultsByResCats_2=getRestaurantByID($ResultsByResCats['Restaurant_ID']);
-            }
-            
-            if($ResultsByItemCats!=''){     
-                array_push($FoodCat, $ResultsByItemCats['Review_ID']);
-                $ResultsByItemCats_Name=getItemName($ResultsByItemCats['Item_ID']);
-            }
         }
     }
 
@@ -234,8 +211,8 @@
                                 echo '</div></div></div></div></div>';
             }
             }
-            if($ResultsByItemCats!=''){
-                foreach($FoodCat as $Result2){
+            if(isset($ResultsByItemCats)){
+                foreach($ResultsByItemCats as $ResultByItemCats){
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
@@ -243,36 +220,37 @@
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
-                                    echo '<h3>'.$ResultsByItemCats_Name.'</h3>';
-                                    echo '<h3>'.getRestaurantName($ResultsByItemCats['Restaurant_ID']).'</h3>';
-                                    echo '<h3>'.round(calculateItemStarRating($ResultsByItemCats['Item_ID']),2 ).' Stars</h3>';
-                                    echo '<h5>'.implode(', ', getCommonItemCategories($ResultsByItemCats['Item_ID'], 3)).'</h5>';
+                                    echo '<h3>'.getItemName($ResultByItemCats['Item_ID']).'</h3>';
+                                    echo '<h3>'.getRestaurantName($ResultByItemCats['Restaurant_ID']).'</h3>';
+                                    echo '<h3>'.round(calculateItemStarRating($ResultByItemCats['Item_ID']),2 ).' Stars</h3>';
+                                    echo '<h5>'.implode(', ', getCommonItemCategories($ResultByItemCats['Item_ID'], 3)).'</h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewItem.php?id='.$ResultsByItemCats['Item_ID'].'`">View Reviews</button>';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$ResultsByItemCats['Item_ID'].'`">Add Review</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewItem.php?id='.$ResultByItemCats['Item_ID'].'`">View Reviews</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$ResultByItemCats['Item_ID'].'`">Add Review</button>';
                                 echo '</div></div></div></div></div>';
                 }
             }
 
-            if($ResultsByResCats!=''){
-                foreach($ResCat as $Result3)
+            if(isset($ResultsByResCats)){
+                foreach($ResultsByResCats as $ResultByResCats)
                 {
+                    $res = getRestaurantById($ResultByResCats['Restaurant_ID']);
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
-                                    echo '<h3>'.getRestaurantName($ResultsByResCats['Restaurant_ID']).'</h3>';
-                                    echo '<h3>'.round(calculateRestaurantStarRating($ResultsByResCats['Restaurant_ID']),2 ).' Stars</h3>';
-                                    echo '<h5>'.$ResultsByResCats_2['ResAddress'].'</h5>';
-                                    echo '<h5>'.$ResultsByResCats_2['Phone'].'</h5>';
-                                    echo '<h5><a href = "'.$ResultsByResCats_2['Restaurant_URL'].'" target="_blank">'.$ResultsByResCats_2['Restaurant_URL'].'</a></h5>';
+                                    echo '<h3>'.$res['Restaurant_Name'].'</h3>';
+                                    echo '<h3>'.round(calculateRestaurantStarRating($ResultByResCats['Restaurant_ID']),2 ).' Stars</h3>';
+                                    echo '<h5>'.$res['ResAddress'].'</h5>';
+                                    echo '<h5>'.$res['Phone'].'</h5>';
+                                    echo '<h5><a href = "'.$ResultByResCats['Restaurant_URL'].'" target="_blank">'.$res['Restaurant_URL'].'</a></h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewRestaurant.php?id='.$ResultsByResCats_2['Restaurant_ID'].'`">View Reviews</button>';
-                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?RestaurantID='.$ResultsByResCats_2['Restaurant_ID'].'`">Add Review</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewRestaurant.php?id='.$res['Restaurant_ID'].'`">View Reviews</button>';
+                                    echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?RestaurantID='.$res['Restaurant_ID'].'`">Add Review</button>';
                                 echo '</div></div></div></div></div>';
                 }
             }
