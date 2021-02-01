@@ -23,8 +23,8 @@
                 <h1 class="glow text-white display-4 mr-3 align-self-center" style="font-family: logoFont;">Gourmandize</h1>
                 <div class="media-body">
                     <p>Gourmandize or to eat good food, especially to excess. This is the main goal of our project, to create a site which allows people to not just find the best restaurant, but the best food. Stop ordering the best food a restaurant has to offer and instead order the food you want from the restaurant that offers the best version of it. Our site allows users to leave a review for any restaurant along with a review for each food they ate there. As our collection of reviews grows uses will be able to search for the food that they want and find the best place to get it. After all, "We all gourmandize from time to time" ~Tahm Kench 2015</p>
+                    <a href="TechSpec.pdf" style="color:Purple">Tech Spec pdf </a>
                 </div>
-                <a href="TechSpec.pdf">Tech Spec pdf </a>
             </div>
             <hr style="width:100%!important; border-top:2px solid white;"/>
             <div class="row">
