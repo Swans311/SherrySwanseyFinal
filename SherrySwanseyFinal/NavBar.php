@@ -1,10 +1,10 @@
 <?php 
   session_start();
 
-if (!isset($_SESSION['loggedin'])) {
-  $loggedin=false;
+if (!isset($_SESSION['loggedIn'])) {
+  $loggedIn=false;
 } else {
-  $loggedin=$_SESSION['loggedin'];
+  $loggedIn=$_SESSION['loggedIn'];
 }
 
 
@@ -47,7 +47,7 @@ if (!isset($_SESSION['loggedin'])) {
       <ul class="navbar-nav">
         
         <!-- Logic to switch between buttons depending on if the user is logged in-->
-        <?php if($loggedin == False) :?>
+        <?php if($loggedIn == False) :?>
           <li class="nav-item">
             <a class="nav-link gz-nav-link" href="Login.php">Log In</a>
           </li>
