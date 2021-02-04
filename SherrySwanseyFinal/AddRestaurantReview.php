@@ -41,7 +41,7 @@
         }
         $numReviewAreas = max($lastchars);
         $flag = true;
-        $twodimArray = array();
+        $twoDimArray = array();
         if(isset($_POST['restaurantName']) && isset($_POST['restaurantAddress']) && isset($_POST['restaurantPhone']) && isset($_POST['restaurantURL']))
         {
             $resID = searchOneRestaurantID($_POST['restaurantName'], $_POST['restaurantAddress'], $_POST['restaurantPhone'], $_POST['restaurantURL']);
@@ -114,10 +114,10 @@
                     else     
                         $flag = false;
                     //TODO:: Code for sending image location
-                    array_push($twodimArray, $singleItemArray);
+                    array_push($twoDimArray, $singleItemArray);
                 }
                 if($flag){
-                    addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], "", $twodimArray, $resReviewParams['categories']);
+                    addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], "", $twoDimArray, $resReviewParams['categories']);
                     header('Location: homepage.php');
                 }
             } 
@@ -128,9 +128,9 @@
     
 
     if(isset($_GET['Totalsearch'])){
-      $Src=filter_input(INPUT_GET,'Totalsearch');
-      $Src= $_GET['Totalsearch'];
-      header("Location: SearchResults.php?Totalsearch=".$Src."");
+      $src=filter_input(INPUT_GET,'Totalsearch');
+      $src= $_GET['Totalsearch'];
+      header("Location: SearchResults.php?Totalsearch=".$src."");
     }
 ?>
 

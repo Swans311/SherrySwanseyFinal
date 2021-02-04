@@ -9,49 +9,49 @@
       header("Location: SearchResults.php?Totalsearch=".$Src."");
     }
 
-    $Error="";
-    $emptypw=sha1('');
+    $errorMsg="";
+    $pwEmpty=sha1('');
 
     if (isPostRequest()){
-        $UName=filter_input(INPUT_POST,'UName');
-        $UName=$_POST['UName'];
-        $FName=filter_input(INPUT_POST,'FName');
-        $FName=$_POST['FName'];
-        $LName=filter_input(INPUT_POST,'LName');
-        $LName=$_POST['LName'];
-        $Email=filter_input(INPUT_POST,'Email');
-        $Email=$_POST['Email'];
-        $Email2=filter_input(INPUT_POST,'Email2');
-        $Email2=$_POST['Email2'];
+        $uName=filter_input(INPUT_POST,'uName');
+        $uName=$_POST['uName'];
+        $fName=filter_input(INPUT_POST,'fName');
+        $fName=$_POST['fName'];
+        $LName=filter_input(INPUT_POST,'lName');
+        $lName=$_POST['lName'];
+        $Email=filter_input(INPUT_POST,'email');
+        $email=$_POST['email'];
+        $emailConfirmation=filter_input(INPUT_POST,'emailConfirmation');
+        $emailConfirmation=$_POST['emailConfirmation'];
         $pw=sha1(filter_input(INPUT_POST,'pw'));
         $pw=sha1($_POST['pw']);
-        $pw2=sha1(filter_input(INPUT_POST,'pw2'));
-        $pw2=sha1($_POST['pw2']);
+        $pwConfirmation=sha1(filter_input(INPUT_POST,'pwConfirmation'));
+        $pwConfirmation=sha1($_POST['pwConfirmation']);
 
-        if($UName==''){
-            $Error="Username must be filled in.";
+        if($uName==''){
+            $errorMsg="Username must be filled in.";
         }
         else{
 
         }
 
 
-       if($Email2!=$Email || $Email=='' || $Email2==''){
-            $Error=$Error . " Email and Email Verification did not match.";
+       if($emailConfirmation!=$email || $email=='' || $emailConfirmation==''){
+            $errorMsg=$errorMsg . " Email and Email Verification did not match.";
         }
         else{
-            $Email=$Email2;
+            $email=$emailConfirmation;
         }
 
-        if($pw2!=$pw || $pw==$emptypw || $pw2==$emptypw){
-            $Error=$Error . " Passwords did not match.";
+        if($pwConfirmation!=$pw || $pw==$pwEmpty || $pwConfirmation==$pwEmpty){
+            $errorMsg=$errorMsg . " Passwords did not match.";
         }
         else{
-            $pw=$pw2;
+            $pw=$pwConfirmation;
         }
 
-        if($Error==''){
-            addUser($UName, $Email, $pw, $FName, $LName, "");                
+        if($errorMsg==''){
+            addUser($uName, $email, $pw, $fName, $lName, "");                
             header('Location: Login.php');    
         }
         else{
@@ -80,30 +80,30 @@
                     <h1 class="glow text-white display-4" style="font-family: logoFont;">Gourmandize</h1>
                 </div>
                 <div class="form-group ">
-                    <input size="30"type="text" name="UName" placeholder="Username"/>
+                    <input size="30"type="text" name="uName" placeholder="Username"/>
                 </div>
                 <div class="form-group">
-                    <input size="30" type="text" name="FName" placeholder="First Name"/>
+                    <input size="30" type="text" name="fName" placeholder="First Name"/>
                 </div>
                 <div class="form-group">
-                    <input size="30" type="text" name="LName" placeholder="Last Name"/>
+                    <input size="30" type="text" name="lName" placeholder="Last Name"/>
                 </div>
                 <div class="form-group">
-                    <input size="30" type="text" name="Email" placeholder="Email"/>
+                    <input size="30" type="text" name="email" placeholder="Email"/>
                 </div>
                 <div class="form-group">
-                    <input size="30" type="text" name="Email2" placeholder="Email Confirmation"/>
+                    <input size="30" type="text" name="emailConfirmation" placeholder="Email Confirmation"/>
                 </div>
                 <div class="form-group">
                     <input size="30" type="password" name="pw" placeholder="Password"/>
                 </div>
                 <div class="form-group">
-                    <input size="30" type="password" name="pw2" placeholder="Password Confirmation"/>
+                    <input size="30" type="password" name="pwConfirmation" placeholder="Password Confirmation"/>
                 </div>
                 <div class="form-group mx-auto">
                     <button class="btn btn-outline-light"type="submit">Sign Up</button>
                 </div>
-                <h5 style="color:red;"><?=$Error;?></h5>
+                <h5 style="color:red;"><?=$errorMsg;?></h5>
             </form>
         </div>
     </div>

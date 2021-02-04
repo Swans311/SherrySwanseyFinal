@@ -6,9 +6,9 @@
     //this code needs to get added to the top of each page that will have the search bar
 
     if(isset($_GET['Totalsearch'])){
-      $Src=filter_input(INPUT_GET,'Totalsearch');
-      $Src= $_GET['Totalsearch'];
-      header("Location: SearchResults.php?Totalsearch=".$Src."");
+      $src=filter_input(INPUT_GET,'Totalsearch');
+      $src= $_GET['Totalsearch'];
+      header("Location: SearchResults.php?Totalsearch=".$src."");
     }
     //end necessary code
     
@@ -40,15 +40,15 @@
                 <form action="homepage.php" method="POST" style="width:50%;margin:auto;">
                     <table class="table-borderless">
                         <?php 
-                            $Cat = getMostCommonCategoriesAllItems(6);
+                            $commonCats = getMostCommonCategoriesAllItems(6);
                             $rowCount = 0;
                             $i=0;
-                            foreach($Cat as $cc):
+                            foreach($commonCats as $commonCat):
                                 if($rowCount == 0)
                                     echo '<tr>';
                                 $rowCount ++;
                                 $i++;
-                                echo '<td style="padding:10px; width:30%; " class="col-md-4"><a href="SearchResults.php?type=food&categories='.$cc.'" class="btn btn-outline-light" style="min-height:75px;">Find ' . $cc . ' Nearby </a></td>';                                if($rowCount == 3)
+                                echo '<td style="padding:10px; width:30%; " class="col-md-4"><a href="SearchResults.php?type=food&categories='.$commonCat.'" class="btn btn-outline-light" style="min-height:75px;">Find ' . $cc . ' Nearby </a></td>';                                if($rowCount == 3)
                                 {
                                     echo "</tr>";
                                     $rowCount = 0;

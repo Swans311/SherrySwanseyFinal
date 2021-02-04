@@ -8,13 +8,13 @@
     
     /*if (isPostRequest()){
         $_SESSION['email']=filter_input(INPUT_POST,'email');
-        $_SESSION['upassword']=filter_input(INPUT_POST, 'upassword');
+        $_SESSION['userEncryptedPassword']=filter_input(INPUT_POST, 'userEncryptedPassword');
 
         $userEmail=$_SESSION['email'];
-        $upassword=sha1($_SESSION['upassword']);
+        $userEncryptedPassword=sha1($_SESSION['userEncryptedPassword']);
 
 
-        if (checkLogin($userEmail, $upassword)==true)
+        if (checkLogin($userEmail, $userEncryptedPassword)==true)
         {
             $_SESSION['loggedin']=true;
             header("Location: account.php");
@@ -52,7 +52,7 @@
                         <input size="30" type="text" name="email" placeholder="Email"/>
                     </div>
                     <div class="form-group">
-                        <input size="30" type="password" name="upassword" placeholder="Password"/>
+                        <input size="30" type="password" name="userEncryptedPassword" placeholder="Password"/>
                     </div>
                     <div class="form-group mx-auto">
                         <button class="btn btn-outline-light"type="submit">Log In</button>

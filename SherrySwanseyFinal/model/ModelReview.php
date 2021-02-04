@@ -683,14 +683,14 @@
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $ReviewList = array();
+        $reviewList = array();
         //loop through and append to list
         foreach($results as $result)
         {
             $reviewID = $result['Review_ID'];
-            array_push($ReviewList, getReview($reviewID));
+            array_push($reviewList, getReview($reviewID));
         }
-        return $ReviewList;
+        return $reviewList;
     }
 
     /*
@@ -853,6 +853,7 @@
     }
 
     
+<<<<<<< HEAD
     function addpicture($Img, $Restaurant_ID, $Review_ID, $Img_Name){
         $stmt = $db->prepare("INSERT INTO rimages SET Img = :Img, Restaurant_ID = :Restaurant_ID, Review_ID = :Review_ID, Img_Name= :Img_Name");
 
@@ -860,6 +861,14 @@
             $stmt -> bindValue(':Restaurant_ID', $Restaurant_ID);
             $stmt -> bindValue(':Review_ID', $Review_ID);
             $stmt -> bindValue(':Img_Name', $Img_Name);
+=======
+    function addPicture($img, $restaurantID, $reviewID){
+        $stmt = $db->prepare("INSERT INTO rimages SET Img = :Img, Restaurant_ID = :Restaurant_ID, Review_ID = :Review_ID");
+
+            $stmt -> bindValue(':Img', $img);
+            $stmt -> bindValue(':Restaurant_ID', $restaurantID);
+            $stmt -> bindValue(':Review_ID', $reviewID);
+>>>>>>> 867fa0b9b7ff2ce2f1952e6db899c30e032f0a36
 
 
             if ($stmt->execute() && $stmt->rowCount() > 0) 
@@ -872,11 +881,11 @@
 
 
 
-    function SearchResName($Totalsearch){
+    function searchResName($totalSearch){
         global $db;
         //get connected ItemReviews
-        $stmt = $db->prepare("SELECT * FROM restaurant WHERE Restaurant_Name LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', '%'.$Totalsearch.'%');
+        $stmt = $db->prepare("SELECT * FROM restaurant WHERE Restaurant_Name LIKE :totalSearch;");
+        $stmt->bindValue(':totalSearch', '%'.$totalSearch.'%');
         if ($stmt->execute() && $stmt->rowCount() > 0) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -886,11 +895,11 @@
         return $results;
 }
 
-    function SearchMenuItems($Totalsearch){
+    function searchMenuItems($totalSearch){
         global $db;
 
-        $stmt= $db->prepare("SELECT * FROM menuitem WHERE ItemName LIKE :Totalsearch;");
-        $stmt->bindValue(':Totalsearch', '%'.$Totalsearch.'%');
+        $stmt= $db->prepare("SELECT * FROM menuitem WHERE ItemName LIKE :totalSearch;");
+        $stmt->bindValue(':totalSearch', '%'.$totalSearch.'%');
         if ($stmt->execute() && $stmt->rowCount()>0){
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }

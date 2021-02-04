@@ -2,9 +2,9 @@
     include (__DIR__.'/NavBar.php');
 
     if(isset($_GET['Totalsearch'])){
-      $Src=filter_input(INPUT_GET,'Totalsearch');
-      $Src= $_GET['Totalsearch'];
-      header("Location: SearchResults.php?Totalsearch=".$Src."");
+      $src=filter_input(INPUT_GET,'Totalsearch');
+      $src= $_GET['Totalsearch'];
+      header("Location: SearchResults.php?Totalsearch=".$src."");
     }
 ?>
 
