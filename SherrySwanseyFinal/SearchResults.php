@@ -300,10 +300,10 @@
     </div>
 </body>
 <footer>
-  <hr style="color:red;"/>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+  <br/>
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.4); color:red; font-size:16px">
     © 2021 Copyright:
-    <a class="text-dark" href="AboutUs.php">About Us</a>
+    <a class="text-blue" href="AboutUs.php">About Us</a>
   </div>
   </footer>
 </html>
