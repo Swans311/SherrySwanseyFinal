@@ -32,6 +32,8 @@
                         echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['ResAddress'].'</h1>';
                         echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['Phone'].'</h1>';
                         echo '<h1 class="display-5" style="width:50%"><a href = "'.$restaurantInfo['Restaurant_URL'].'" target="_blank">Restaurant Site</a></h1>';
+                        echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$restaurantInfo['Restaurant_ID'].'`">Add Review</button>';
+
                     ?>
                 </div>
             </div>

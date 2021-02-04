@@ -31,6 +31,8 @@
                         echo '<h1 class="display-4"style="font-family: titleFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h1>';
                         echo '<h1 class="display-4">'.implode(', ', getCommonItemCategories($itemInfo['Item_ID'], 3)).'</h1>';
                         echo '<h1 class="display-4">'.round(calculateItemStarRating($itemInfo['Item_ID']),2 ).' Stars</h1>';
+                        echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$itemInfo['Restaurant_ID'].'`">Add Review</button>';
+
                     ?>
                 </div>
             </div>

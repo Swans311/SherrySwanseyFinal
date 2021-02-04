@@ -24,11 +24,11 @@ if (!isset($_SESSION['loggedIn'])) {
 <body class="gz-body-bg"> 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark text-white shadow-lg p-3 mb-6 gz-nav-bg">
     <!-- Project Name/Logo-->
-    <a class="navbar-brand glow" href="homepage.php" style="font-family: logoFont; font-size: 30px;">Gourmandize</a>
+    <a class="navbar-brand glow" href="Homepage.php" style="font-family: logoFont; font-size: 30px;">Gourmandize</a>
       <!-- Nav links, pushed to left-->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link gz-nav-link" href="homepage.php">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link gz-nav-link" href="Homepage.php">Home <span class="sr-only">(current)</span></a>
         </li>
       </ul>
 
@@ -57,10 +57,10 @@ if (!isset($_SESSION['loggedIn'])) {
           </li>
         <?php else:?>
           <li class="nav-item">
-            <a class="nav-link gz-nav-link" href="logout.php"  >Log Out</a>
+            <a class="nav-link gz-nav-link" href="Logout.php"  >Log Out</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link gz-nav-link" href="account.php"><img src="misc/images/user.svg" alt="Profile Icon" style="height: 24px; weight:24px;">  Account</a>
+            <a class="nav-link gz-nav-link" href="Account.php"><img src="misc/images/user.svg" alt="Profile Icon" style="height: 24px; weight:24px;">  Account</a>
           </li>
         <?php endif ?>
       </ul>
