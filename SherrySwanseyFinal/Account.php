@@ -36,10 +36,10 @@
                         echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
                             echo '<div class="media-body">';
                                 echo '<div>';
-                                    echo `<h3>Restaurant's Name: ` . getRestaurantName($resReview['Restaurant_ID']) . `</h3>`;
-                                    echo `<h3>Stars: `. number_format($resReview['Star_lvl'], 2, '.', '') . `</h3>`;
-                                    echo `<p style="min-height: 110px">` . $resReview['Review'] . `?></p>`;
-                                    echo `<p>Date: ` . $resReview['ReviewDate'] .`</p>`;
+                                    echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
+                                    echo '<h3>Stars: '. number_format($resReview['Star_lvl'], 2, '.', '') . '</h3>';
+                                    echo '<p style="min-height: 110px">' . $resReview['Review'] . '</p>';
+                                    echo '<p>Date: ' . $resReview['ReviewDate'] .'</p>'; 
                                 echo '</div>';
                                 $reviewArray = getItemsInRestaurantReview($resReview['ResReview_ID']);
                                 foreach($reviewArray as $review)
