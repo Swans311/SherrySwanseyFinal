@@ -515,6 +515,27 @@
         }
         return $resReviewList;
     }
+    function getAllResReviewsByUserChronologicalNoLimit($userID, $newestFirst)
+    {
+        global $db;
+        $string = "SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :ID ORDER BY ReviewDate ";
+        $string .= $newestFirst == True ? "DESC;" : "ASC;";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':ID', $userID);
+
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);   
+
+        $resReviewList = array();
+        //loop through and append to list
+        foreach($results as $result)
+        {
+            $reviewID = $result['ResReview_ID'];
+            array_push($resReviewList, getRestaurantReview($reviewID));
+        }
+        return $resReviewList;
+    }
     //Used when submitting review, returns restaurant id if found, false if not so it knows to add the restaurant
     function searchOneRestaurantID($name, $address, $phone, $url)
     {
