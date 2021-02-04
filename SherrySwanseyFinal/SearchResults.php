@@ -7,20 +7,20 @@
     $resultsByResCats=[];
 
 
-    if(isset($_POST))
+    if(isset($_GET))
     {
         $searchResults = [];
-        if(isset($_POST['type']))
+        if(isset($_GET['type']))
         {
-            if($_POST['type'] ==  "food")
+            if($_GET['type'] ==  "food")
             {
-                $minStars = $_POST['minRating'] == "" ? -1 : number_format($_POST['minRating']);
-                $searchResults = searchByItem($_POST['name'], $_POST['categories'], $minStars);
+                $minStars = $_GET['minRating'] == "" ? -1 : number_format($_GET['minRating']);
+                $searchResults = searchByItem($_GET['name'], $_GET['categories'], $minStars);
             }
-            elseif($_POST['type'] == "restaurant")
+            elseif($_GET['type'] == "restaurant")
             {
-                $minStars = $_POST['minRating'] == "" ? -1 : number_format($_POST['minRating']);
-                $searchResults = searchByRestaurant($_POST['name'], $_POST['categories'], $minStars);
+                $minStars = $_GET['minRating'] == "" ? -1 : number_format($_GET['minRating']);
+                $searchResults = searchByRestaurant($_GET['name'], $_GET['categories'], $minStars);
             }
         }
         
@@ -125,7 +125,7 @@
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="container d-flex justify-content-center mx-auto text-left">
-                <form method="post">
+                <form method="GET">
                     <h2 class="text-white display-4" style="font-family: textFont">Filter</h2>
                     <hr style="width:100%!important; border-top:2px solid white;"/>
                     <div class="form-group m-3"style="float:left;">
@@ -250,9 +250,9 @@
                 }
             }
 
-                if(isset($_POST['type']))
+                if(isset($_GET['type']))
                 {
-                    if($_POST['type'] == 'restaurant')
+                    if($_GET['type'] == 'restaurant')
                         foreach($searchResults as $searchResult)
                         {
                             echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
@@ -274,7 +274,7 @@
                                             echo '</div></div></div></div></div>';
 
                         }
-                    else if($_POST['type'] == 'food')
+                    else if($_GET['type'] == 'food')
                     {
                         foreach($searchResults as $searchResult)
                         {

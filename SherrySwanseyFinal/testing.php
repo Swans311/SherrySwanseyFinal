@@ -1,6 +1,7 @@
 <?php
 
     include ("model/db.php");
+    include ("model/ModelReview.php");
 
     if(isset($_POST['btn-add']))
     {
@@ -31,28 +32,11 @@
         }
     }
 
-    function findpicture($id){
-        global $db;
-        $stmt = $db->prepare("SELECT Picture FROM rimages WHERE Img_ID = :Img_ID");
 
-            $stmt -> bindValue(':Img_ID', $id);
-            
-
-
-            if ($stmt->execute() && $stmt->rowCount() > 0) 
-            {
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-            else{
-                $results='';
-            }
-        return ($results);
-
-    }
 
     $pic=array();
     $pic2=array();
-    $pic=findpicture(2);
+    $pic=findpicture(3);
     var_dump($pic);
 
 
