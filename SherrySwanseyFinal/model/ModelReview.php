@@ -853,31 +853,7 @@
     }
 
     
-<<<<<<< HEAD
-    function addpicture($Img, $Restaurant_ID, $Review_ID, $Img_Name){
-        $stmt = $db->prepare("INSERT INTO rimages SET Img = :Img, Restaurant_ID = :Restaurant_ID, Review_ID = :Review_ID, Img_Name= :Img_Name");
 
-            $stmt -> bindValue(':Img', $Img);
-            $stmt -> bindValue(':Restaurant_ID', $Restaurant_ID);
-            $stmt -> bindValue(':Review_ID', $Review_ID);
-            $stmt -> bindValue(':Img_Name', $Img_Name);
-=======
-    function addPicture($img, $restaurantID, $reviewID){
-        $stmt = $db->prepare("INSERT INTO rimages SET Img = :Img, Restaurant_ID = :Restaurant_ID, Review_ID = :Review_ID");
-
-            $stmt -> bindValue(':Img', $img);
-            $stmt -> bindValue(':Restaurant_ID', $restaurantID);
-            $stmt -> bindValue(':Review_ID', $reviewID);
->>>>>>> 867fa0b9b7ff2ce2f1952e6db899c30e032f0a36
-
-
-            if ($stmt->execute() && $stmt->rowCount() > 0) 
-            {
-                $results = 'Data Added';
-            }
-        return ($results);
-
-    }
 
 
 
