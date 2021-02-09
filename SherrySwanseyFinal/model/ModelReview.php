@@ -738,7 +738,7 @@
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $results['User_ID'];
+        return $results['Tag_ID'];
     }
     //For getting the ID's when submitting a review to store in the review SQL
     function getTagIdByNameAndItem($name, $resID)
@@ -752,7 +752,70 @@
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $results['User_ID'];
+        return $results['Tag_ID'];
+    }
+    function addTagByRes($name, $resID)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $tagID = getTagIdByNameAndRestaurant($name, $resID);
+        if($tagID == false)//If tag not found add it
+        {
+            $stmt = $db->prepare("INSERT INTO tags SET Counter = 1, Restaurant_ID = :resID, Name = :name,  Active = 1");
+
+            $stmt -> bindValue(':resID', $resID);
+            $stmt -> bindValue(':name', $name);
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+                $results = 'Data Added';
+            else
+                $results = 'Data failed to add';
+        }
+        else
+        {
+            incrementTagID($tagID);//if tag exists increment it by 1
+            $results = 'Tag Counter Incremented';
+        }
+        return ($results);
+    }
+    function addTagByItem($name, $itemID)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $tagID = getTagIdByNameAndItem($name, $itemID);
+        if($tagID == false)//If tag not found add it
+        {
+            $stmt = $db->prepare("INSERT INTO tags SET Counter = 1, Item_ID = :itemID, Name = :name,  Active = 1");
+
+            $stmt -> bindValue(':itemID', $itemID);
+            $stmt -> bindValue(':name', $name);
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+                $results = 'Data Added';
+            else
+                $results = 'Data failed to add';
+        }
+        else
+        {
+            incrementTagID($tagID);//if tag exists increment it by 1
+            $results = 'Tag Counter Incremented';
+        }
+        return ($results);
+    }
+    function incrementTagID($tagID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE tags SET Counter = Counter + 1 WHERE Tag_ID=:tagID");
+        
+        $stmt->bindValue(':tagID', $tagID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
     }
 
     /*
