@@ -713,6 +713,47 @@
         }
         return $reviewList;
     }
+    //For getting the tag names from the IDs stored with the reviews for display
+    function getTagByID($tagID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Tag_ID =:tagID");
+
+        $stmt->bindValue(':tagID', $tagID);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+    //For getting the ID's when submitting a resReview to store in the resReview SQL
+    function getTagIdByNameAndRestaurant($name, $resID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Restaurant_ID = :resID");
+
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':resID', $resID, PDO::PARAM_STR);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['User_ID'];
+    }
+    //For getting the ID's when submitting a review to store in the review SQL
+    function getTagIdByNameAndItem($name, $resID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Item_ID = :itemID");
+
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':itemID', $resID, PDO::PARAM_STR);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['User_ID'];
+    }
 
     /*
         #############################################################################################
