@@ -12,6 +12,13 @@
         header('Location: Login.php');
         exit;
     }
+
+    if(isset($_GET['Totalsearch'])){
+        $src=filter_input(INPUT_GET,'Totalsearch');
+        $src= $_GET['Totalsearch'];
+        header("Location: SearchResults.php?Totalsearch=".$src."");
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

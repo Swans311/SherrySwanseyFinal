@@ -170,7 +170,7 @@
     {
         global $db;
         $results = 'Data NOT Added';
-        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category");
+        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category ResImage = :imageFilePath");
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':review', $restaurantReview);
@@ -182,6 +182,7 @@
         $stmt->bindValue(':revDate', $time);
         $stmt->bindValue(':visible', $anonymous);
         $stmt->bindValue(':category', $categories);
+        $stmt->bindValue(':imageFilePath', $imageFilePath);
 
         $stmt->execute();
 

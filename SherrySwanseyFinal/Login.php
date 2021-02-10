@@ -12,7 +12,7 @@
 
         if (checkLogin($userEmail, $userEncryptedPassword)==true)
         {
-            $_SESSION['loggedin']=true;
+            $_SESSION['loggedIn']=true;
             header("Location: account.php");
         }
         else{

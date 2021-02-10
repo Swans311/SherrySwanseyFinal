@@ -48,7 +48,7 @@
                                     echo '<tr>';
                                 $rowCount ++;
                                 $i++;
-                                echo '<td style="padding:10px; width:30%; " class="col-md-4"><a href="SearchResults.php?type=food&categories='.$commonCat.'" class="btn btn-outline-light" style="min-height:75px;">Find ' . $commonCat . ' Nearby </a></td>';                                if($rowCount == 3)
+                                echo '<td style="padding:10px; width:30%; " class="col-md-4"><a href="SearchResults.php?type=food&minRating=0&name=&categories='.$commonCat.'" class="btn btn-outline-light" style="min-height:75px;">Find ' . $commonCat . ' Nearby </a></td>';                                if($rowCount == 3)
                                 {
                                     echo "</tr>";
                                     $rowCount = 0;
