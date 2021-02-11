@@ -932,32 +932,20 @@
         //Slices the first $numCategories values and returns an array with the categories
         return array_keys(array_slice($countArray, 0, $numCategories <= count($countArray) ? $numCategories : count($countArray)));
     }
+    //New
     function getMostCommonCategoriesAllItems($numCategories)
     {
-        $allItems = searchByItem("","", -1);
-        //$itemReviews = [];
-        $itemCatArray = [];
+        global $db;
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL ORDER BY Counter DESC");
 
-        foreach($allItems as $item)
-        {
-            $temp = getAllReviewsForItem($item['Item_ID']);
-            foreach($temp as $review)
-            {
-                    $categories = explode(",", $review['Category']);
-                    foreach($categories as $category)
-                        array_push($itemCatArray, ucfirst(trim($category)));
-            }
-        }
-        
-        //An array with the categories as labels and number of instances as values
-        $countArray = array_count_values($itemCatArray);
+        $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
 
-        //Sorts array by most frequent first descending order
-        arsort($countArray);
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
-        //Slices the first $numCategories values and returns an array with the categories
-        return array_keys(array_slice($countArray, 0, $numCategories <= count($countArray) ? $numCategories : count($countArray)));
+        return $results;
     }
+    
     function getMostRecentReviewsByUser($userID, $numReviews)
     {
         $resReviews = getAllResReviewsByUserChronological($userID, $numReviews, True);
