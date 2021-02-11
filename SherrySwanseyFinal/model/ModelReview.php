@@ -228,7 +228,7 @@
             $commonResCats = getCommonRestaurantCategories($result['Restaurant_ID'], 5);
             foreach($commonResCats as $commonResCat)
                 foreach($categories as $cat)
-                    if($category == '' || strpos(strtoupper($commonResCat), strtoupper($cat)) !== false)
+                    if($category == '' || strpos(strtoupper($commonResCat['Name']), strtoupper($cat)) !== false)
                         if(calculateRestaurantStarRating($result['Restaurant_ID']) >= $minRating)
                             if(!in_array($result, $returnArray))
                                 array_push($returnArray, $result);
@@ -263,7 +263,7 @@
             $commonItemCats = getCommonItemCategories($result['Item_ID'], 5);
             foreach($commonItemCats as $commonItemCat)
                 foreach($categories as $cat)
-                    if($category == '' || strpos(strtoupper($commonItemCat), strtoupper($cat)) !== false)
+                    if($category == '' || strpos(strtoupper($commonItemCat['Name']), strtoupper($cat)) !== false)
                         if(calculateItemStarRating($result['Item_ID']) >= $minRating)
                             if(!in_array($result, $returnArray))
                                 array_push($returnArray, $result);
@@ -894,7 +894,7 @@
     function getCommonItemCategories($itemID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID");
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID AND Active = 1");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
@@ -907,7 +907,7 @@
     function getCommonRestaurantCategories($restaurantID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID");
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':restaurantID', $restaurantID, PDO::PARAM_STR);
@@ -920,7 +920,7 @@
     function getMostCommonCategoriesAllItems($numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL ORDER BY Counter DESC");
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL AND Active = 1 ORDER BY Counter DESC");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
 
