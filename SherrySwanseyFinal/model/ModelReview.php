@@ -835,6 +835,21 @@
         }
         return ($results);
     }
+    function decrementTagID($tagID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE tags SET Counter = Counter - 1 WHERE Tag_ID=:tagID");
+        
+        $stmt->bindValue(':tagID', $tagID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
+    }
 
     /*
         #############################################################################################
@@ -913,7 +928,7 @@
     function getCommonItemCategories($itemID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID AND Active = 1");
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID AND Active = 1 AND Counter >= 1");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
@@ -926,7 +941,7 @@
     function getCommonRestaurantCategories($restaurantID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1");
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1 AND Counter >= 1");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':restaurantID', $restaurantID, PDO::PARAM_STR);
@@ -939,7 +954,7 @@
     function getMostCommonCategoriesAllItems($numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL AND Active = 1 ORDER BY Counter DESC");
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL AND Active = 1 ORDER BY Counter DESC AND Counter >= 1");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
 
