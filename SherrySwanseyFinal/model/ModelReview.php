@@ -152,6 +152,15 @@
         $results = 'Data NOT Added';
         $stmt = $db->prepare("INSERT INTO review SET Restaurant_ID = :restaurantID, User_ID = :userID, Item_ID = :itemID, Review = :review, Star_lvl = :rating, Username = :username, Uname_Visible = :visible, ReviewDate = :revDate, Category = :cat, ResReview_ID = :resRevID");
 
+        //Convert comma separated tag names into tagIDs and add/increment in database
+        $tags = explode(',', $categories); 
+        $catArray = array();
+        foreach($tags as $tag)
+        {
+            addTagByItem($tag, $itemID);
+            array_push($catArray, getTagIdByNameAndItem($tag, $itemID));
+        }
+
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':itemID', $itemID);
@@ -160,7 +169,7 @@
         $stmt->bindValue(':username', getUsername($userID));
         $stmt->bindValue(':visible', $anonymous);
         $stmt->bindValue(':revDate', $dateTime);
-        $stmt->bindValue(':cat', $categories);
+        $stmt->bindValue(':cat', implode($catArray, ','));
         $stmt->bindValue(':resRevID', $resReviewID);
 
         $stmt->execute ();
@@ -171,6 +180,16 @@
         global $db;
         $results = 'Data NOT Added';
         $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category");
+
+        //Convert comma separated tag names into tagIDs and add/increment in database
+        $tags = explode(',', $categories); 
+        $catArray = array();
+        foreach($tags as $tag)
+        {
+            addTagByRes($tag, $restaurantID);
+            array_push($catArray, getTagIdByNameAndRestaurant($tag, $restaurantID));
+        }
+
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':review', $restaurantReview);
@@ -181,7 +200,7 @@
 
         $stmt->bindValue(':revDate', $time);
         $stmt->bindValue(':visible', $anonymous);
-        $stmt->bindValue(':category', $categories);
+        $stmt->bindValue(':cat', implode($catArray, ','));
 
         $stmt->execute();
 
@@ -740,13 +759,13 @@
         return $results['Tag_ID'];
     }
     //For getting the ID's when submitting a review to store in the review SQL
-    function getTagIdByNameAndItem($name, $resID)
+    function getTagIdByNameAndItem($name, $itemID)
     {
         global $db;
         $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Item_ID = :itemID");
 
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-        $stmt->bindValue(':itemID', $resID, PDO::PARAM_STR);
+        $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
 
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
