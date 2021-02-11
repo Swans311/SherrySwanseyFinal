@@ -647,19 +647,18 @@
         
         return ($results);
     }
-    function editRestaurant( $restaurantID, $name, $address, $phone, $url, $categories)
+    function editRestaurant( $restaurantID, $name, $address, $phone, $url)
     {
         global $db;
 
         $results = "Data NOT Updated";
         
-        $stmt = $db->prepare("UPDATE restaurant SET Restaurant_Name = :resName, ResAddress = :addr, Phone = :phone, Restaurant_URL = :resURL, Category = :categories WHERE Review_ID=:id");
+        $stmt = $db->prepare("UPDATE restaurant SET Restaurant_Name = :resName, ResAddress = :addr, Phone = :phone, Restaurant_URL = :resURL WHERE Review_ID=:id");
         
         $stmt->bindValue(':resName', $name);
         $stmt->bindValue(':addr', $address);
         $stmt->bindValue(':phone', $phone);
         $stmt->bindValue(':resURL', $url);
-        $stmt->bindValue(':categories', $categories);
         $stmt->bindValue(':id', $restaurantID);
 
         if ($stmt->execute() && $stmt->rowCount() > 0) 
