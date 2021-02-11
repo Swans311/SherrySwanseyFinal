@@ -894,45 +894,30 @@
     }
     function getCommonItemCategories($itemID, $numCategories)
     {
-        $itemReviews = getAllReviewsForItem($itemID);
-        $itemCatArray = [];
+        global $db;
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID");
 
-        foreach($itemReviews as $itemReview)
-        {
-            $categories = explode(",",$itemReview['Category']);
-            foreach($categories as $category)
-                array_push($itemCatArray, $category);
-        }
-        //An array with the categories as labels and number of instances as values
-        $countArray = array_count_values($itemCatArray);
+        $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
+        $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
 
-        //Sorts array by most frequent first descending order
-        arsort($countArray);
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
-        //Slices the first $numCategories values and returns an array with the categories
-        return array_keys(array_slice($countArray, 0, count($countArray) ? $numCategories : count($countArray)));
+        return $results;
     }
     function getCommonRestaurantCategories($restaurantID, $numCategories)
     {
-        $resReviews = getAllReviewsForRestaurant($restaurantID);
-        $resCatArray = [];
+        global $db;
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID");
 
-        foreach($resReviews as $resReview)
-        {
-            $categories = explode(",",$resReview['Category']);
-            foreach($categories as $category)
-                array_push($resCatArray, $category);
-        }
-        //An array with the categories as labels and number of instances as values
-        $countArray = array_count_values($resCatArray);
+        $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
+        $stmt->bindValue(':restaurantID', $restaurantID, PDO::PARAM_STR);
 
-        //Sorts array by most frequent first descending order
-        arsort($countArray);
-        
-        //Slices the first $numCategories values and returns an array with the categories
-        return array_keys(array_slice($countArray, 0, $numCategories <= count($countArray) ? $numCategories : count($countArray)));
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+        return $results;
     }
-    //New
     function getMostCommonCategoriesAllItems($numCategories)
     {
         global $db;
