@@ -4,7 +4,7 @@
 
     session_destroy();
     session_start();
-    $_SESSION['loggedin']=false;
+    $_SESSION['loggedIn']=false;
     
     /*if (isPostRequest()){
         $_SESSION['email']=filter_input(INPUT_POST,'email');

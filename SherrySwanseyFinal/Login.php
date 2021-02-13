@@ -1,7 +1,6 @@
 <?php 
     include (__DIR__.'/NavBar.php');
     include (__DIR__. '/model/ModelReview.php');
-    $result='';
     
     if (isPostRequest()){
         $_SESSION['email']=filter_input(INPUT_POST,'email');
@@ -16,11 +15,7 @@
             $_SESSION['loggedIn']=true;
             header("Location: account.php");
         }
-        elseif (checkUser($userEmail)==true){
-            $result="Password Incorrect";
-        }
         else{
-            $result="No Account Found";
         }
     }
 
@@ -60,16 +55,12 @@
                     <div class="form-group mx-auto">
                         <button class="btn btn-outline-light"type="submit">Log In</button>
                     </div>
-                    <div>
-                        <p style="color:red"><?=$result;?></p>
-                    </div>
                 </form>
             </div>
             <div class="pb-3 d-flex justify-content-end">
                 <h2 class="text-white pr-3 mb-0" style="font-family: textFont">New to Gourmandize? </h2>
                 <a class="btn btn-outline-light" href="SignUp.php">Sign Up</a>
             </div>
-            
         </div>
     </div>
 </body>

@@ -8,7 +8,7 @@
     $user=getUserByID($uID);
     $resReviewArray=getAllResReviewsByUserChronologicalNoLimit($uID, TRUE);
 
-    if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
+    if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
         header('Location: Login.php');
         exit;
     }
