@@ -630,6 +630,21 @@
         global $db;
 
         $results = "Data NOT Updated";
+
+        //Get old review
+        $oldReview = getReview($reviewID);
+        //split categories into array
+        $oldCatsArray = explode(',', $oldReview['Category']);
+        //decrement all ids
+        foreach($catsArray as $tagID)
+            decrementTagID($tagID);
+        //split categories into array
+        $newTagsStringArray = explode(',', $categories);
+        //add all new ids
+        $tagIDs = array();
+        foreach($newTagsStringArray as $newTagString)
+            addTagByRes($newTagString, $oldReview['Restaurant_ID']);
+            array_push($tagIDs, getTagIdByNameAndItem($newTagString, $oldReview['Restaurant_ID']));
         
         $stmt = $db->prepare("UPDATE reviews SET Star_lvl = :rating, Uname_Visible = :anon, Category = :categories, Review = :review WHERE Review_ID=:id");
         
@@ -646,18 +661,35 @@
         
         return ($results);
     }
-    function editRestaurantReview( $resReviewID, $review, $rating, $anonymous, $imageFilePath)
+    function editRestaurantReview( $resReviewID, $review, $rating, $categories, $anonymous, $imageFilePath)
     {
         global $db;
 
+        
         $results = "Data NOT Updated";
         
-        $stmt = $db->prepare("UPDATE reviews SET Star_lvl = :rating, Uname_Visible = :anon, Review = :review WHERE Review_ID=:id");
+        //Get old review
+        $oldResReview = getRestaurantReview($resReviewID);
+        //split categories into array
+        $oldCatsArray = explode(',', $oldResReview['Category']);
+        //decrement all ids
+        foreach($catsArray as $tagID)
+            decrementTagID($tagID);
+        //split categories into array
+        $newTagsStringArray = explode(',', $categories);
+        //add all new ids
+        $tagIDs = array();
+        foreach($newTagsStringArray as $newTagString)
+            addTagByRes($newTagString, $oldResReview['Restaurant_ID']);
+            array_push($tagIDs, getTagIdByNameAndRestaurant($newTagString, $oldResReview['Restaurant_ID']));
+        //update with new ids
+        $stmt = $db->prepare("UPDATE reviews SET Star_lvl = :rating, Uname_Visible = :anon, Review = :review, Category = :cats  WHERE Review_ID=:id");
         
         $stmt->bindValue(':rating', $rating);
         $stmt->bindValue(':anon', $anonymous);
         $stmt->bindValue(':review', $review);
         $stmt->bindValue(':id', $resReviewID);
+        $stmt->bindValue(':cats', implode(',', $tagIDs));
 
         if ($stmt->execute() && $stmt->rowCount() > 0) 
         {
