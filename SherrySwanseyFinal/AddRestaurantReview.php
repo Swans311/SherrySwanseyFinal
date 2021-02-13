@@ -93,7 +93,18 @@
                 for($i = 1; $i <= $numReviewAreas; $i++)
                 {
                     $singleItemArray = array();
-
+                    if(isset($_POST['foodpic'.$i]))
+                    {
+                        $images=$_FILES['foodpic'.$i]['name'];
+                        $tmp_dir=$_FILES['foodpic'.$i]['tmp_name'];
+                        $imageSize=$_FILES['foodpic'.$i]['size'];
+                        $upload_dir='uploads';
+                        $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
+                        $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+                        $foodPic=rand(1000,1000000). ".".$imgExt;
+                        move_uploaded_file($tmp_dir, $upload_dir.$foodPic);
+                        var_dump($foodPic);
+                    }
                     if(isset($_POST['food' . $i]) && $_POST['food' . $i] != "")
                     {
                         $itemID = searchOneItemId($resID, $_POST['food' . $i]);
@@ -108,16 +119,8 @@
                     else     
                         $flag = false;
 
-                    if(isset($_POST['foodpic' . $i])){
-                        $images=$_FILES['foodpic'.$i]['name'];
-                        $tmp_dir=$_FILES['foodpic'.$i]['tmp_name'];
-                        $imageSize=$_FILES['foodpic'.$i]['size'];
-                        $upload_dir='uploads';
-                        $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
-                        $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
-                        $foodPic=rand(1000,1000000). ".".$imgExt;
-                        move_uploaded_file($tmp_dir, $upload_dir.$foodPic);
-                    }
+                    
+                    
                     if(isset($_POST['foodCategories'.$i]) && $_POST['foodCategories'.$i] != "")
                     {
                         $singleItemArray['category'] = $_POST['foodCategories'.$i];
@@ -139,7 +142,8 @@
                 }
                 if($flag){
                     addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
-                    header('Location: homepage.php');
+                    var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
+                    //header('Location: homepage.php');
                 }
             } 
             //add item reviews to array
@@ -184,7 +188,7 @@
                 + `<div class="col form-group">`
                     + `<h2 class="display-5 mb-5">Food Item Review</h2>`
                     + `<label for="exampleFormControlFile`+ x +`">Upload Image Here: </label>`
-                    + `<input type="file" class="form-control-file" id="foodpic`+ x +`" name="foodpic`+ x +`" accept"*/image">`
+                    + `<input type="file" class="form-control-file" id="foodPic`+ x +`" name="foodPic`+ x +`" accept"*/image">`
                 + `</div>`
                 + `<div class="col">`
                     + `<div class="form-group mt-4">`
@@ -228,16 +232,16 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>" readonly/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>" readonly/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>" readonly/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>" readonly/>
                                 </div>
                                 <div class="form-group">
                                     <input size="25"type="text" name="restaurantCategories" id="restaurantCategories" placeholder="EX: Fast Food, Burger, Fried"  value="<?=isset($_POST['restaurantCategories'])? $_POST['restaurantCategories']: '' ?>"/>
@@ -258,7 +262,7 @@
                             <div class="col form-group">
                                 <h2 class="display-5 mb-5">Food Item Review</h2>
                                 <label for="exampleFormControlFile1">Upload Image Here: </label>
-                                <input type="file" name="foodpic1" id="foodpic1" class="form-control-file"  accept="*/image" >
+                                <input type="file" name="foodPic1" id="foodPic1" class="form-control-file"  accept="*/image" >
                                 
                             </div>
                             <div class="col">

@@ -13,7 +13,7 @@
         $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
         $picProfile=rand(1000,1000000). ".".$imgExt;
         move_uploaded_file($tmp_dir, $upload_dir.$picProfile);
-        $stmt=$db->prepare("INSERT INTO rimages SET Img = :Img");
+        $stmt=$db->prepare("INSERT INTO rimages SET Picture = :Img");
         $stmt->bindParam(":Img", $picProfile);
 
         if($stmt->execute())
@@ -36,8 +36,7 @@
 
     $pic=array();
     $pic2=array();
-    $pic=findpicture(3);
-    var_dump($pic);
+    $pic=findpicture(4);
 
 
 
@@ -60,7 +59,7 @@
 </form>
 
 <?php foreach ($pic as $p){
-    echo $p['Picture'];
+    //echo $p['Picture'];
     echo "<img src='uploads$p[Picture]' style='width:100px; height:100px;'/>";
 }
 ?>
