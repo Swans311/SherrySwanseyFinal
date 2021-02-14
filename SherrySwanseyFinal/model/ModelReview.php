@@ -42,6 +42,17 @@
     
         return( $stmt->rowCount() > 0);
     }
+    function checkUser($email)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT User_ID FROM rusers WHERE User_Email =:email");
+
+        $stmt->bindValue(':email', $email);
+        
+        $stmt->execute ();
+    
+        return( $stmt->rowCount() > 0);
+    }
     function delUser($userID)
     {
         global $db;
@@ -179,8 +190,7 @@
     {
         global $db;
         $results = 'Data NOT Added';
-        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category");
-
+      
         //Convert comma separated tag names into tagIDs and add/increment in database
         $tags = explode(',', $categories); 
         $catArray = array();
@@ -189,20 +199,30 @@
             addTagByRes($tag, $restaurantID);
             array_push($catArray, getTagIdByNameAndRestaurant($tag, $restaurantID));
         }
-
+      
+        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category, ResImage = :imageFilePath");
+      
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':review', $restaurantReview);
         $stmt->bindValue(':rating', $rating);
         $stmt->bindValue(':username', getUsername($userID));
+        var_dump($restaurantID);
         
         $time = date('Y-m-d H:i:s');
 
         $stmt->bindValue(':revDate', $time);
         $stmt->bindValue(':visible', $anonymous);
         $stmt->bindValue(':cat', implode($catArray, ','));
+        $stmt->bindValue(':imageFilePath', $imageFilePath);
+        $stmt->debugDumpParams();
 
         $stmt->execute();
+        var_dump($stmt);
+        if(!$stmt->execute())
+        {
+            echo("LOSER");
+        }
 
         $success = $stmt->rowCount();
 

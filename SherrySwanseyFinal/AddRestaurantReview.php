@@ -17,7 +17,7 @@
         $_SESSION['numFoodReviews'] = 1;
     else
         $_SESSION['numFoodReviews'] = $numFoodReviews;
-    if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) 
+    if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) 
     {
         header('Location: Login.php');
         exit;
@@ -26,6 +26,7 @@
     //Submit the info and try to add the review
     if(isset($_POST['submit']))
     {
+        
         $lastchars = [];
         foreach($_POST as $key => $value)
         {
@@ -51,6 +52,21 @@
                 //Should be guaranteed to exist now
                 $resID = searchOneRestaurantID($_POST['restaurantName'], $_POST['restaurantAddress'], $_POST['restaurantPhone'], $_POST['restaurantURL']);
             }
+            if(isset($_POST['restaurant'])){
+                $images=$_FILES['restaurant']['name'];
+                 $tmp_dir=$_FILES['restaurant']['tmp_name'];
+                 $imageSize=$_FILES['restaurant']['size'];
+                 $upload_dir='uploads';
+                 $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
+                 $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+                 $restaurantPic=rand(1000,1000000). ".".$imgExt;
+                 move_uploaded_file($tmp_dir, $upload_dir.$restaurantPic);
+                 //$stmt=$db->prepare("INSERT INTO rimages SET Img = :Img");
+                 //$stmt->bindParam(":Img", $restaurantPic); 
+             }
+             else{
+                 $restuarantPic='';
+             }
             //put together restaurantreview except 2d array portion
             $resReviewParams = array();
             $resReviewParams['resID'] = $resID;
@@ -82,14 +98,25 @@
                 for($i = 1; $i <= $numReviewAreas; $i++)
                 {
                     $singleItemArray = array();
-
+                    if(isset($_POST['foodpic'.$i]))
+                    {
+                        $images=$_FILES['foodpic'.$i]['name'];
+                        $tmp_dir=$_FILES['foodpic'.$i]['tmp_name'];
+                        $imageSize=$_FILES['foodpic'.$i]['size'];
+                        $upload_dir='uploads';
+                        $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
+                        $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+                        $foodPic=rand(1000,1000000). ".".$imgExt;
+                        move_uploaded_file($tmp_dir, $upload_dir.$foodPic);
+                        var_dump($foodPic);
+                    }
                     if(isset($_POST['food' . $i]) && $_POST['food' . $i] != "")
                     {
                         $itemID = searchOneItemId($resID, $_POST['food' . $i]);
-                        if($itemID == false)//if restaurantID wasnt found add restaurant
+                        if($itemID == false)//if restaurantID was not found add restaurant
                         {
                             addItem($resID, $_POST['food' . $i]);
-                            //Should be gaurunteed to exist now
+                            //Should be guaranteed to exist now
                             $itemID = searchOneItemID($resID, $_POST['food' . $i]);
                         }
                         $singleItemArray['itemID'] = $itemID;
@@ -97,6 +124,8 @@
                     else     
                         $flag = false;
 
+                    
+                    
                     if(isset($_POST['foodCategories'.$i]) && $_POST['foodCategories'.$i] != "")
                     {
                         $singleItemArray['category'] = $_POST['foodCategories'.$i];
@@ -117,8 +146,9 @@
                     array_push($twoDimArray, $singleItemArray);
                 }
                 if($flag){
-                    addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], "", $twoDimArray, $resReviewParams['categories']);
-                    header('Location: homepage.php');
+                    addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
+                    var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
+                    //header('Location: homepage.php');
                 }
             } 
             //add item reviews to array
@@ -154,7 +184,7 @@
     function regenerateFoodReviewAreas()
     {
         var div = document.getElementById("inputs");
-        
+
         for(let x = 2; x <= <?=$_SESSION['numFoodReviews']?> ; x++)
         {
             console.log(x)
@@ -162,8 +192,8 @@
             + `<div class="row mx-2 p-1">`
                 + `<div class="col form-group">`
                     + `<h2 class="display-5 mb-5">Food Item Review</h2>`
-                    + `<label for="exampleFormControlFile`+ x +`">Upload Image Here: (Non-Funtional)</label>`
-                    + `<input type="file" class="form-control-file" id="exampleFormControlFile`+ x +`" disabled>`
+                    + `<label for="exampleFormControlFile`+ x +`">Upload Image Here: </label>`
+                    + `<input type="file" class="form-control-file" id="foodPic`+ x +`" name="foodPic`+ x +`" accept"*/image">`
                 + `</div>`
                 + `<div class="col">`
                     + `<div class="form-group mt-4">`
@@ -191,15 +221,15 @@
 <body>
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left pt-4 pb-2 text-white" style="font-family: textFont;">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div id="inputs">
                     <div class="row border border-outline-white rounded mx-2 p-2">
                         <div class="row mx-2 p-1">
                             <div class="col form-group">
                                 <h2 class="display-5 mb-5">Restaurant Review</h2>
-                                <label for="exampleFormControlFile1">Upload Image Here: (Non-Funtional)</label>
+                                <label for="exampleFormControlFile1">Upload Image Here:</label>
                                 <!--TODO:: Make this stick around after a POST-->
-                                <input type="file" class="form-control-file" name="restaurantImage" id="exampleFormControlFile1" disabled>
+                                <input type="file" name="restaurant" class="form-control-file"  accept="*/image" >
                                 <div class="form-check mt-5">
                                     <input class="form-check-input" name="reviewAnonymous" type="checkbox" value="" id="reviewAnonymous" <?=isset($_POST['reviewAnonymous'])? "checked" : "" ?>>
                                     <label class="form-check-label" for="reviewAnonymous"> Review Anonymously</label>
@@ -207,16 +237,16 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>" readonly/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>" readonly/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>" readonly/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>" disabled/>
+                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>" readonly/>
                                 </div>
                                 <div class="form-group">
                                     <input size="25"type="text" name="restaurantCategories" id="restaurantCategories" placeholder="EX: Fast Food, Burger, Fried"  value="<?=isset($_POST['restaurantCategories'])? $_POST['restaurantCategories']: '' ?>"/>
@@ -236,8 +266,8 @@
                         <div class="row mx-2 p-1">
                             <div class="col form-group">
                                 <h2 class="display-5 mb-5">Food Item Review</h2>
-                                <label for="exampleFormControlFile1">Upload Image Here: (Non-Funtional)</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1" disabled>
+                                <label for="exampleFormControlFile1">Upload Image Here: </label>
+                                <input type="file" name="foodPic1" id="foodPic1" class="form-control-file"  accept="*/image" >
                                 
                             </div>
                             <div class="col">
@@ -264,8 +294,8 @@
                 </div>
                 <div class="form-group m-3 d-flex justify-content-end">
                     <input name="hidden" id="hidden" type="number" min="1" step="1" value="<?= isset($_POST['hidden']) && $_POST['hidden'] >= 1 ? $_POST['hidden']: '1'?>" hidden>
-                    <button id="addFoodButton" class="btn btn-outline-success mx-3 text-white border-white"type="submit" onclick = addFoodReviewArea()>Add Food Item</button>
-                    <button id="removeFoodButton" class="btn btn-outline-danger text-white border-white"type="submit" onclick = removeFoodReviewArea()>Remove Food Item</button>
+                    <button id="addFoodButton" class="btn btn-outline-success mx-3 text-white border-white"  onclick = addFoodReviewArea()>Add Food Item</button>
+                    <button id="removeFoodButton" class="btn btn-outline-danger text-white border-white"  onclick = removeFoodReviewArea()>Remove Food Item</button>
                     <button id="submitButton" class="btn btn-outline-light mx-3" name="submit" type="submit">Submit</button>
                 </div>
             </form>
