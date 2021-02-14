@@ -49,6 +49,11 @@
                                         echo '<h3>'.getUsername($itemRev['User_ID']).'</h3>';
                                         echo '<h3>'.$itemRev['Star_lvl'].' Stars</h3>';
                                         echo '<p>'.$itemRev['Review'].'</p>';
+                                        echo '<p>';
+                                        foreach(explode(',', $itemRev['Category']) as $tagID)
+                                            echo getTagByID($tagID)['Name'] . '   ';
+                                        echo '</p>';
+
                                     echo '</div></div></div></div>';
                     }
                 }
