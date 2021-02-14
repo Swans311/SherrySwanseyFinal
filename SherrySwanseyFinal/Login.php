@@ -14,7 +14,7 @@
         if (checkLogin($userEmail, $userEncryptedPassword)==true)
         {
             $_SESSION['loggedIn']=true;
-            header("Location: account.php");
+            header("Location: Account.php");
         }
         elseif (checkUser($userEmail)==true){
             $result="Password Incorrect";
