@@ -980,7 +980,7 @@
     function getCommonItemCategories($itemID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID AND Active = 1 AND Counter >= 1");
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Item_ID = :itemID AND Active = 1 AND Counter >= 1 LIMIT :num");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
@@ -993,8 +993,7 @@
     function getCommonRestaurantCategories($restaurantID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1 AND Counter >= 1");
-
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1 AND Counter >= 1 LIMIT :num");
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':restaurantID', $restaurantID, PDO::PARAM_STR);
 
@@ -1006,7 +1005,7 @@
     function getMostCommonCategoriesAllItems($numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL AND Active = 1 ORDER BY Counter DESC AND Counter >= 1");
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Restaurant_ID IS NULL AND Active = 1 AND Counter >= 1 ORDER BY Counter DESC LIMIT :num");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
 
@@ -1088,4 +1087,12 @@ function findpicture($id){
         }
     return ($results);
 
+}
+//Takes the array of tag results and returns an array of names to implode
+function extractNames($tagsArray)
+{
+    $returnArray = array();
+    foreach($tagsArray as $tag)
+        array_push($returnArray, $tag['Name']);
+    return $returnArray;
 }

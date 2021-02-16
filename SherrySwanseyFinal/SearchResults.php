@@ -197,7 +197,7 @@
                                     echo '<h3>'.$resultByItemName['ItemName'].'</h3>';
                                     echo '<h3>'.getRestaurantName($resultByItemName['Restaurant_ID']).'</h3>';
                                     echo '<h3>'.round(calculateItemStarRating($resultByItemName['Item_ID']),2 ).' Stars</h3>';
-                                    echo '<h5>'.implode(', ', getCommonItemCategories($resultByItemName['Item_ID'], 3)).'</h5>';
+                                    echo '<h5>'.implode(', ', extractNames(getCommonItemCategories($resultByItemName['Item_ID'], 3))).'</h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
                                     echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewItem.php?id='.$resultByItemName['Item_ID'].'`">View Reviews</button>';
@@ -216,7 +216,7 @@
                                     echo '<h3>'.getItemName($resultByItemCats['Item_ID']).'</h3>';
                                     echo '<h3>'.getRestaurantName($resultByItemCats['Restaurant_ID']).'</h3>';
                                     echo '<h3>'.round(calculateItemStarRating($resultByItemCats['Item_ID']),2 ).' Stars</h3>';
-                                    echo '<h5>'.implode(', ', getCommonItemCategories($resultByItemCats['Item_ID'], 3)).'</h5>';
+                                    echo '<h5>'.implode(', ', extractNames(getCommonItemCategories($resultByItemCats['Item_ID'], 3))).'</h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
                                     echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewItem.php?id='.$resultByItemCats['Item_ID'].'`">View Reviews</button>';
