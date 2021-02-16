@@ -65,8 +65,10 @@
                                                         echo '<h3>'.$itemRev['Star_lvl'].' Stars</h3>';
                                                         echo '<p>'.$itemRev['Review'].'</p>';
                                                         echo '<p>';
+                                                        $tags = array();
                                                         foreach(explode(',', $itemRev['Category']) as $tagID)
-                                                            echo getTagByID($tagID)['Name'] . '   ';
+                                                            array_push($tags, getTagByID($tagID)['Name'] . '   ');
+                                                        echo implode(', ', $tags);
                                                         echo '</p>';
                                                     echo '</div></div></div>';
                                         }

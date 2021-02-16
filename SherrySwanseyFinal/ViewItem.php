@@ -29,7 +29,7 @@
                     <?php
                         echo '<h1 class="display-4"style="font-family: titleFont;">'.$itemInfo['ItemName'].'</h1>';
                         echo '<h1 class="display-4"style="font-family: titleFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h1>';
-                        echo '<h1 class="display-4">'.implode(', ', getCommonItemCategories($itemInfo['Item_ID'], 3)).'</h1>';
+                        echo '<h1 class="display-4">'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h1>';
                         echo '<h1 class="display-4">'.round(calculateItemStarRating($itemInfo['Item_ID']),2 ).' Stars</h1>';
                         echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$itemInfo['Restaurant_ID'].'`">Add Review</button>';
 
@@ -50,8 +50,10 @@
                                         echo '<h3>'.$itemRev['Star_lvl'].' Stars</h3>';
                                         echo '<p>'.$itemRev['Review'].'</p>';
                                         echo '<p>';
+                                        $tags = array();
                                         foreach(explode(',', $itemRev['Category']) as $tagID)
-                                            echo getTagByID($tagID)['Name'] . '   ';
+                                            array_push($tags, getTagByID($tagID)['Name'] . '   ');
+                                        echo implode(', ', $tags);
                                         echo '</p>';
 
                                     echo '</div></div></div></div>';
