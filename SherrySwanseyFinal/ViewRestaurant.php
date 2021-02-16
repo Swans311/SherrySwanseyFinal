@@ -49,6 +49,10 @@
                                             echo '<h3>'.$resRev['UserName'].'</h3>';
                                             echo '<h3>'.$resRev['Star_lvl'].' Stars</h3>';
                                             echo '<p style="min-height: 110px">'.$resRev['Review'].'</p>';
+                                            echo '<p>';
+                                            foreach(explode(',', $resRev['Category']) as $tagID)
+                                                echo getTagByID($tagID)['Name'] . '   ';
+                                            echo '</p>';
                                         echo '</div>';
                                         foreach(getItemsInRestaurantReview($resRev['ResReview_ID']) as $itemRev)
                                         {
@@ -60,6 +64,10 @@
                                                         echo '<h3>'.getItemName($itemRev['Item_ID']).'</h3>';
                                                         echo '<h3>'.$itemRev['Star_lvl'].' Stars</h3>';
                                                         echo '<p>'.$itemRev['Review'].'</p>';
+                                                        echo '<p>';
+                                                        foreach(explode(',', $itemRev['Category']) as $tagID)
+                                                            echo getTagByID($tagID)['Name'] . '   ';
+                                                        echo '</p>';
                                                     echo '</div></div></div>';
                                         }
                                         echo '</div></div></div>';

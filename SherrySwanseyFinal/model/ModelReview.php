@@ -163,6 +163,15 @@
         $results = 'Data NOT Added';
         $stmt = $db->prepare("INSERT INTO review SET Restaurant_ID = :restaurantID, User_ID = :userID, Item_ID = :itemID, Review = :review, Star_lvl = :rating, Username = :username, Uname_Visible = :visible, ReviewDate = :revDate, Category = :cat, ResReview_ID = :resRevID");
 
+        //Convert comma separated tag names into tagIDs and add/increment in database
+        $tags = explode(',', $categories); 
+        $catArray = array();
+        foreach($tags as $tag)
+        {
+            addTagByItem($tag, $itemID);
+            array_push($catArray, getTagIdByNameAndItem($tag, $itemID));
+        }
+
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':itemID', $itemID);
@@ -171,7 +180,7 @@
         $stmt->bindValue(':username', getUsername($userID));
         $stmt->bindValue(':visible', $anonymous);
         $stmt->bindValue(':revDate', $dateTime);
-        $stmt->bindValue(':cat', $categories);
+        $stmt->bindValue(':cat', implode($catArray, ','));
         $stmt->bindValue(':resRevID', $resReviewID);
 
         $stmt->execute ();
@@ -181,7 +190,18 @@
     {
         global $db;
         $results = 'Data NOT Added';
+      
+        //Convert comma separated tag names into tagIDs and add/increment in database
+        $tags = explode(',', $categories); 
+        $catArray = array();
+        foreach($tags as $tag)
+        {
+            addTagByRes($tag, $restaurantID);
+            array_push($catArray, getTagIdByNameAndRestaurant($tag, $restaurantID));
+        }
+      
         $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category, ResImage = :imageFilePath");
+      
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':review', $restaurantReview);
@@ -193,7 +213,7 @@
 
         $stmt->bindValue(':revDate', $time);
         $stmt->bindValue(':visible', $anonymous);
-        $stmt->bindValue(':category', $categories);
+        $stmt->bindValue(':cat', implode($catArray, ','));
         $stmt->bindValue(':imageFilePath', $imageFilePath);
         $stmt->debugDumpParams();
 
@@ -247,7 +267,7 @@
             $commonResCats = getCommonRestaurantCategories($result['Restaurant_ID'], 5);
             foreach($commonResCats as $commonResCat)
                 foreach($categories as $cat)
-                    if($category == '' || strpos(strtoupper($commonResCat), strtoupper($cat)) !== false)
+                    if($category == '' || strpos(strtoupper($commonResCat['Name']), strtoupper($cat)) !== false)
                         if(calculateRestaurantStarRating($result['Restaurant_ID']) >= $minRating)
                             if(!in_array($result, $returnArray))
                                 array_push($returnArray, $result);
@@ -282,7 +302,7 @@
             $commonItemCats = getCommonItemCategories($result['Item_ID'], 5);
             foreach($commonItemCats as $commonItemCat)
                 foreach($categories as $cat)
-                    if($category == '' || strpos(strtoupper($commonItemCat), strtoupper($cat)) !== false)
+                    if($category == '' || strpos(strtoupper($commonItemCat['Name']), strtoupper($cat)) !== false)
                         if(calculateItemStarRating($result['Item_ID']) >= $minRating)
                             if(!in_array($result, $returnArray))
                                 array_push($returnArray, $result);
@@ -630,6 +650,21 @@
         global $db;
 
         $results = "Data NOT Updated";
+
+        //Get old review
+        $oldReview = getReview($reviewID);
+        //split categories into array
+        $oldCatsArray = explode(',', $oldReview['Category']);
+        //decrement all ids
+        foreach($catsArray as $tagID)
+            decrementTagID($tagID);
+        //split categories into array
+        $newTagsStringArray = explode(',', $categories);
+        //add all new ids
+        $tagIDs = array();
+        foreach($newTagsStringArray as $newTagString)
+            addTagByRes($newTagString, $oldReview['Restaurant_ID']);
+            array_push($tagIDs, getTagIdByNameAndItem($newTagString, $oldReview['Restaurant_ID']));
         
         $stmt = $db->prepare("UPDATE reviews SET Star_lvl = :rating, Uname_Visible = :anon, Category = :categories, Review = :review WHERE Review_ID=:id");
         
@@ -646,18 +681,35 @@
         
         return ($results);
     }
-    function editRestaurantReview( $resReviewID, $review, $rating, $anonymous, $imageFilePath)
+    function editRestaurantReview( $resReviewID, $review, $rating, $categories, $anonymous, $imageFilePath)
     {
         global $db;
 
+        
         $results = "Data NOT Updated";
         
-        $stmt = $db->prepare("UPDATE reviews SET Star_lvl = :rating, Uname_Visible = :anon, Review = :review WHERE Review_ID=:id");
+        //Get old review
+        $oldResReview = getRestaurantReview($resReviewID);
+        //split categories into array
+        $oldCatsArray = explode(',', $oldResReview['Category']);
+        //decrement all ids
+        foreach($catsArray as $tagID)
+            decrementTagID($tagID);
+        //split categories into array
+        $newTagsStringArray = explode(',', $categories);
+        //add all new ids
+        $tagIDs = array();
+        foreach($newTagsStringArray as $newTagString)
+            addTagByRes($newTagString, $oldResReview['Restaurant_ID']);
+            array_push($tagIDs, getTagIdByNameAndRestaurant($newTagString, $oldResReview['Restaurant_ID']));
+        //update with new ids
+        $stmt = $db->prepare("UPDATE reviews SET Star_lvl = :rating, Uname_Visible = :anon, Review = :review, Category = :cats  WHERE Review_ID=:id");
         
         $stmt->bindValue(':rating', $rating);
         $stmt->bindValue(':anon', $anonymous);
         $stmt->bindValue(':review', $review);
         $stmt->bindValue(':id', $resReviewID);
+        $stmt->bindValue(':cats', implode(',', $tagIDs));
 
         if ($stmt->execute() && $stmt->rowCount() > 0) 
         {
@@ -666,19 +718,18 @@
         
         return ($results);
     }
-    function editRestaurant( $restaurantID, $name, $address, $phone, $url, $categories)
+    function editRestaurant( $restaurantID, $name, $address, $phone, $url)
     {
         global $db;
 
         $results = "Data NOT Updated";
         
-        $stmt = $db->prepare("UPDATE restaurant SET Restaurant_Name = :resName, ResAddress = :addr, Phone = :phone, Restaurant_URL = :resURL, Category = :categories WHERE Review_ID=:id");
+        $stmt = $db->prepare("UPDATE restaurant SET Restaurant_Name = :resName, ResAddress = :addr, Phone = :phone, Restaurant_URL = :resURL WHERE Review_ID=:id");
         
         $stmt->bindValue(':resName', $name);
         $stmt->bindValue(':addr', $address);
         $stmt->bindValue(':phone', $phone);
         $stmt->bindValue(':resURL', $url);
-        $stmt->bindValue(':categories', $categories);
         $stmt->bindValue(':id', $restaurantID);
 
         if ($stmt->execute() && $stmt->rowCount() > 0) 
@@ -731,6 +782,125 @@
             array_push($reviewList, getReview($reviewID));
         }
         return $reviewList;
+    }
+    //For getting the tag names from the IDs stored with the reviews for display
+    function getTagByID($tagID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Tag_ID =:tagID");
+
+        $stmt->bindValue(':tagID', $tagID);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+    //For getting the ID's when submitting a resReview to store in the resReview SQL
+    function getTagIdByNameAndRestaurant($name, $resID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Restaurant_ID = :resID");
+
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':resID', $resID, PDO::PARAM_STR);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['Tag_ID'];
+    }
+    //For getting the ID's when submitting a review to store in the review SQL
+    function getTagIdByNameAndItem($name, $itemID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Item_ID = :itemID");
+
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['Tag_ID'];
+    }
+    function addTagByRes($name, $resID)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $tagID = getTagIdByNameAndRestaurant($name, $resID);
+        if($tagID == false)//If tag not found add it
+        {
+            $stmt = $db->prepare("INSERT INTO tags SET Counter = 1, Restaurant_ID = :resID, Name = :name,  Active = 1");
+
+            $stmt -> bindValue(':resID', $resID);
+            $stmt -> bindValue(':name', $name);
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+                $results = 'Data Added';
+            else
+                $results = 'Data failed to add';
+        }
+        else
+        {
+            incrementTagID($tagID);//if tag exists increment it by 1
+            $results = 'Tag Counter Incremented';
+        }
+        return ($results);
+    }
+    function addTagByItem($name, $itemID)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $tagID = getTagIdByNameAndItem($name, $itemID);
+        if($tagID == false)//If tag not found add it
+        {
+            $stmt = $db->prepare("INSERT INTO tags SET Counter = 1, Item_ID = :itemID, Name = :name,  Active = 1");
+
+            $stmt -> bindValue(':itemID', $itemID);
+            $stmt -> bindValue(':name', $name);
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+                $results = 'Data Added';
+            else
+                $results = 'Data failed to add';
+        }
+        else
+        {
+            incrementTagID($tagID);//if tag exists increment it by 1
+            $results = 'Tag Counter Incremented';
+        }
+        return ($results);
+    }
+    function incrementTagID($tagID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE tags SET Counter = Counter + 1 WHERE Tag_ID=:tagID");
+        
+        $stmt->bindValue(':tagID', $tagID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
+    }
+    function decrementTagID($tagID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE tags SET Counter = Counter - 1 WHERE Tag_ID=:tagID");
+        
+        $stmt->bindValue(':tagID', $tagID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
     }
 
     /*
@@ -809,70 +979,43 @@
     }
     function getCommonItemCategories($itemID, $numCategories)
     {
-        $itemReviews = getAllReviewsForItem($itemID);
-        $itemCatArray = [];
+        global $db;
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Item_ID = :itemID AND Active = 1 AND Counter >= 1");
 
-        foreach($itemReviews as $itemReview)
-        {
-            $categories = explode(",",$itemReview['Category']);
-            foreach($categories as $category)
-                array_push($itemCatArray, $category);
-        }
-        //An array with the categories as labels and number of instances as values
-        $countArray = array_count_values($itemCatArray);
+        $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
+        $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
 
-        //Sorts array by most frequent first descending order
-        arsort($countArray);
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
-        //Slices the first $numCategories values and returns an array with the categories
-        return array_keys(array_slice($countArray, 0, count($countArray) ? $numCategories : count($countArray)));
+        return $results;
     }
     function getCommonRestaurantCategories($restaurantID, $numCategories)
     {
-        $resReviews = getAllReviewsForRestaurant($restaurantID);
-        $resCatArray = [];
+        global $db;
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1 AND Counter >= 1");
 
-        foreach($resReviews as $resReview)
-        {
-            $categories = explode(",",$resReview['Category']);
-            foreach($categories as $category)
-                array_push($resCatArray, $category);
-        }
-        //An array with the categories as labels and number of instances as values
-        $countArray = array_count_values($resCatArray);
+        $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
+        $stmt->bindValue(':restaurantID', $restaurantID, PDO::PARAM_STR);
 
-        //Sorts array by most frequent first descending order
-        arsort($countArray);
-        
-        //Slices the first $numCategories values and returns an array with the categories
-        return array_keys(array_slice($countArray, 0, $numCategories <= count($countArray) ? $numCategories : count($countArray)));
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+        return $results;
     }
     function getMostCommonCategoriesAllItems($numCategories)
     {
-        $allItems = searchByItem("","", -1);
-        //$itemReviews = [];
-        $itemCatArray = [];
+        global $db;
+        $stmt = $db->prepare("SELECT TOP :num * FROM tags WHERE Restaurant_ID = NULL AND Active = 1 ORDER BY Counter DESC AND Counter >= 1");
 
-        foreach($allItems as $item)
-        {
-            $temp = getAllReviewsForItem($item['Item_ID']);
-            foreach($temp as $review)
-            {
-                    $categories = explode(",", $review['Category']);
-                    foreach($categories as $category)
-                        array_push($itemCatArray, ucfirst(trim($category)));
-            }
-        }
-        
-        //An array with the categories as labels and number of instances as values
-        $countArray = array_count_values($itemCatArray);
+        $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
 
-        //Sorts array by most frequent first descending order
-        arsort($countArray);
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
-        //Slices the first $numCategories values and returns an array with the categories
-        return array_keys(array_slice($countArray, 0, $numCategories <= count($countArray) ? $numCategories : count($countArray)));
+        return $results;
     }
+    
     function getMostRecentReviewsByUser($userID, $numReviews)
     {
         $resReviews = getAllResReviewsByUserChronological($userID, $numReviews, True);
