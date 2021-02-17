@@ -238,7 +238,6 @@
                                     echo '<h3>'.round(calculateRestaurantStarRating($resultByResCats['Restaurant_ID']),2 ).' Stars</h3>';
                                     echo '<h5>'.$res['ResAddress'].'</h5>';
                                     echo '<h5>'.$res['Phone'].'</h5>';
-                                    echo '<h5><a href = "'.$resultByResCats['Restaurant_URL'].'" target="_blank">'.$res['Restaurant_URL'].'</a></h5>';
                                 echo '</div>';
                                 echo '<div class="col d-flex align-content-center flex-wrap">';
                                     echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`ViewRestaurant.php?id='.$res['Restaurant_ID'].'`">View Reviews</button>';
