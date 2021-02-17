@@ -31,7 +31,12 @@
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="container mr-auto mb-5">
-                <h1 class="display-4"style="font-family: titleFont;"><?=$user['Username'];?></h1>
+                <h1 class="display-4"style="font-family: titleFont;">
+                    <?=$user['Username'];?>
+                    <a href="">
+                        <img src="misc/images/Mail_Icon.png" style="width:64px;height:64px;margin-top:-10px;">
+                    </a>
+                </h1>
                 <h1 class="display-4"><?=$user['FName'];?></h1>
                 <h1 class="display-5">Number of Reviews: <?=count($resReviewArray);?></h1>
                 <h1 class="display-5">Average Star Reviews: <?php echo number_format(calculateAvgStarRatingFromUser($uID), 2, '.', '');?></h1>

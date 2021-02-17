@@ -974,7 +974,7 @@
             $star += $itemReview['Star_lvl'];
         }
         $star = isset($star)? $star : 0;
-        $star /= $count >= 0 ? $count : 1;
+        $star /= $count > 0 ? $count : 1;
         return $star;
     }
     function getCommonItemCategories($itemID, $numCategories)
