@@ -3,49 +3,81 @@
     include ("model/db.php");
     include ("model/ModelReview.php");
 
+    function addfakeRestaurantReview($restaurantID, $userID, $restaurantReview, $rating, $imageFilePath)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $stmt = $db->prepare("INSERT INTO fakerestaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate");
+        $stmt->bindValue(':restaurantID', $restaurantID);
+        $stmt->bindValue(':userID', $userID);
+        $stmt->bindValue(':review', $restaurantReview);
+        $stmt->bindValue(':rating', $rating);
+        $stmt->bindValue(':username', getUsername($userID));
+
+        //var_dump($restaurantID);
+        
+        $time = date('Y-m-d H:i:s');
+
+
+        $stmt->bindValue(':revDate', $time);
+
+        //$stmt->bindValue(':visible', $anonymous);
+        //$stmt->bindValue(':imageFilePath', $imageFilePath);
+        //$stmt->debugDumpParams();
+
+        $stmt->execute();
+
+
+        $success = $stmt->rowCount();
+
+        //get resReviewID by searching table for match on restaurantID, userID, date
+        $stmt2 = $db->prepare("SELECT ResReview_ID FROM fakerestaurantreview WHERE User_ID = :userID ORDER BY ResReview_ID  DESC LIMIT 1");
+        $stmt2 ->bindValue(":userID", $userID);
+        $stmt2->execute();
+
+        $results = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $resRevID = $results['ResReview_ID'];
+        //var_dump ($results);
+        //var_dump($resRevID);
+        //echo ("my favorite number is ".$resRevID);
+        echo ($resRevID);
+        
+
+        $stmt1 = $db->prepare("UPDATE fakerestaurantreview SET ResImage = :Img WHERE (ResReview_ID = :resRevID)");
+        
+        var_dump($imageFilePath);
+        $stmt1->bindValue(":Img", $imageFilePath);
+        $stmt1->bindValue(':resRevID', $resRevID);
+
+        $stmt1->execute();
+
+
+
+
+
+    }
+
+
+
+
+
+
+
     if(isset($_POST['submit']))
     {
-        if(isset($_POST['restaurantName']) && isset($_POST['restaurantAddress']) && isset($_POST['restaurantPhone']) && isset($_POST['restaurantURL']))
-            {
-                if($resID == false)//if restaurantID wasnt found add restaurant
-                {
-                    addRestaurant($_POST['restaurantName'], $_POST['restaurantAddress'], $_POST['restaurantPhone'], $_POST['restaurantURL']);
-                    //Should be guaranteed to exist now
-                    $resID = searchOneRestaurantID($_POST['restaurantName'], $_POST['restaurantAddress'], $_POST['restaurantPhone'], $_POST['restaurantURL']);
-                }
-                //put together restaurantreview except 2d array portion
-                $resReviewParams = array();
-                $resReviewParams['resID'] = $resID;
-                //waiting on dave to push his code for this to work
-                $uID = getUserID($_SESSION['email']);
-                $resReviewParams['UserID'] = $uID;
-                if(isset($_POST['restaurantReview']) && $_POST['restaurantReview'] != "")
-                    $resReviewParams['resReview'] = $_POST['restaurantReview'];
-                else     
-                    $flag = false;
-                if(isset($_POST['restaurantCategories']) && $_POST['restaurantCategories'] != "")
-                    $resReviewParams['categories'] = $_POST['restaurantCategories'];
-                else     
-                    $flag = false;
-                if(isset($_POST['restaurantRating']) && $_POST['restaurantRating'] != "")
-                    $resReviewParams['resRating'] = $_POST['restaurantRating'];
-                else     
-                    $flag = false;
-                if(isset($_POST['reviewAnonymous']))
-                    $resReviewParams['resVisible'] = false;
-                else     
-                    $resReviewParams['resVisible'] = true;
-                
-                //TODO:: code for sending image location too
+        $images=$_FILES['profile']['name'];
+        $tmp_dir=$_FILES['profile']['tmp_name'];
+        $imageSize=$_FILES['profile']['size'];
+        $upload_dir='uploads';
+        $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
+        $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+        $picProfile=rand(1000,1000000). ".".$imgExt;
+        move_uploaded_file($tmp_dir, $upload_dir.$picProfile);
 
-                //if all those vars were present continue
-                
-                    if($flag){
-                        addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
-                        var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
-                        //header('Location: homepage.php');
-                    }
-                } 
+        addfakeRestaurantReview(3, 8, "mmm this is so good 100/100", 5, $picProfile);
+
+    }
+
 
 
 
@@ -110,7 +142,7 @@
                                 <h2 class="display-5 mb-5">Restaurant Review</h2>
                                 <label for="exampleFormControlFile1">Upload Image Here:</label>
                                 <!--TODO:: Make this stick around after a POST-->
-                                <input type="file" name="restaurant" class="form-control-file"  accept="*/image" >
+                                <input type="file" name="profile" class="form-control-file"  accept="*/image" >
                                 <div class="form-check mt-5">
                                     <input class="form-check-input" name="reviewAnonymous" type="checkbox" value="" id="reviewAnonymous" <?=isset($_POST['reviewAnonymous'])? "checked" : "" ?>>
                                     <label class="form-check-label" for="reviewAnonymous"> Review Anonymously</label>
@@ -144,14 +176,7 @@
                         </div>
                     </div>
                     <div class="row border border-outline-white rounded m-2 p-2">
-                        <div class="row mx-2 p-1">
-                            <div class="col form-group">
-                                <h2 class="display-5 mb-5">Food Item Review</h2>
-                                <label for="exampleFormControlFile1">Upload Image Here: </label>
-                                <input type="file" name="foodPic1" id="foodPic1" class="form-control-file"  accept="*/image" >
-                                
-                            </div>
-                        </div>
+
                     <button id="submitButton" class="btn btn-outline-light mx-3" name="submit" type="submit">Submit</button>
                 </div>
             </form>
@@ -160,11 +185,7 @@
     <button type="submit" name="btn-add">Add Picture </button>
 </form>-->
 
-<?php foreach ($pic as $p){
-    //echo $p['Picture'];
-    echo "<img src='uploads$p[Picture]' style='width:100px; height:100px;'/>";
-}
-?>
+
 
 </body>
 </html>
