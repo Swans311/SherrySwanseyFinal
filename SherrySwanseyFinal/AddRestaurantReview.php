@@ -105,7 +105,6 @@
                     $foodPic=rand(1000,1000000). ".".$imgExt;
                     move_uploaded_file($tmp_dir, $upload_dir.$foodPic);
                     $singleItemArray['imgFilePath']=$foodPic;
-                    var_dump($foodPic);
                     
                     if(isset($_POST['food' . $i]) && $_POST['food' . $i] != "")
                     {
@@ -145,7 +144,7 @@
                 if($flag){
                     addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
                     //var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
-                    //header('Location: homepage.php');
+                    header('Location: homepage.php');
                 }
             } 
             //add item reviews to array

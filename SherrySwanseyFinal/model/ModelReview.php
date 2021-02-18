@@ -256,7 +256,6 @@
         //loop throught list and call addItemReview()
         foreach($itemReview2DList as $itemReviewList)
         {
-            var_dump($itemReviewList);
             addItemReview($restaurantID, $userID, $itemReviewList['itemID'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $anonymous, $itemReviewList['imgFilePath']);
         }
     }
