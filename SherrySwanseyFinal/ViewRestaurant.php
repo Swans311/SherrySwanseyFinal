@@ -41,7 +41,7 @@
                 if(isset($_GET['id']))
                     foreach($restaurantReviews as $resRev)
                     {
-                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
+                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
                                 echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                                     echo '<div class="media-body">';
