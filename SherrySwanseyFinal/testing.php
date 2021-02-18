@@ -26,9 +26,11 @@
         //$stmt->debugDumpParams();
 
         $stmt->execute();
+        var_dump($stmt);
 
 
         $success = $stmt->rowCount();
+        //var_dump($success);
 
         //get resReviewID by searching table for match on restaurantID, userID, date
         $stmt2 = $db->prepare("SELECT ResReview_ID FROM fakerestaurantreview WHERE User_ID = :userID ORDER BY ResReview_ID  DESC LIMIT 1");
@@ -40,12 +42,12 @@
         //var_dump ($results);
         //var_dump($resRevID);
         //echo ("my favorite number is ".$resRevID);
-        echo ($resRevID);
+        //echo ($resRevID);
         
 
         $stmt1 = $db->prepare("UPDATE fakerestaurantreview SET ResImage = :Img WHERE (ResReview_ID = :resRevID)");
         
-        var_dump($imageFilePath);
+        //var_dump($imageFilePath);
         $stmt1->bindValue(":Img", $imageFilePath);
         $stmt1->bindValue(':resRevID', $resRevID);
 
@@ -74,7 +76,7 @@
         $picProfile=rand(1000,1000000). ".".$imgExt;
         move_uploaded_file($tmp_dir, $upload_dir.$picProfile);
 
-        addfakeRestaurantReview(3, 8, "mmm this is so good 100/100", 5, $picProfile);
+        addfakeRestaurantReview(3, 8, "mmm this is so good", 3, $picProfile);
 
     }
 

@@ -184,7 +184,24 @@
         $stmt->bindValue(':resRevID', $resReviewID);
 
         $stmt->execute ();
-        return( $stmt->rowCount() > 0);
+
+        $stmt2 = $db->prepare("SELECT Review_ID FROM review WHERE User_ID = :userID ORDER BY Review_ID  DESC LIMIT 1");
+        $stmt2 ->bindValue(":userID", $userID);
+        $stmt2->execute();
+
+        $results = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $revID = $results['Review_ID'];        
+
+        $stmt1 = $db->prepare("UPDATE review SET Rimage = :Img WHERE (Review_ID = :revID)");
+        
+        //var_dump($imageFilePath);
+        $stmt1->bindValue(":Img", $imageFilePath);
+        $stmt1->bindValue(':revID', $revID);
+
+        $stmt1->execute();
+
+
+        //return( $stmt->rowCount() > 0);
     }
     function addRestaurantReview($restaurantID, $userID, $restaurantReview, $rating,  $anonymous, $imageFilePath, $itemReview2DList, $categories)
     {
@@ -200,46 +217,46 @@
             array_push($catArray, getTagIdByNameAndRestaurant($tag, $restaurantID));
         }
       
-        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Visible = :visible, Category = :category, ResImage = :imageFilePath");
+        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate");
       
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':review', $restaurantReview);
         $stmt->bindValue(':rating', $rating);
         $stmt->bindValue(':username', getUsername($userID));
-        var_dump($restaurantID);
-        
         $time = date('Y-m-d H:i:s');
-
         $stmt->bindValue(':revDate', $time);
-        $stmt->bindValue(':visible', $anonymous);
-        $stmt->bindValue(':cat', implode($catArray, ','));
-        $stmt->bindValue(':imageFilePath', $imageFilePath);
-        $stmt->debugDumpParams();
+        //
+        //$stmt->bindValue(':cat', implode($catArray, ','));
+        //$stmt->debugDumpParams();
 
         $stmt->execute();
-        var_dump($stmt);
-        if(!$stmt->execute())
-        {
-            echo("LOSER");
-        }
+        //var_dump($stmt);
+        
 
         $success = $stmt->rowCount();
+        //var_dump($success);
 
-        //get resReviewID by searching table for match on restaurantID, userID, date
-        $stmt = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE Restaurant_ID = :resID AND User_ID = :userID AND ReviewDate = :revDate");
-        $stmt->bindValue(':resID', $restaurantID);
-        $stmt->bindValue(':userID', $userID);
-        $stmt->bindValue(':revDate', $time);
+        $stmt2 = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :userID ORDER BY ResReview_ID  DESC LIMIT 1");
+        $stmt2 ->bindValue(":userID", $userID);
+        $stmt2->execute();
 
-        $stmt->execute();
-        $results = $stmt->fetch(PDO::FETCH_ASSOC);
-        $resRevID = $results['ResReview_ID'];
+        $results = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $resRevID = $results['ResReview_ID'];        
+
+        $stmt1 = $db->prepare("UPDATE restaurantreview SET ResImage = :Img, Visible=:visible WHERE (ResReview_ID = :resRevID)");
+        
+        //var_dump($imageFilePath);
+        $stmt1->bindValue(":Img", $imageFilePath);
+        $stmt1->bindValue(':visible', $anonymous);
+        $stmt1->bindValue(':resRevID', $resRevID);
+
+        $stmt1->execute();
 
         //loop throught list and call addItemReview()
         foreach($itemReview2DList as $itemReviewList)
         {
-            addItemReview($restaurantID, $userID, $itemReviewList['itemID'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $anonymous, ''/*$itemReviewList['imageFilePath']*/);
+            addItemReview($restaurantID, $userID, $itemReviewList['itemID'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $anonymous, $itemReviewList['imgFilePath']);
         }
     }
     //use minRating = -1 to ignore rating and 0 to get all restaurants that have been reviewed at least once
