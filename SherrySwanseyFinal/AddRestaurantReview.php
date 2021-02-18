@@ -95,18 +95,18 @@
                 for($i = 1; $i <= $numReviewAreas; $i++)
                 {
                     $singleItemArray = array();
-                    if(isset($_POST['foodpic'.$i]))
-                    {
-                        $images=$_FILES['foodpic'.$i]['name'];
-                        $tmp_dir=$_FILES['foodpic'.$i]['tmp_name'];
-                        $imageSize=$_FILES['foodpic'.$i]['size'];
-                        $upload_dir='uploads';
-                        $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
-                        $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
-                        $foodPic=rand(1000,1000000). ".".$imgExt;
-                        move_uploaded_file($tmp_dir, $upload_dir.$foodPic);
-                        var_dump($foodPic);
-                    }
+                    
+                    $images=$_FILES['foodPic'.$i]['name'];
+                    $tmp_dir=$_FILES['foodPic'.$i]['tmp_name'];
+                    $imageSize=$_FILES['foodPic'.$i]['size'];
+                    $upload_dir='uploads';
+                    $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
+                    $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+                    $foodPic=rand(1000,1000000). ".".$imgExt;
+                    move_uploaded_file($tmp_dir, $upload_dir.$foodPic);
+                    $singleItemArray['imgFilePath']=$foodPic;
+                    var_dump($foodPic);
+                    
                     if(isset($_POST['food' . $i]) && $_POST['food' . $i] != "")
                     {
                         $itemID = searchOneItemId($resID, $_POST['food' . $i]);
@@ -144,7 +144,7 @@
                 }
                 if($flag){
                     addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
-                    var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
+                    //var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
                     //header('Location: homepage.php');
                 }
             } 

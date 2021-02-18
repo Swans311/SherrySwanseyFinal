@@ -184,7 +184,24 @@
         $stmt->bindValue(':resRevID', $resReviewID);
 
         $stmt->execute ();
-        return( $stmt->rowCount() > 0);
+
+        $stmt2 = $db->prepare("SELECT Review_ID FROM review WHERE User_ID = :userID ORDER BY Review_ID  DESC LIMIT 1");
+        $stmt2 ->bindValue(":userID", $userID);
+        $stmt2->execute();
+
+        $results = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $revID = $results['Review_ID'];        
+
+        $stmt1 = $db->prepare("UPDATE review SET Rimage = :Img WHERE (Review_ID = :revID)");
+        
+        //var_dump($imageFilePath);
+        $stmt1->bindValue(":Img", $imageFilePath);
+        $stmt1->bindValue(':revID', $revID);
+
+        $stmt1->execute();
+
+
+        //return( $stmt->rowCount() > 0);
     }
     function addRestaurantReview($restaurantID, $userID, $restaurantReview, $rating,  $anonymous, $imageFilePath, $itemReview2DList, $categories)
     {
@@ -211,14 +228,14 @@
         $stmt->bindValue(':revDate', $time);
         //
         //$stmt->bindValue(':cat', implode($catArray, ','));
-        $stmt->debugDumpParams();
+        //$stmt->debugDumpParams();
 
         $stmt->execute();
-        var_dump($stmt);
+        //var_dump($stmt);
         
 
         $success = $stmt->rowCount();
-        var_dump($success);
+        //var_dump($success);
 
         $stmt2 = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :userID ORDER BY ResReview_ID  DESC LIMIT 1");
         $stmt2 ->bindValue(":userID", $userID);
@@ -239,7 +256,8 @@
         //loop throught list and call addItemReview()
         foreach($itemReview2DList as $itemReviewList)
         {
-            addItemReview($restaurantID, $userID, $itemReviewList['itemID'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $anonymous, ''/*$itemReviewList['imageFilePath']*/);
+            var_dump($itemReviewList);
+            addItemReview($restaurantID, $userID, $itemReviewList['itemID'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $anonymous, $itemReviewList['imgFilePath']);
         }
     }
     //use minRating = -1 to ignore rating and 0 to get all restaurants that have been reviewed at least once
