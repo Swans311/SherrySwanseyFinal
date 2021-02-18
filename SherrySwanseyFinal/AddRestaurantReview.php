@@ -26,6 +26,16 @@
     //Submit the info and try to add the review
     if(isset($_POST['submit']))
     {
+        $images=$_FILES['restaurant']['name'];
+        $tmp_dir=$_FILES['restaurant']['tmp_name'];
+        $imageSize=$_FILES['restaurant']['size'];
+        $upload_dir='uploads';
+        $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
+        $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
+        $restaurantPic=rand(1000,1000000). ".".$imgExt;
+        move_uploaded_file($tmp_dir, $upload_dir.$restaurantPic);
+                 //$stmt=$db->prepare("INSERT INTO rimages SET Img = :Img");
+                 //$stmt->bindParam(":Img", $restaurantPic); 
         
         $lastchars = [];
         foreach($_POST as $key => $value)
@@ -52,21 +62,8 @@
                 //Should be guaranteed to exist now
                 $resID = searchOneRestaurantID($_POST['restaurantName'], $_POST['restaurantAddress'], $_POST['restaurantPhone'], $_POST['restaurantURL']);
             }
-            if(isset($_POST['restaurant'])){
-                $images=$_FILES['restaurant']['name'];
-                 $tmp_dir=$_FILES['restaurant']['tmp_name'];
-                 $imageSize=$_FILES['restaurant']['size'];
-                 $upload_dir='uploads';
-                 $imgExt=strtolower(pathinfo($images, PATHINFO_EXTENSION));
-                 $valid_extensions=array('jpeg', 'jpg', 'png', 'gif', 'pdf');
-                 $restaurantPic=rand(1000,1000000). ".".$imgExt;
-                 move_uploaded_file($tmp_dir, $upload_dir.$restaurantPic);
-                 //$stmt=$db->prepare("INSERT INTO rimages SET Img = :Img");
-                 //$stmt->bindParam(":Img", $restaurantPic); 
-             }
-             else{
-                 $restuarantPic='';
-             }
+                
+
             //put together restaurantreview except 2d array portion
             $resReviewParams = array();
             $resReviewParams['resID'] = $resID;
@@ -86,9 +83,9 @@
             else     
                 $flag = false;
             if(isset($_POST['reviewAnonymous']))
-                $resReviewParams['resVisible'] = false;
+                $resReviewParams['resVisible'] = False;
             else     
-                $resReviewParams['resVisible'] = true;
+                $resReviewParams['resVisible'] = True;
             
             //TODO:: code for sending image location too
 
