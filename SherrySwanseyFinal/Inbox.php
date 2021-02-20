@@ -30,65 +30,61 @@
                 <div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">
                     <div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">
                         <!--Foreach loop of each message chain they are part of-->
-                            <div class="col-md-3">
-                                <p class="text-left">
-                                    Topic <br>
-                                    <hr style="width:100%!important; border-top:2px solid white;"/>
-                                    &emsp; Status <br>
-                                    &emsp; Date Opened
+                        <div class="col-md-3">
+                            <p class="text-left">
+                                Topic <br>
+                                <hr style="width:100%!important; border-top:2px solid white;"/>
+                                &emsp; Status <br>
+                                &emsp; Date Opened
+                            </p>
+                        </div>
+                        <div id="row">
+                            <div class="col-md-12" style="margin-top:35px;">
+                                <p>
+                                    Hello we need to see a deed or copy of the lease along with photo ID to approve you.
                                 </p>
                             </div>
-                            <div id="row">
-                                <div class="col-md-12" style="margin-top:35px;">
-                                    <p>
-                                        Hello we need to see a deed or copy of the lease along with photo ID to approve you.
-                                    </p>
-                                </div>
-                            </div>
-                            <div id="row">
-                                <div class="col-md-3" style="margin-top:35px;">
-                                    <p>
-                                        MM/DD/YYYY <br>
-                                        HH:MM
-                                    </p>
-                                </div>
+                        </div>
+                        <div id="row">
+                            <div class="col-md-3" style="margin-top:35px;">
+                                <p>
+                                    MM/DD/YYYY <br>
+                                    HH:MM
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-            <!--
             <a href = "Chat.php" style="text-decoration: inherit;color: inherit; cursor: auto;">
                 <div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">
                     <div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">
-                            <div class="col-md-3">
-                                <p class="text-left">
-                                    Topic <br>
-                                    <hr style="width:100%!important; border-top:2px solid white;"/>
-                                    &emsp; Status <br>
-                                    &emsp; Date Opened
+                        <div class="col-md-3">
+                            <p class="text-left">
+                                Topic <br>
+                                <hr style="width:100%!important; border-top:2px solid white;"/>
+                                &emsp; Status <br>
+                                &emsp; Date Opened
+                            </p>
+                        </div>
+                        <div id="row">
+                            <div class="col-md-12" style="margin-top:35px;">
+                                <p>
+                                    Hello we need to see a deed or copy of the lease along with photo ID to approve you.
                                 </p>
                             </div>
-                            <div id="row">
-                                <div class="col-md-12" style="margin-top:35px;">
-                                    <p>
-                                        Hello we need to see a deed or copy of the lease along with photo ID to approve you.
-                                    </p>
-                                </div>
-                            </div>
-                            <div id="row">
-                                <div class="col-md-3" style="margin-top:35px;">
-                                    <p>
-                                        MM/DD/YYYY <br>
-                                        HH:MM
-                                    </p>
-                                </div>
+                        </div>
+                        <div id="row">
+                            <div class="col-md-3" style="margin-top:35px;">
+                                <p>
+                                    MM/DD/YYYY <br>
+                                    HH:MM
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-            -->
         </div>
     </div>
 </body>
