@@ -39,7 +39,7 @@
             <div class="container mr-auto mb-5">
                 <h1 class="display-4"style="font-family: textFont; color:#999;">
                     <?=$user['Username'];?>
-                    <a href="">
+                    <a href="Inbox.php">
                         <img src="misc/images/Mail_Icon.png" style="width:64px;height:64px;margin-top:-10px;">
                     </a>
                 </h1>
