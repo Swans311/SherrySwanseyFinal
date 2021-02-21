@@ -277,6 +277,12 @@
                     }
                 }
             ?>
+            <div class="text-center" style="margin-top:15px;">
+                Didn't find what you're looking for? 
+                <a href = "AddRestaurantReview.php" style="color:red">
+                    Leave the first review
+                </a>
+            </div>
         </div>
     </div>
 </body>
