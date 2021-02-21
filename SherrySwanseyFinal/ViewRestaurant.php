@@ -47,10 +47,10 @@
                                     echo '<div class="media-body">';
                                         echo '<div>';
                                             if($resRev['Visible']==false){
-                                                echo '<h3>'.$resRev['UserName'].'</h3>';
+                                                echo '<h3>Anonymous</h3>';
                                             }
                                             else{
-                                                echo '<h3>Anonymous</h3>';
+                                                echo '<h3>'.$resRev['UserName'].'</h3>';
                                             }
                                             
                                             echo '<h3>'.$resRev['Star_lvl'].' Stars</h3>';
