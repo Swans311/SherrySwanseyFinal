@@ -3,6 +3,7 @@
     include (__DIR__.'/model/ModelReview.php');
 
     $loop2=0; 
+    $resInfo=array();
 
     $uID=getUserID($_SESSION['email']);
     $user=getUserByID($uID);
@@ -12,6 +13,11 @@
         header('Location: Login.php');
         exit;
     }
+
+    if (checkResOwnerLogin($uID)==true){
+        $resInfoArray=findOwnedRes($uID);
+    }
+
 
     if(isset($_GET['Totalsearch'])){
         $src=filter_input(INPUT_GET,'Totalsearch');
@@ -31,50 +37,72 @@
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="container mr-auto mb-5">
-                <h1 class="display-4"style="font-family: titleFont;">
+                <h1 class="display-4"style="font-family: textFont; color:#999;">
                     <?=$user['Username'];?>
                     <a href="">
                         <img src="misc/images/Mail_Icon.png" style="width:64px;height:64px;margin-top:-10px;">
                     </a>
                 </h1>
-                <h1 class="display-4"><?=$user['FName'];?></h1>
-                <h1 class="display-5">Number of Reviews: <?=count($resReviewArray);?></h1>
-                <h1 class="display-5">Average Star Reviews: <?php echo number_format(calculateAvgStarRatingFromUser($uID), 2, '.', '');?></h1>
-            </div>
+                <h3 class="display-5"><?=$user['FName'];?></h3>
             <?php 
-                foreach($resReviewArray as $resReview)
-                {
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
-                        echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
-                            echo '<div class="media-body">';
-                                echo '<div>';
-                                    echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
-                                    echo '<h3>Stars: '. number_format($resReview['Star_lvl'], 2, '.', '') . '</h3>';
-                                    echo '<p style="min-height: 110px">' . $resReview['Review'] . '</p>';
-                                    echo '<p>Date: ' . $resReview['ReviewDate'] .'</p>'; 
-                                echo '</div>';
-                                $reviewArray = getItemsInRestaurantReview($resReview['ResReview_ID']);
-                                foreach($reviewArray as $review)
-                                {
-                                    echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
-                                    echo '<div class="media my-3">';
-                                        echo'<!-- Adjust image source-->';
-                                            echo'<div class="media-body">';
-                                                echo '<div class="mx-5">';
-                                                echo '<!-- Adjust data-->';
-                                                echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
-                                                echo '<h3>Stars '.number_format($review['Star_lvl'], 2, '.', '').'</h3>';
-                                                echo '<p>'.$review['Review'].' </p>';
+                if (checkResOwnerLogin($uID)==false){    
+                    echo '<h3 class="display-5">Number of Reviews: '.count($resReviewArray).'</h3>';
+                    echo '<h3 class="display-5">Average Star Reviews:  '.number_format(calculateAvgStarRatingFromUser($uID), 2, ".", "").'</h3>';
+                    echo '</div>';
+                    foreach($resReviewArray as $resReview)
+                    {
+                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                            echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
+                                echo '<div class="media-body">';
+                                    echo '<div>';
+                                        echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
+                                        echo '<h3>Stars: '. number_format($resReview['Star_lvl'], 2, '.', '') . '</h3>';
+                                        echo '<p style="min-height: 110px">' . $resReview['Review'] . '</p>';
+                                        echo '<p>Date: ' . $resReview['ReviewDate'] .'</p>'; 
+                                    echo '</div>';
+                                    $reviewArray = getItemsInRestaurantReview($resReview['ResReview_ID']);
+                                    foreach($reviewArray as $review)
+                                    {
+                                        echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
+                                        echo '<div class="media my-3">';
+                                            echo'<!-- Adjust image source-->';
+                                                echo'<div class="media-body">';
+                                                    echo '<div class="mx-5">';
+                                                    echo '<!-- Adjust data-->';
+                                                    echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
+                                                    echo '<h3>Stars '.number_format($review['Star_lvl'], 2, '.', '').'</h3>';
+                                                    echo '<p>'.$review['Review'].' </p>';
+                                                echo '</div>';
                                             echo '</div>';
                                         echo '</div>';
-                                    echo '</div>';
-                                }
+                                    }
+                                echo '</div>';
                             echo '</div>';
                         echo '</div>';
-                    echo '</div>';
+                    }
                 }
+                elseif(checkResOwnerLogin($uID)==true){
+                    echo '</div>';
+                    foreach($resInfoArray as $resInfo)
+                    {
+                        echo "<a href=ViewRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
+                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                            echo "<div style='margin-left:30%;'>"; //this is where a picture would go
+                                echo '<div style="width:180%;margin:15%;">';
+                                    echo '<h3 width:100%;>' . $resInfo['Restaurant_Name'] . '</h3>';
+                                    echo '<h3>'.round(calculateRestaurantStarRating($resInfo['Restaurant_ID']),2). ' Stars</h3>';
+                                    echo '<p>'.$resInfo['ResAddress'] . '</p>';
+                                    echo "</div>";
+                                echo '</div>';
+                            echo '</a>';
+                            echo "</div>";
+                        echo '</div>';
+                    }
+                }
+
             ?>
         </div>
+            </div>
     </div>
 </body>
 <footer>

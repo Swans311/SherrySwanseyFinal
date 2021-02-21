@@ -27,7 +27,7 @@
                 <img class="mr-3 align-self-center" style="height: 300px; width: 40%;" src="misc\images\Restaurant_Test.jpg" alt="img"/>
                 <div class="media-body ms-auto">
                     <?php
-                        echo '<h1 class="display-4"style="font-family: titleFont; width:50%">'.$restaurantInfo['Restaurant_Name'].'</h1>';
+                        echo '<h1 class="display-4"style="font-family: textFont;">'.$restaurantInfo['Restaurant_Name'].'</h1>';
                         echo '<h1 class="display-4" style="width:50%">'.round(calculateRestaurantStarRating($restaurantInfo['Restaurant_ID']),2).' Stars</h1>';
                         echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['ResAddress'].'</h1>';
                         echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['Phone'].'</h1>';
@@ -41,12 +41,18 @@
                 if(isset($_GET['id']))
                     foreach($restaurantReviews as $resRev)
                     {
-                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #448a9a,#e1b10f66)">';
+                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
                                 echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                                     echo '<div class="media-body">';
                                         echo '<div>';
-                                            echo '<h3>'.$resRev['UserName'].'</h3>';
+                                            if($resRev['Visible']==false){
+                                                echo '<h3>'.$resRev['UserName'].'</h3>';
+                                            }
+                                            else{
+                                                echo '<h3>Anonymous</h3>';
+                                            }
+                                            
                                             echo '<h3>'.$resRev['Star_lvl'].' Stars</h3>';
                                             echo '<p style="min-height: 110px">'.$resRev['Review'].'</p>';
                                             echo '<p>';
@@ -58,7 +64,12 @@
                                         {
                                             echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                             echo '<div class="media my-3">';
-                                                echo '<img class="mr-3 align-self-center" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
+                                                if(is_null($itemRev['Rimage'])){
+                                                    echo '<img class="mr-3 align-self-center" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
+                                                }
+                                                else{
+                                                    echo '<img class="mr-3 align-self-center" style="height: auto; width: 25%;" src="uploads"'.$itemRev["Rimage"].'" alt="img">';
+                                                }
                                                 echo '<div class="media-body">';
                                                     echo '<div>';
                                                         echo '<h3>'.getItemName($itemRev['Item_ID']).'</h3>';

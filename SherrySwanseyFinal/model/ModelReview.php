@@ -194,14 +194,14 @@
 
         $stmt1 = $db->prepare("UPDATE review SET Rimage = :Img WHERE (Review_ID = :revID)");
         
-        //var_dump($imageFilePath);
+        var_dump($imageFilePath);
         $stmt1->bindValue(":Img", $imageFilePath);
         $stmt1->bindValue(':revID', $revID);
 
         $stmt1->execute();
 
 
-        //return( $stmt->rowCount() > 0);
+        return( $stmt->rowCount() > 0);
     }
     function addRestaurantReview($restaurantID, $userID, $restaurantReview, $rating,  $anonymous, $imageFilePath, $itemReview2DList, $categories)
     {
@@ -235,7 +235,7 @@
         
 
         $success = $stmt->rowCount();
-        //var_dump($success);
+        var_dump($success);
 
         $stmt2 = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :userID ORDER BY ResReview_ID  DESC LIMIT 1");
         $stmt2 ->bindValue(":userID", $userID);
@@ -246,7 +246,7 @@
 
         $stmt1 = $db->prepare("UPDATE restaurantreview SET ResImage = :Img, Visible=:visible WHERE (ResReview_ID = :resRevID)");
         
-        //var_dump($imageFilePath);
+        var_dump($imageFilePath);
         $stmt1->bindValue(":Img", $imageFilePath);
         $stmt1->bindValue(':visible', $anonymous);
         $stmt1->bindValue(':resRevID', $resRevID);
@@ -1112,4 +1112,34 @@ function extractNames($tagsArray)
     foreach($tagsArray as $tag)
         array_push($returnArray, $tag['Name']);
     return $returnArray;
+}
+
+
+function checkResOwnerLogin($userID)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT ResOwner FROM rusers WHERE User_ID=:userID ");
+
+    $stmt->bindValue(':userID', $userID);
+    
+    $stmt->execute ();
+
+    return( $stmt->rowCount() > 0);
+}
+
+function findOwnedRes($userID){
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM restaurant WHERE ResOwnerID = :userID");
+
+    $stmt->bindValue(':userID', $userID);
+
+    $stmt->execute();
+
+    if ($stmt->execute() && $stmt->rowCount()>0){
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else{
+        $results='';
+    }
+    return $results;
 }
