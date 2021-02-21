@@ -83,9 +83,9 @@
             else     
                 $flag = false;
             if(isset($_POST['reviewAnonymous']))
-                $resReviewParams['resVisible'] = False;
+                $resReviewParams['resVisible'] = 0;
             else     
-                $resReviewParams['resVisible'] = True;
+                $resReviewParams['resVisible'] = 1;
             
             //TODO:: code for sending image location too
 
@@ -144,7 +144,7 @@
                 if($flag){
                     addRestaurantReview($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
                     //var_dump($resID, $uID, $resReviewParams['resReview'],  $resReviewParams['resRating'], $resReviewParams['resVisible'], $restaurantPic, $twoDimArray, $resReviewParams['categories']);
-                    header('Location: homepage.php');
+                    //header('Location: homepage.php');
                 }
             } 
             //add item reviews to array
