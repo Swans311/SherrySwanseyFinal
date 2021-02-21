@@ -817,7 +817,7 @@
     function getTagIdByNameAndRestaurant($name, $resID)
     {
         global $db;
-        $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Restaurant_ID = :resID");
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Name =:name AND Restaurant_ID = :resID");
 
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->bindValue(':resID', $resID, PDO::PARAM_STR);
@@ -831,7 +831,7 @@
     function getTagIdByNameAndItem($name, $itemID)
     {
         global $db;
-        $stmt = $db->prepare("SELECT Tag_ID FROM tags WHERE Name =:name AND Item_ID = :itemID");
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Name =:name AND Item_ID = :itemID");
 
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
