@@ -824,7 +824,7 @@
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $results['Tag_ID'];
+        return $results == false? false:$results['Tag_ID'];
     }
     //For getting the ID's when submitting a review to store in the review SQL
     function getTagIdByNameAndItem($name, $itemID)
@@ -838,7 +838,7 @@
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $results['Tag_ID'];
+        return $results == false? false:$results['Tag_ID'];
     }
     function addTagByRes($name, $resID)
     {
