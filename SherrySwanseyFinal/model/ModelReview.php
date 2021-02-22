@@ -180,7 +180,7 @@
         $stmt->bindValue(':username', getUsername($userID));
         $stmt->bindValue(':visible', $anonymous);
         $stmt->bindValue(':revDate', $dateTime);
-        $stmt->bindValue(':cat', implode($catArray, ','));
+        $stmt->bindValue(':cat', implode(',', $catArray));
         $stmt->bindValue(':resRevID', $resReviewID);
 
         $stmt->execute ();
@@ -213,21 +213,20 @@
         $catArray = array();
         foreach($tags as $tag)
         {
-            addTagByRes($tag, $restaurantID);
+            addTagByRes(trim($tag), $restaurantID);
             array_push($catArray, getTagIdByNameAndRestaurant($tag, $restaurantID));
         }
       
-        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate");
+        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Category = :cat");
       
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':review', $restaurantReview);
         $stmt->bindValue(':rating', $rating);
         $stmt->bindValue(':username', getUsername($userID));
+        $stmt->bindValue(':cat', implode(',', $catArray));
         $time = date('Y-m-d H:i:s');
         $stmt->bindValue(':revDate', $time);
-        //
-        //$stmt->bindValue(':cat', implode($catArray, ','));
         //$stmt->debugDumpParams();
 
         $stmt->execute();
