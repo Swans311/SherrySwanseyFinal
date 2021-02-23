@@ -176,7 +176,10 @@
                             echo '<div class="row">';
                                 echo '<div class="col">';
                                     echo '<h3>'.$resultByResName['Restaurant_Name'].'</h3>';
-                                    echo '<h3>'.round(calculateRestaurantStarRating($resultByResName['Restaurant_ID']),2 ).' Stars</h3>';
+                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                    echo '<span style="width:' . round(calculateRestaurantStarRating($resultByResName['Restaurant_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '</span></div>';
+                                    echo '<br>';
                                     echo '<h5>'.$resultByResName['ResAddress'].'</h5>';
                                     echo '<h5>'.$resultByResName['Phone'].'</h5>';
                                 echo '</div></div></div></div></div></a>';
@@ -194,7 +197,10 @@
                                 echo '<div class="col">';
                                     echo '<h3>'.$resultByItemName['ItemName'].'</h3>';
                                     echo '<h3>'.getRestaurantName($resultByItemName['Restaurant_ID']).'</h3>';
-                                    echo '<h3>'.round(calculateItemStarRating($resultByItemName['Item_ID']),2 ).' Stars</h3>';
+                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                    echo '<span style="width:' . round(calculateItemStarRating($resultByItemName['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '</span></div>';
+                                    echo '<br>';
                                     echo '<h5>'.implode(', ', extractNames(getCommonItemCategories($resultByItemName['Item_ID'], 3))).'</h5>';
                                 echo '</div></div></div></div></div></a>';
             }
@@ -211,7 +217,10 @@
                                 echo '<div class="col">';
                                     echo '<h3>'.getItemName($resultByItemCats['Item_ID']).'</h3>';
                                     echo '<h3>'.getRestaurantName($resultByItemCats['Restaurant_ID']).'</h3>';
-                                    echo '<h3>'.round(calculateItemStarRating($resultByItemCats['Item_ID']),2 ).' Stars</h3>';
+                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                    echo '<span style="width:' . round(calculateItemStarRating($resultByItemCats['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '</span></div>';
+                                    echo '<br>';
                                     echo '<h5>'.implode(', ', extractNames(getCommonItemCategories($resultByItemCats['Item_ID'], 3))).'</h5>';
                                 echo '</div></div></div></div></div></a>';
                 }
@@ -229,7 +238,10 @@
                             echo '<div class="row">';
                                 echo '<div class="col">';
                                     echo '<h3>'.$res['Restaurant_Name'].'</h3>';
-                                    echo '<h3>'.round(calculateRestaurantStarRating($resultByResCats['Restaurant_ID']),2 ).' Stars</h3>';
+                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                    echo '<span style="width:' . round(calculateRestaurantStarRating($resultByResCats['Restaurant_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '</span></div>';
+                                    echo '<br>';
                                     echo '<h5>'.$res['ResAddress'].'</h5>';
                                     echo '<h5>'.$res['Phone'].'</h5>';
                                 echo '</div></div></div></div></div></a>';
@@ -250,7 +262,10 @@
                                         echo '<div class="row">';
                                             echo '<div class="col">';
                                                 echo '<h3>'.$searchResult['Restaurant_Name'].'</h3>';
-                                                echo '<h3>'.round(calculateRestaurantStarRating($searchResult['Restaurant_ID']),2 ).' Stars</h3>';
+                                                echo '<div class="star-ratings-sprite" style="float:left;">';
+                                                echo '<span style="width:' . round(calculateRestaurantStarRating($searchResult['Restaurant_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                                echo '</span></div>';
+                                                echo '<br>';
                                                 echo '<h5>'.$searchResult['ResAddress'].'</h5>';
                                                 echo '<h5>'.$searchResult['Phone'].'</h5>';
                                             echo '</div></div></div></div></div></a>';
@@ -270,7 +285,10 @@
                                         echo '<div class="col">';
                                             echo '<h3>'.$searchResult['ItemName'].'</h3>';
                                             echo '<h3>'.getRestaurantName($searchResult['Restaurant_ID']).'</h3>';
-                                            echo '<h3>'.round(calculateItemStarRating($searchResult['Item_ID']),2 ).' Stars</h3>';
+                                            echo '<div class="star-ratings-sprite" style="float:left;">';
+                                            echo '<span style="width:' . round(calculateItemStarRating($searchResult['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                            echo '</span></div>';
+                                            echo '<br>';
                                             echo '<h5>'.implode(', ', getCommonItemCategories($searchResult['Item_ID'], 3)).'</h5>';
                                         echo '</div></div></div></div></div></a>';
                         }
