@@ -30,7 +30,10 @@
                         echo '<h1 class="display-4"style="font-family: titleFont;">'.$itemInfo['ItemName'].'</h1>';
                         echo '<h1 class="display-4"style="font-family: titleFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h1>';
                         echo '<h1 class="display-4">'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h1>';
-                        echo '<h1 class="display-4">'.round(calculateItemStarRating($itemInfo['Item_ID']),2 ).' Stars</h1>';
+                        echo '<div class="star-ratings-sprite" style="float:left;">';
+                        echo '<span style="width:' .round(calculateItemStarRating($itemInfo['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                        echo '</span></div>';
+                        echo '<br>';
                         echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$itemInfo['Restaurant_ID'].'`">Add Review</button>';
 
                     ?>
@@ -47,7 +50,10 @@
                                 echo '<div class="media-body">';
                                     echo '<div>';
                                         echo '<h3>'.getUsername($itemRev['User_ID']).'</h3>';
-                                        echo '<h3>'.$itemRev['Star_lvl'].' Stars</h3>';
+                                        echo '<div class="star-ratings-sprite" style="float:left;">';
+                                        echo '<span style="width:' . $itemRev['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                        echo '</span></div>';
+                                        echo '<br>';
                                         echo '<p>'.$itemRev['Review'].'</p>';
                                         echo '<p>';
                                         $tags = array();
