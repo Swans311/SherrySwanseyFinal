@@ -101,6 +101,38 @@
                                 echo '</div>';
                             echo '</a>';
                             echo "</div>";
+                    }
+                    echo "<br/><br/><br/>";
+                    echo '<h4>My Reviews </h4>';
+                    foreach($resReviewArray as $resReview)
+                    {
+                        echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                            echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
+                                echo '<div class="media-body">';
+                                    echo '<div>';
+                                        echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
+                                        echo '<h3>Stars: '. number_format($resReview['Star_lvl'], 2, '.', '') . '</h3>';
+                                        echo '<p style="min-height: 110px">' . $resReview['Review'] . '</p>';
+                                        echo '<p>Date: ' . $resReview['ReviewDate'] .'</p>'; 
+                                    echo '</div>';
+                                    $reviewArray = getItemsInRestaurantReview($resReview['ResReview_ID']);
+                                    foreach($reviewArray as $review)
+                                    {
+                                        echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
+                                        echo '<div class="media my-3">';
+                                            echo'<!-- Adjust image source-->';
+                                                echo'<div class="media-body">';
+                                                    echo '<div class="mx-5">';
+                                                    echo '<!-- Adjust data-->';
+                                                    echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
+                                                    echo '<h3>Stars '.number_format($review['Star_lvl'], 2, '.', '').'</h3>';
+                                                    echo '<p>'.$review['Review'].' </p>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</div>';
+                                    }
+                                echo '</div>';
+                            echo '</div>';
                         echo '</div>';
                     }
                 }     
