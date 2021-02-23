@@ -28,10 +28,13 @@
                 <div class="media-body ms-auto">
                     <?php
                         echo '<h1 class="display-4"style="font-family: textFont;">'.$restaurantInfo['Restaurant_Name'].'</h1>';
-                        echo '<h1 class="display-4" style="width:50%">'.round(calculateRestaurantStarRating($restaurantInfo['Restaurant_ID']),2).' Stars</h1>';
+                        echo '<div class="star-ratings-sprite" style="float:left;">';
+                        echo '<span style="width:' . round(calculateRestaurantStarRating($restaurantInfo['Restaurant_ID']),2) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                        echo '</span></div>';
+                        echo '<br>';
                         echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['ResAddress'].'</h1>';
                         echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['Phone'].'</h1>';
-                        echo '<h1 class="display-5" style="width:50%"><a href = "'.$restaurantInfo['Restaurant_URL'].'" target="_blank">Restaurant Site</a></h1>';
+                        echo '<h1 class="display-5" style="width:50%"><a href = "'.$restaurantInfo['Restaurant_URL'].'" style="color:red;" target="_blank">Website</a></h1>';
                         echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?RestaurantID='.$restaurantInfo['Restaurant_ID'].'`">Add Review</button>';
 
                     ?>
@@ -53,7 +56,10 @@
                                                 echo '<h3>'.$resRev['UserName'].'</h3>';
                                             }
                                             
-                                            echo '<h3>'.$resRev['Star_lvl'].' Stars</h3>';
+                                            echo '<div class="star-ratings-sprite" style="float:left;">';
+                                            echo '<span style="width:' . $resRev['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                            echo '</span></div>';
+                                            echo '<br>';
                                             echo '<p style="min-height: 110px">'.$resRev['Review'].'</p>';
                                             echo '<p>';
                                             foreach(explode(',', $resRev['Category']) as $tagID)
@@ -73,7 +79,10 @@
                                                 echo '<div class="media-body">';
                                                     echo '<div>';
                                                         echo '<h3>'.getItemName($itemRev['Item_ID']).'</h3>';
-                                                        echo '<h3>'.$itemRev['Star_lvl'].' Stars</h3>';
+                                                        echo '<div class="star-ratings-sprite" style="float:left;">';
+                                                        echo '<span style="width:' . $itemRev['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                                        echo '</span></div>';
+                                                        echo '<br>';
                                                         echo '<p>'.$itemRev['Review'].'</p>';
                                                         echo '<p>';
                                                         $tags = array();
