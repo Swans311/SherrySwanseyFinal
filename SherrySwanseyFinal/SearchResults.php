@@ -169,7 +169,7 @@
                 foreach($resultsByResName as $resultByResName)
                 {
                     echo '<a href = "ViewRestaurant.php?id='.$resultByResName['Restaurant_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #f71a08, #e75480))">';
+                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
@@ -202,7 +202,7 @@
             if(isset($resultsByItemCats)){
                 foreach($resultsByItemCats as $resultByItemCats){
                     echo '<a href = "ViewItem.php?id='.$resultByItemCats['Item_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center,#e75480,#f71a08)">';
+                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
@@ -222,7 +222,7 @@
                 {
                     $res = getRestaurantById($resultByResCats['Restaurant_ID']);
                     echo '<a href = "ViewRestaurant.php?id='.$res['Restaurant_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #f71a08, #e75480)">';
+                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
@@ -242,7 +242,7 @@
                         foreach($searchResults as $searchResult)
                         {
                             echo '<a href = "ViewRestaurant.php?id='.$searchResult['Restaurant_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                            echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #f71a08, #e75480)">';
+                            echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                                 echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                                     /*Adjust image source*/
                                     echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';

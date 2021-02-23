@@ -1138,7 +1138,7 @@ function findOwnedRes($userID){
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     else{
-        $results='';
+        $results=false;
     }
     return $results;
 }

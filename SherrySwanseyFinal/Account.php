@@ -3,7 +3,8 @@
     include (__DIR__.'/model/ModelReview.php');
 
     $loop2=0; 
-    $resInfo=array();
+    $resInfoArray=[];
+
 
     $uID=getUserID($_SESSION['email']);
     $user=getUserByID($uID);
@@ -14,9 +15,14 @@
         exit;
     }
 
-    if (checkResOwnerLogin($uID)==true){
+    if ($user['ResOwner']==True){
+        $owner=True;
         $resInfoArray=findOwnedRes($uID);
     }
+    else{
+        $owner=False;
+    }
+    
 
 
     if(isset($_GET['Totalsearch'])){
@@ -44,8 +50,8 @@
                     </a>
                 </h1>
                 <h3 class="display-5"><?=$user['FName'];?></h3>
-            <?php 
-                if (checkResOwnerLogin($uID)==false){    
+            <?php
+                if($owner!=True){
                     echo '<h3 class="display-5">Number of Reviews: '.count($resReviewArray).'</h3>';
                     echo '<h3 class="display-5">Average Star Reviews:  '.number_format(calculateAvgStarRatingFromUser($uID), 2, ".", "").'</h3>';
                     echo '</div>';
@@ -81,8 +87,7 @@
                         echo '</div>';
                     }
                 }
-                elseif(checkResOwnerLogin($uID)==true){
-                    echo '</div>';
+                elseif($owner==True){echo '</div>';
                     foreach($resInfoArray as $resInfo)
                     {
                         echo "<a href=ViewRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
@@ -98,7 +103,9 @@
                             echo "</div>";
                         echo '</div>';
                     }
-                }
+                }     
+
+                
 
             ?>
         </div>
