@@ -53,7 +53,11 @@
             <?php
                 if($owner!=True){
                     echo '<h3 class="display-5">Number of Reviews: '.count($resReviewArray).'</h3>';
-                    echo '<h3 class="display-5">Average Star Reviews:  '.number_format(calculateAvgStarRatingFromUser($uID), 2, ".", "").'</h3>';
+                    echo '<h3 class="display-5">Average Star Reviews:</h3>';
+                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                        echo '<span style="width:' . number_format(calculateAvgStarRatingFromUser($uID), 2, ".", "") * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                    echo '</span></div>';
+                    echo '<br>';
                     echo '</div>';
                     foreach($resReviewArray as $resReview)
                     {
@@ -62,7 +66,10 @@
                                 echo '<div class="media-body">';
                                     echo '<div>';
                                         echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
-                                        echo '<h3>Stars: '. number_format($resReview['Star_lvl'], 2, '.', '') . '</h3>';
+                                        echo '<div class="star-ratings-sprite" style="float:left;">';
+                                        echo '<span style="width:' . number_format($resReview['Star_lvl'], 2, '.', '') * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                        echo '</span></div>';
+                                        echo '<br>';
                                         echo '<p style="min-height: 110px">' . $resReview['Review'] . '</p>';
                                         echo '<p>Date: ' . $resReview['ReviewDate'] .'</p>'; 
                                     echo '</div>';
@@ -76,7 +83,10 @@
                                                     echo '<div class="mx-5">';
                                                     echo '<!-- Adjust data-->';
                                                     echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
-                                                    echo '<h3>Stars '.number_format($review['Star_lvl'], 2, '.', '').'</h3>';
+                                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                                    echo '<span style="width:' . number_format($review['Star_lvl'], 2, '.', '')* 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                                    echo '</span></div>';
+                                                    echo '<br>';
                                                     echo '<p>'.$review['Review'].' </p>';
                                                 echo '</div>';
                                             echo '</div>';
@@ -95,7 +105,10 @@
                             echo "<div style='margin-left:30%;'>"; //this is where a picture would go
                                 echo '<div style="width:180%;margin:15%;">';
                                     echo '<h3 width:100%;>' . $resInfo['Restaurant_Name'] . '</h3>';
-                                    echo '<h3>'.round(calculateRestaurantStarRating($resInfo['Restaurant_ID']),2). ' Stars</h3>';
+                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                    echo '<span style="width:' . round(calculateRestaurantStarRating($resInfo['Restaurant_ID']),2)* 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '</span></div>';
+                                    echo '<br>';
                                     echo '<p>'.$resInfo['ResAddress'] . '</p>';
                                     echo "</div>";
                                 echo '</div>';
