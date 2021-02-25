@@ -168,8 +168,8 @@
             if($resultsByResName!=''){
                 foreach($resultsByResName as $resultByResName)
                 {
-                    echo '<a href = "ViewRestaurant.php?id='.$resultByResName['Restaurant_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                    echo '<a href = "ViewRestaurant.php?id='.$resultByResName['Restaurant_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: #0cf; cursor: auto;">';
+                    echo '<div class="row border border-white rounded m-2" style="background-color: white; background-size:25%; background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
@@ -187,8 +187,8 @@
             }
             if($resultsByItemName!=''){
                 foreach($resultsByItemName as $resultByItemName){
-                    echo '<a href = "ViewItem.php?id='.$resultByItemName['Item_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                    echo '<a href = "ViewItem.php?id='.$resultByItemName['Item_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: #0cf; cursor: auto;">';
+                    echo '<div class="row border border-white rounded m-2" style="background-color: white; background-size:25%; background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
@@ -207,8 +207,8 @@
             }
             if(isset($resultsByItemCats)){
                 foreach($resultsByItemCats as $resultByItemCats){
-                    echo '<a href = "ViewItem.php?id='.$resultByItemCats['Item_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                    echo '<a href = "ViewItem.php?id='.$resultByItemCats['Item_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: #0cf; cursor: auto;">';
+                    echo '<div class="row border border-white rounded m-2" style="background-color: white; background-size:25%; background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
@@ -230,8 +230,8 @@
                 foreach($resultsByResCats as $resultByResCats)
                 {
                     $res = getRestaurantById($resultByResCats['Restaurant_ID']);
-                    echo '<a href = "ViewRestaurant.php?id='.$res['Restaurant_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                    echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                    echo '<a href = "ViewRestaurant.php?id='.$res['Restaurant_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: #0cf; cursor: auto;">';
+                    echo '<div class="row border border-white rounded m-2" style="background-color: white; background-size:25%; background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
@@ -253,8 +253,8 @@
                     if($_GET['type'] == 'restaurant')
                         foreach($searchResults as $searchResult)
                         {
-                            echo '<a href = "ViewRestaurant.php?id='.$searchResult['Restaurant_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                            echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                            echo '<a href = "ViewRestaurant.php?id='.$searchResult['Restaurant_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: #0cf; cursor: auto;">';
+                            echo '<div class="row border border-white rounded m-2" style="background-color: white; background-size:25%; background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);">';
                                 echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                                     /*Adjust image source*/
                                     echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
@@ -275,8 +275,8 @@
                     {
                         foreach($searchResults as $searchResult)
                         {
-                            echo '<a href = "ViewItem.php?id='.$searchResult['Item_ID'].'" style="text-decoration: inherit;color: inherit; cursor: auto;">';
-                            echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                            echo '<a href = "ViewItem.php?id='.$searchResult['Item_ID'].'" style="text-decoration: inherit; text-shadow: -1px 1px #000; color: #0cf; cursor: auto;">';
+                            echo '<div class="row border border-white rounded m-2" style="background-color: white; background-size:25%; background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);">';
                             echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                                 /*Adjust image source*/
                                 echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
@@ -297,7 +297,7 @@
             ?>
             <div class="text-center" style="margin-top:15px;">
                 Didn't find what you're looking for? 
-                <a href = "AddRestaurantReview.php" style="color:red">
+                <a href = "AddRestaurantReview.php" style="color:#ff3300">
                     Leave the first review
                 </a>
             </div>
@@ -306,7 +306,7 @@
 </body>
 <footer>
   <br/>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.4); color:red; font-size:16px">
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:
     <a class="text-blue" href="AboutUs.php">About Us</a>
   </div>

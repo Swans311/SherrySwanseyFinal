@@ -2,6 +2,8 @@
     include(__DIR__.'/NavBar.php');
     include(__DIR__.'/model/ModelReview.php');
     
+    $uID=getUserID($_SESSION['email']);
+
     $restaurantInfo = getRestaurantByID($_GET['id']);
     $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
 
@@ -32,9 +34,9 @@
                         echo '<span style="width:' . round(calculateRestaurantStarRating($restaurantInfo['Restaurant_ID']),2) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                         echo '</span></div>';
                         echo '<br>';
-                        echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['ResAddress'].'</h1>';
-                        echo '<h1 class="display-5" style="width:50%">'.$restaurantInfo['Phone'].'</h1>';
-                        echo '<h1 class="display-5" style="width:50%"><a href = "'.$restaurantInfo['Restaurant_URL'].'" style="color:red;" target="_blank">Website</a></h1>';
+                        echo '<h3 class="display-5" style="width:50%">'.$restaurantInfo['ResAddress'].'</h3>';
+                        echo '<h3 class="display-5" style="width:50%">'.$restaurantInfo['Phone'].'</h3>';
+                        echo '<h3 class="display-5" style="width:50%"><a href = "'.$restaurantInfo['Restaurant_URL'].'" style="color:red;" target="_blank">Website</a></31>';
                         echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?RestaurantID='.$restaurantInfo['Restaurant_ID'].'`">Add Review</button>';
 
                     ?>
@@ -101,7 +103,7 @@
 </body>
 <footer>
   <br/>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.4); color:red; font-size:16px">
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:
     <a class="text-blue" href="AboutUs.php">About Us</a>
   </div>
