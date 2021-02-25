@@ -42,6 +42,10 @@
                     ?>
                 </div>
             </div>
+            <div class="container gz-div-inner mx-auto text-center py-5 text-white" style="font-family: textFont;marign-bot:-30px;margin-top:-30px;">
+                <a class="btn btn-dark" href="Inbox.php" style="width:160px;">Reviews</a>
+                <a class="btn btn-outline-light" href="RestaurantMenu.php" style="margin-left:-5px;width:160px;">Menu</a>
+            </div>
             <?php
                 if(isset($_GET['id']))
                     foreach($restaurantReviews as $resRev)
