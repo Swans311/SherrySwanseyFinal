@@ -918,6 +918,71 @@
         }
         return ($results);
     }
+    function incrementSearchID($searchID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE searches SET Counter = Counter + 1 WHERE Search_ID=:searchID");
+        
+        $stmt->bindValue(':searchID', $searchID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
+    }
+    function decrementSearchID($searchID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE searches SET Counter = Counter - 1 WHERE Search_ID=:searchID");
+        
+        $stmt->bindValue(':searchID', $searchID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
+    }
+    function getSearchIdByTerm($term)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM searches WHERE Term LIKE :term");
+
+        $stmt->bindValue(':term', '%' . $term . '%', PDO::PARAM_STR);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results == false? false:$results['Search_ID'];
+    }
+    function addSearchTerm($term)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $tagID = getSearchIdByTerm($term);
+        if($tagID == false)//If tag not found add it
+        {
+            $stmt = $db->prepare("INSERT INTO searches SET Counter = 1, Name = :name");
+
+            $stmt -> bindValue(':name', $name);
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+                $results = 'Data Added';
+            else
+                $results = 'Data failed to add';
+        }
+        else
+        {
+            incrementTagID($tagID);//if tag exists increment it by 1
+            $results = 'Tag Counter Incremented';
+        }
+        return ($results);
+    }
 
     /*
         #############################################################################################
@@ -1141,4 +1206,47 @@ function findOwnedRes($userID){
         $results=false;
     }
     return $results;
+}
+
+################################################
+#
+# AJAX Stuff
+#
+#################################################
+function getMatchingSearchTerms($term)
+{
+    global $db;
+    $sql = "SELECT Term FROM searches WHERE Term LIKE :term LIMIT 8";
+    $stmt = $db->query($sql);
+
+    $stmt->bindValue(':term', $term);
+
+    $terms = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+    $results = array();
+
+    foreach ($terms as $term)
+    {
+        array_push($results, $term['Term']);
+    }
+    return json_encode($results);
+}
+function getRecentMessageRespondingTo($id)
+{
+    global $db;
+    $sql = "SELECT * FROM adminmessage WHERE RespondingTo = :id";
+    $stmt = $db->query($sql);
+
+    $stmt->bindValue(':id', $id);
+
+    //should only be one
+    $messages = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+    $results = array();
+
+    //Should only run once
+    foreach ($messages as $message)
+    {
+        array_push($results, $message);
+    }
+
+    return json_encode($results);
 }
