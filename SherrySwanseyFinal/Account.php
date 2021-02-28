@@ -100,7 +100,7 @@
                 elseif($owner==True){echo '</div>';
                     foreach($resInfoArray as $resInfo)
                     {
-                        echo "<a href=ViewRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
+                        echo "<a href=ViewOwnedRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo "<div style='margin-left:30%;'>"; //this is where a picture would go
                                 echo '<div style="width:180%;margin:15%;">';

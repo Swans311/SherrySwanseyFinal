@@ -2,8 +2,6 @@
     include(__DIR__.'/NavBar.php');
     include(__DIR__.'/model/ModelReview.php');
     
-    $uID=getUserID($_SESSION['email']);
-
     $restaurantInfo = getRestaurantByID($_GET['id']);
     $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
 
@@ -97,6 +95,14 @@
                                                         echo implode(', ', $tags);
                                                         echo '</p>';
                                                     echo '</div></div></div>';
+                                                    if($resRev['Response']==NULL){
+                                                        //echo '<button class="btn btn-dark"><a href="addResponse.php?id='.$resRev['ResReview_ID'].'"> Respond </button>';
+                                                    }
+                                                    else{
+                                                        echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
+                                                        echo '<h5>Message from Owner: </h5>';
+                                                        echo '<p>'.$resRev['Response'].'</p>';
+                                                    }
                                         }
                                         echo '</div></div></div>';
 
