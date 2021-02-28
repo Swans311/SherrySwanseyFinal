@@ -1208,6 +1208,48 @@ function findOwnedRes($userID){
     return $results;
 }
 
+function addResponse($response, $resReviewID){
+    global $db;
+    $stmt = $db->prepare("UPDATE restaurantreview SET Response = :Response WHERE ResReview_ID = :resReviewID");
+
+    $stmt->bindValue(':Response', $response);
+    $stmt->bindValue(':resReviewID', $resReviewID);
+
+    $stmt->execute();
+}
+
+function getResReviewID($res_ID)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM restaurantreview WHERE Restaurant_ID =:ID");
+
+        $stmt->bindValue(':ID', $res_ID);
+
+        $stmt->execute();
+        if ($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results=false;
+        }
+        return $results;
+    }
+
+    function findReview($resReview_ID){
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM restaurantreview WHERE ResReview_ID = :resRevID");
+
+        $stmt->bindValue(':resRevID', $resReview_ID);
+
+        $stmt->execute();
+        if ($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results=false;
+        }
+        return $results;
+    }
 ################################################
 #
 # AJAX Stuff

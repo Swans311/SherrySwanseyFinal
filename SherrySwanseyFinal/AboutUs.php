@@ -73,7 +73,7 @@
 </body>
 <footer>
   <br/>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.4); color:red; font-size:16px">
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:
     <a class="text-blue" href="AboutUs.php">About Us</a>
   </div>
