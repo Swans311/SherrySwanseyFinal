@@ -983,6 +983,94 @@
         }
         return ($results);
     }
+    function getAllMessagesInThread($threadID)
+    {
+        global $db;
+
+        $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':threadID', $threadID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $returnArray = array();
+
+        foreach($results as $result)
+        {
+            array_push($returnArray, $result);
+        }
+
+        return $flag ? $results : $flag;
+    }
+    function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $stmt = $db->prepare("INSERT INTO searches SET Thread_ID = :threadID, RespondingTo_ID = :respondingToID, Sender_ID = :senderID, Recipient_ID = :recipientID, Message = :message, TimeSent = :timeSent, Topic = :topic, ThreadClosed = :threadClosed");
+
+        $stmt -> bindValue(':threadID', $threadID);
+        $stmt -> bindValue(':respondingToID', $respondingToID);
+        $stmt -> bindValue(':senderID', $senderID);
+        $stmt -> bindValue(':recipientID', $recipientID);
+        $stmt -> bindValue(':message', $message);
+        $stmt -> bindValue(':timeSent', date('Y-m-d H:i:s'));
+        $stmt -> bindValue(':topic', $topic);
+        $stmt -> bindValue(':threadClosed', $threadClosed);
+        
+        if ($stmt->execute() && $stmt->rowCount() > 0) 
+        {
+            $results = 'Data Added';
+        }
+        
+        return ($results);
+    }
+    function getAllMessageThreadsForUser($userID)
+    {
+        global $db;
+
+        $string = "SELECT DISTINCT Thread_ID FROM searches WHERE Sender_ID = :userID OR Recipient_ID = :userID";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':userID', $userID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $flag = false;
+
+        foreach($results as $result)
+        {
+            if($result['Message_ID'] != $mostRecentClientMessageID)
+                $flag = true; 
+        }
+
+        return $flag ? $results : $flag;
+    }
+    function getNewMessageInThread($threadID, $mostRecentClientMessageID)
+    {
+        global $db;
+
+        $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':threadID', $threadID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $flag = false;
+        //Should run once
+        //TODO:: edit to account for rapid back-to-back messages
+        foreach($results as $result)
+        {
+            if($result['Message_ID'] != $mostRecentClientMessageID)
+                $flag = true; 
+        }
+
+        return $flag ? $results : $flag;
+    }
 
     /*
         #############################################################################################
