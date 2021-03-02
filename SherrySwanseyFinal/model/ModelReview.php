@@ -983,27 +983,6 @@
         }
         return ($results);
     }
-    function getAllMessagesInThread($threadID)
-    {
-        global $db;
-
-        $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
-        //get connected ItemReviews
-        $stmt = $db->prepare($string);
-        $stmt->bindValue(':threadID', $threadID);
-
-        $stmt->execute();
-        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
-
-        $returnArray = array();
-
-        foreach($results as $result)
-        {
-            array_push($returnArray, $result);
-        }
-
-        return json_encode($returnArray);
-    }
     function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
     {
         global $db;
@@ -1047,29 +1026,6 @@
         }
 
         return $flag ? $results : $flag;
-    }
-    function getNewMessageInThread($threadID, $mostRecentClientMessageID)
-    {
-        global $db;
-
-        $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
-        //get connected ItemReviews
-        $stmt = $db->prepare($string);
-        $stmt->bindValue(':threadID', $threadID);
-
-        $stmt->execute();
-        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
-
-        $flag = false;
-        //Should run once
-        //TODO:: edit to account for rapid back-to-back messages
-        foreach($results as $result)
-        {
-            if($result['Message_ID'] != $mostRecentClientMessageID)
-                $flag = true; 
-        }
-
-        return $flag ? json_encode($results) : $flag;
     }
 
     /*
@@ -1379,4 +1335,49 @@ function getRecentMessageRespondingTo($id)
     }
 
     return json_encode($results);
+}
+//Might not be needed
+function getNewMessageInThread($threadID, $mostRecentClientMessageID)
+{
+    global $db;
+
+    $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
+    //get connected ItemReviews
+    $stmt = $db->prepare($string);
+    $stmt->bindValue(':threadID', $threadID);
+
+    $stmt->execute();
+    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+    $flag = false;
+    //Should run once
+    //TODO:: edit to account for rapid back-to-back messages
+    foreach($results as $result)
+    {
+        if($result['Message_ID'] != $mostRecentClientMessageID)
+            $flag = true; 
+    }
+
+    return $flag ? json_encode($results) : $flag;
+}
+function getAllMessagesInThread($threadID)
+{
+    global $db;
+
+    $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
+    //get connected ItemReviews
+    $stmt = $db->prepare($string);
+    $stmt->bindValue(':threadID', $threadID);
+
+    $stmt->execute();
+    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+    $returnArray = array();
+
+    foreach($results as $result)
+    {
+        array_push($returnArray, $result);
+    }
+
+    return json_encode($returnArray);
 }
