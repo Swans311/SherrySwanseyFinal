@@ -1027,6 +1027,27 @@
 
         return $flag ? $results : $flag;
     }
+    function getAllMessagesInThread($threadID)
+    {
+        global $db;
+
+        $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':threadID', $threadID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $returnArray = array();
+
+        foreach($results as $result)
+        {
+            array_push($returnArray, $result);
+        }
+
+        return $returnArray;
+    }   
 
     /*
         #############################################################################################
@@ -1359,25 +1380,4 @@ function getNewMessageInThread($threadID, $mostRecentClientMessageID)
     }
 
     return $flag ? json_encode($results) : $flag;
-}
-function getAllMessagesInThread($threadID)
-{
-    global $db;
-
-    $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
-    //get connected ItemReviews
-    $stmt = $db->prepare($string);
-    $stmt->bindValue(':threadID', $threadID);
-
-    $stmt->execute();
-    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
-
-    $returnArray = array();
-
-    foreach($results as $result)
-    {
-        array_push($returnArray, $result);
-    }
-
-    return json_encode($returnArray);
 }
