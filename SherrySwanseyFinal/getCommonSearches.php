@@ -1,7 +1,7 @@
 <?php
 
-include (__DIR__ . '/model/model_disney.php');
+include (__DIR__ . '/model/ModelReview.php');
 
 
-echo json_encode(getCharacters());
+echo json_encode(getMatchingSearchTerms($term));
 ?>
