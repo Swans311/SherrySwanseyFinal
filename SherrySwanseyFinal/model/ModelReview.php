@@ -963,13 +963,14 @@
     function addSearchTerm($term)
     {
         global $db;
+
         $results = 'Data NOT Added';
         $tagID = getSearchIdByTerm($term);
         if($tagID == false)//If tag not found add it
         {
-            $stmt = $db->prepare("INSERT INTO searches SET Counter = 1, Name = :name");
+            $stmt = $db->prepare("INSERT INTO searches SET Counter = 1, Term = :term");
 
-            $stmt -> bindValue(':name', $name);
+            $stmt -> bindValue(':term', $term);
 
             if ($stmt->execute() && $stmt->rowCount() > 0) 
                 $results = 'Data Added';
@@ -981,6 +982,7 @@
             incrementTagID($tagID);//if tag exists increment it by 1
             $results = 'Tag Counter Incremented';
         }
+        var_dump($results);
         return ($results);
     }
     function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
