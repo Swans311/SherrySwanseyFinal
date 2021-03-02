@@ -1002,7 +1002,7 @@
             array_push($returnArray, $result);
         }
 
-        return $flag ? $results : $flag;
+        return json_encode($returnArray);
     }
     function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
     {
@@ -1069,7 +1069,7 @@
                 $flag = true; 
         }
 
-        return $flag ? $results : $flag;
+        return $flag ? json_encode($results) : $flag;
     }
 
     /*
