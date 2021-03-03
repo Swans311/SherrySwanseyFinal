@@ -966,9 +966,10 @@
 
         $results = 'Data NOT Added';
         $tagID = getSearchIdByTerm($term);
+        
         if($tagID == false)//If tag not found add it
         {
-            $stmt = $db->prepare("INSERT INTO searches SET Counter = 1, Term = :term");
+            $stmt = $db->prepare("INSERT INTO searches SET Term = :term");
 
             $stmt -> bindValue(':term', $term);
 
@@ -979,10 +980,9 @@
         }
         else
         {
-            incrementTagID($tagID);//if tag exists increment it by 1
+            incrementSearchID($tagID);//if tag exists increment it by 1
             $results = 'Tag Counter Incremented';
         }
-        var_dump($results);
         return ($results);
     }
     function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
@@ -1011,7 +1011,7 @@
     {
         global $db;
 
-        $string = "SELECT DISTINCT Thread_ID FROM searches WHERE Sender_ID = :userID OR Recipient_ID = :userID";
+        $string = "SELECT DISTINCT Thread_ID FROM adminmessage WHERE Sender_ID = :userID OR Recipient_ID = :userID";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':userID', $userID);
@@ -1020,12 +1020,6 @@
         $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
 
         $flag = false;
-
-        foreach($results as $result)
-        {
-            if($result['Message_ID'] != $mostRecentClientMessageID)
-                $flag = true; 
-        }
 
         return $flag ? $results : $flag;
     }
@@ -1049,8 +1043,24 @@
         }
 
         return $returnArray;
-    }   
+    }       
+    //Might not be needed
+    function getNewMessageInThread($threadID)
+    {
+        global $db;
 
+        $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':threadID', $threadID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $flag = false;
+
+        return $results;
+    }
     /*
         #############################################################################################
         These would have been in fucntions.php but to avoid recursive includes I put them here
@@ -1358,28 +1368,4 @@ function getRecentMessageRespondingTo($id)
     }
 
     return json_encode($results);
-}
-//Might not be needed
-function getNewMessageInThread($threadID, $mostRecentClientMessageID)
-{
-    global $db;
-
-    $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
-    //get connected ItemReviews
-    $stmt = $db->prepare($string);
-    $stmt->bindValue(':threadID', $threadID);
-
-    $stmt->execute();
-    $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
-
-    $flag = false;
-    //Should run once
-    //TODO:: edit to account for rapid back-to-back messages
-    foreach($results as $result)
-    {
-        if($result['Message_ID'] != $mostRecentClientMessageID)
-            $flag = true; 
-    }
-
-    return $flag ? json_encode($results) : $flag;
 }
