@@ -109,7 +109,7 @@
                                                         echo '</p>';
                                                     echo '</div></div></div>';
                                                     if($resRev['Response']==NULL){
-                                                        echo '<button class="btn btn-dark"><a href="addResponse.php?id='.$resRev['ResReview_ID'].'"> Respond </button>';
+                                                        echo '<button class="btn btn-dark"><a href="AddResponse.php?id='.$resRev['ResReview_ID'].'"> Respond </a></button>';
                                                     }
                                                     else{
                                                         echo '<hr style="width:100%!important; border-top:2px solid white;"/>';

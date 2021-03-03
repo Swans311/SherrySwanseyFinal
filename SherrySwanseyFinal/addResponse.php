@@ -90,10 +90,3 @@
 </html>
 
 
-<!--
-echo "<form method='POST'>";
-                                                    echo '<div class="col form-group">';
-                                                    echo '<h2 class="text-white" style="font-family: textFont">Response: </h2>';?>
-                                                    <textarea name="response" class="form-control" rows="6"><?=isset($_POST['restaurantReview'])? $_POST['restaurantReview']: ''?></textarea>
-                                                 echo `<button id="submitButton" class="btn btn-outline-light mx-3" name="submit" type="submit">Submit</button>`;
-                                                echo '</div>';-->
