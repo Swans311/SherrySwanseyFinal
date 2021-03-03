@@ -918,7 +918,149 @@
         }
         return ($results);
     }
+    function incrementSearchID($searchID)
+    {
+        global $db;
 
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE searches SET Counter = Counter + 1 WHERE Search_ID=:searchID");
+        
+        $stmt->bindValue(':searchID', $searchID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
+    }
+    function decrementSearchID($searchID)
+    {
+        global $db;
+
+        $results = "Data NOT Updated";
+        
+        $stmt = $db->prepare("UPDATE searches SET Counter = Counter - 1 WHERE Search_ID=:searchID");
+        
+        $stmt->bindValue(':searchID', $searchID);
+      
+        if ($stmt->execute() && $stmt->rowCount() > 0) {
+            $results = 'Data Updated';
+        }
+        return ($results);
+    }
+    function getSearchIdByTerm($term)
+    {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM searches WHERE Term LIKE :term");
+
+        $stmt->bindValue(':term', '%' . $term . '%', PDO::PARAM_STR);
+
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results == false? false:$results['Search_ID'];
+    }
+    function addSearchTerm($term)
+    {
+        global $db;
+
+        $results = 'Data NOT Added';
+        $tagID = getSearchIdByTerm($term);
+        
+        if($tagID == false)//If tag not found add it
+        {
+            $stmt = $db->prepare("INSERT INTO searches SET Term = :term");
+
+            $stmt -> bindValue(':term', $term);
+
+            if ($stmt->execute() && $stmt->rowCount() > 0) 
+                $results = 'Data Added';
+            else
+                $results = 'Data failed to add';
+        }
+        else
+        {
+            incrementSearchID($tagID);//if tag exists increment it by 1
+            $results = 'Tag Counter Incremented';
+        }
+        return ($results);
+    }
+    function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
+    {
+        global $db;
+        $results = 'Data NOT Added';
+        $stmt = $db->prepare("INSERT INTO searches SET Thread_ID = :threadID, RespondingTo_ID = :respondingToID, Sender_ID = :senderID, Recipient_ID = :recipientID, Message = :message, TimeSent = :timeSent, Topic = :topic, ThreadClosed = :threadClosed");
+
+        $stmt -> bindValue(':threadID', $threadID);
+        $stmt -> bindValue(':respondingToID', $respondingToID);
+        $stmt -> bindValue(':senderID', $senderID);
+        $stmt -> bindValue(':recipientID', $recipientID);
+        $stmt -> bindValue(':message', $message);
+        $stmt -> bindValue(':timeSent', date('Y-m-d H:i:s'));
+        $stmt -> bindValue(':topic', $topic);
+        $stmt -> bindValue(':threadClosed', $threadClosed);
+        
+        if ($stmt->execute() && $stmt->rowCount() > 0) 
+        {
+            $results = 'Data Added';
+        }
+        
+        return ($results);
+    }
+    function getAllMessageThreadsForUser($userID)
+    {
+        global $db;
+
+        $string = "SELECT DISTINCT Thread_ID FROM adminmessage WHERE Sender_ID = :userID OR Recipient_ID = :userID";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':userID', $userID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $flag = false;
+
+        return $flag ? $results : $flag;
+    }
+    function getAllMessagesInThread($threadID)
+    {
+        global $db;
+
+        $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':threadID', $threadID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $returnArray = array();
+
+        foreach($results as $result)
+        {
+            array_push($returnArray, $result);
+        }
+
+        return $returnArray;
+    }       
+    //Might not be needed
+    function getNewMessageInThread($threadID)
+    {
+        global $db;
+
+        $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+        $stmt->bindValue(':threadID', $threadID);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+
+        $flag = false;
+
+        return $results;
+    }
     /*
         #############################################################################################
         These would have been in fucntions.php but to avoid recursive includes I put them here
@@ -1185,3 +1327,45 @@ function getResReviewID($res_ID)
         }
         return $results;
     }
+################################################
+#
+# AJAX Stuff
+#
+#################################################
+function getMatchingSearchTerms($term)
+{
+    global $db;
+    $sql = "SELECT Term FROM searches WHERE Term LIKE :term LIMIT 8";
+    $stmt = $db->query($sql);
+
+    $stmt->bindValue(':term', $term);
+
+    $terms = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+    $results = array();
+
+    foreach ($terms as $term)
+    {
+        array_push($results, $term['Term']);
+    }
+    return json_encode($results);
+}
+function getRecentMessageRespondingTo($id)
+{
+    global $db;
+    $sql = "SELECT * FROM adminmessage WHERE RespondingTo = :id";
+    $stmt = $db->query($sql);
+
+    $stmt->bindValue(':id', $id);
+
+    //should only be one
+    $messages = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+    $results = array();
+
+    //Should only run once
+    foreach ($messages as $message)
+    {
+        array_push($results, $message);
+    }
+
+    return json_encode($results);
+}
