@@ -32,7 +32,7 @@ if (!isset($_SESSION['loggedIn'])) {
         </li>
       </ul>
 
-      <form method="GET">
+      <form method="GET" onsubmit="addTerm()">
         <div class="input-group">
           <div class="form-outline">
             <input type="search" name="Totalsearch" id="form1" class="form-control"/>
@@ -68,5 +68,28 @@ if (!isset($_SESSION['loggedIn'])) {
   </nav>
 
 </body>
+
+<script>
+  async function addTerm(event)
+    {
+        var id = document.querySelector("#form1").value;
+
+        const url = 'AddSearchTerm.php';
+        const data = {term : id};
+    
+        try {
+            const response = await fetch(url, {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers:{
+                  'Content-Type': 'application/json'
+              }
+            });
+            const json = await response.json(); 
+        } catch (error) {
+            console.error (error);
+        }
+    }
+</script>
 
 </html>
