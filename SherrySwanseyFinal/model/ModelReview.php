@@ -985,49 +985,26 @@
         }
         return ($results);
     }
-    function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
-    {
-        global $db;
-        $results = 'Data NOT Added';
-        $stmt = $db->prepare("INSERT INTO searches SET Thread_ID = :threadID, RespondingTo_ID = :respondingToID, Sender_ID = :senderID, Recipient_ID = :recipientID, Message = :message, TimeSent = :timeSent, Topic = :topic, ThreadClosed = :threadClosed");
-
-        $stmt -> bindValue(':threadID', $threadID);
-        $stmt -> bindValue(':respondingToID', $respondingToID);
-        $stmt -> bindValue(':senderID', $senderID);
-        $stmt -> bindValue(':recipientID', $recipientID);
-        $stmt -> bindValue(':message', $message);
-        $stmt -> bindValue(':timeSent', date('Y-m-d H:i:s'));
-        $stmt -> bindValue(':topic', $topic);
-        $stmt -> bindValue(':threadClosed', $threadClosed);
-        
-        if ($stmt->execute() && $stmt->rowCount() > 0) 
-        {
-            $results = 'Data Added';
-        }
-        
-        return ($results);
-    }
     function getAllMessageThreadsForUser($userID)
     {
         global $db;
 
-        $string = "SELECT DISTINCT Thread_ID FROM adminmessage WHERE Sender_ID = :userID OR Recipient_ID = :userID";
+        $string = "SELECT DISTINCT Thread_ID FROM adminmessage WHERE Sender_ID = :userID OR Recipient_ID = :userIDTwo";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':userID', $userID);
+        $stmt->bindValue(':userIDTwo', $userID);
 
         $stmt->execute();
-        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
-        $flag = false;
-
-        return $flag ? $results : $flag;
+        return $results;
     }
     function getAllMessagesInThread($threadID)
     {
         global $db;
 
-        $string = "SELECT * FROM searches WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
+        $string = "SELECT * FROM adminmessage WHERE Thread_ID = :threadID ORDER BY TimeSent ASC";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':threadID', $threadID);
@@ -1049,7 +1026,7 @@
     {
         global $db;
 
-        $string = "SELECT * FROM searches WHERE Thread_ID = :theadID ORDER BY ReviewDate DESC LIMIT 1";
+        $string = "SELECT * FROM adminmessage WHERE Thread_ID = :threadID ORDER BY TimeSent DESC LIMIT 1;";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
         $stmt->bindValue(':threadID', $threadID);
@@ -1057,7 +1034,18 @@
         $stmt->execute();
         $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
 
-        $flag = false;
+        return $results;
+    }
+    function getAllAdminIDs()
+    {
+        global $db;
+
+        $string = "SELECT User_ID FROM rusers WHERE Admin = 1";
+        //get connected ItemReviews
+        $stmt = $db->prepare($string);
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);   
 
         return $results;
     }
@@ -1369,3 +1357,35 @@ function getRecentMessageRespondingTo($id)
 
     return json_encode($results);
 }
+    function addMessage($threadID, $respondingToID, $senderID, $recipientID, $message, $topic)
+    {
+        global $db;
+
+        if($threadID == NULL)
+        {
+            $stmt = $db->prepare("SELECT MAX(Thread_ID) FROM adminmessage;");
+            $threadID = $stmt-> fetch(PDO::FETCH_ASSOC);
+            $threadID = $threadID == NULL ? 1 : $threadID + 1;
+        }
+
+        $results = 'Data NOT Added';
+        $str = "INSERT INTO adminmessage SET Thread_ID = :threadID, Sender_ID = :senderID, Recipient_ID = :recipientID, Message = :message, TimeSent = :timeSent, Topic = :topic";
+        $str .= $respondingToID == NULL ? ";" : ", RespondingTo_ID = :respondingToID;";
+        $stmt = $db->prepare($str);
+
+        $stmt -> bindValue(':threadID', $threadID);
+        if($respondingToID != NULL)
+            $stmt -> bindValue(':respondingToID', $respondingToID);
+        $stmt -> bindValue(':senderID', $senderID);
+        $stmt -> bindValue(':recipientID', $recipientID);
+        $stmt -> bindValue(':message', $message);
+        $timeSent = date('Y-m-d H:i:s');
+        $stmt -> bindValue(':timeSent', date('Y-m-d H:i:s'));
+        $stmt -> bindValue(':topic', $topic);
+        
+        if ($stmt->execute() && $stmt->rowCount() > 0) 
+        {
+            $results = 'Data Added';
+        }
+        return json_encode($timeSent);
+    }
