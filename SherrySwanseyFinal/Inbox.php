@@ -15,7 +15,9 @@
 
     if(!empty($threadIDs))
         foreach($threadIDs as $threadID)
-            array_push($threadLastMessages, getNewMessageInThread($threadID));
+        {
+            array_push($threadLastMessages, getNewMessageInThread($threadID['Thread_ID'])[0]);
+        }
 
 ?>
 
@@ -40,7 +42,6 @@
             {
                 foreach($threadLastMessages as $threadLastMessage)
                 {
-                    /*TODO:: link to specific Chat Page*/
                     echo '<a href = "Chat.php?ThreadID=' . $threadLastMessage['Thread_ID'] . '" style="text-decoration: inherit;color: inherit; cursor: auto;">';
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
