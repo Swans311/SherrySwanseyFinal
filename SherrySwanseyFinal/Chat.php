@@ -13,7 +13,10 @@
     {
         $threadID = $_GET['ThreadID'];
         $thread = getAllMessagesInThread($threadID);
+        $lastMessage = end($thread);
     }
+    $adminIDs = getAllAdminIDs();
+    var_dump(json_encode($adminIDs[array_rand($adminIDs, 1)]));
     $userID = getUserID($_SESSION['email']);
 ?>
 
@@ -24,10 +27,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gourmandize | Chat</title>
 </head>
+<script>
+    if(<?= $threadID?> != 0)
+        var lastMessage = <?= isset($lastMessage) ? json_encode($lastMessage) : null ?>;
+
+    async function sendMessage(event)
+    {
+        //Same for either case
+        var senderID = <?php echo $userID ?>;
+        var message = document.querySelector("#message").value;
+
+        if(<?= $threadID?> == 0)
+        {
+            var adminID = <?= json_encode($adminIDs[array_rand($adminIDs, 1)])?>;
+
+            var recipientID = adminID['User_ID'];
+            var respondingToID =  null;
+            var topic = document.querySelector("#topic").value;
+            var threadID = null;
+        }
+        else
+        {
+            var recipientID = lastMessage['Sender_ID'] == <?= $userID ?> ? lastMessage['Recipient_ID'] : lastMessage['Sender_ID'] ;
+            console.log(recipientID);
+            var respondingToID = lastMessage['Message_ID'];
+            var topic = lastMessage['Topic'];
+            var threadID = lastMessage['Thread_ID'];
+        }
+        const url = 'ChatResponse.php';
+        const data = {
+            ThreadID : threadID,
+            RespondingToID : respondingToID,
+            SenderID : senderID,
+            RecipientID : recipientID,
+            Message : message,
+            Topic : topic
+        };
+
+        console.log(data);
+        var flag = true;
+        try {
+            const response = await fetch(url, {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers:{
+                  'Content-Type': 'application/json'
+              }
+            });
+            console.log(response);
+            const json = await response.json(); 
+        } catch (error) {
+            console.error (error);
+            flag = false;
+        }
+        if (flag && <?= $threadID?> == 0)
+        {
+            document.location.href = "inbox.php";
+        }
+        else if(flag)
+        {
+            //getNewMessage();
+        }
+        
+    }
+    async function getNewMessage()
+    {
+        //get newest message/message responding to latests message
+        //compare to latest message
+        //if different
+        //update latest message
+        //javascript update the chat
+    }
+    //Every 10s getNewMessage
+</script>
 <body>
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-center py-5 text-white" style="font-family: textFont;">
-            <div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">
+            <div id="convoContainer" class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">
                 <?php
                     if($threadID != 0)
                     {
@@ -37,9 +113,9 @@
                             {
                                 echo '<div class="text-right" style="font-family: textFont; width:100%;margin-right:50px; margin-top:20px; color:black">';
                                     echo '<div style="background-color:white;border-radius:8px;border:3px inset silver; text-align:left;width:50%;float:right;padding:10px;">';
-                                        echo 'Message';
+                                        echo $message['Message'];
                                         echo '<div style="font-size:10px; marigin-left:10px;">';
-                                            echo '-Sent by user at 2:35PM 2/20/2021';
+                                            echo '-Sent by ' . getUsername($message['Sender_ID']) . ' at ' . $message['TimeSent'];
                                         echo '</div>';
                                     echo '</div>';
                                 echo '</div>';
@@ -48,9 +124,9 @@
                             {
                                 echo '<div class="text-left" style="font-family: textFont; width:100%;margin-left:50px; margin-top:20px; color:black">';
                                     echo '<div style="background-color:white;border-radius:8px;border:3px inset silver; text-align:left;width:50%;padding:10px;">';
-                                        echo 'Response';
+                                        echo $message['Message'];
                                         echo '<div style="font-size:10px; marigin-left:10px;">';
-                                            echo '-Sent by admin at 2:55PM 2/20/2021';
+                                            echo '-Sent by ' . getUsername($message['Sender_ID']) . ' at ' . $message['TimeSent'];
                                         echo '</div>';
                                     echo '</div>';
                                 echo '</div>';
@@ -59,8 +135,16 @@
                     }
                 ?>
                 <form method="post" style="width:90%;">
-                    <textarea name="message" style="padding:5px; width:100%; margin:40px;background-color:white; border-radius:15px; border:3px inset silver;" rows="5" cols="100" text=""></textarea>
-                    <input style="margin-bottom:20px;margin-top:-20px;float:right;" type="submit" text="send">
+                    <?php
+                        if($threadID == 0)
+                            {
+                                echo '<h3 style="float:left;margin-top:25px;margin-bottom:-25px;margin-left:40px;">Topic</h3>';
+                                echo '<input type="text" id="topic" style="padding:5px; width:100%; margin:40px;background-color:white; border-radius:15px; border:3px inset silver;">';
+                                echo '<h3 style="float:left;margin-top:25px;margin-bottom:-25px;margin-left:40px;">Message</h3>';
+                            }
+                    ?>
+                    <textarea name="message" id="message" style="padding:5px; width:100%; margin:40px;background-color:white; border-radius:15px; border:3px inset silver;" rows="5" cols="100" text=""></textarea>
+                    <input style="margin-bottom:20px;margin-top:-20px;float:right;width:100px;" type="button" value="Send" onclick="sendMessage()">
                 </form>
             </div>
         </div>
