@@ -15,7 +15,9 @@
 
     if(!empty($threadIDs))
         foreach($threadIDs as $threadID)
-            array_push($threadLastMessages, getNewMessageInThread($threadID));
+        {
+            array_push($threadLastMessages, getNewMessageInThread($threadID['Thread_ID'])[0]);
+        }
 
 ?>
 
@@ -32,7 +34,7 @@
             <div class="media mr-auto mb-5">
                 <div class="media-body ms-auto">
                     <a class="btn btn-dark" href="Inbox.php" style="width:160px;">Inbox</a>
-                    <a class="btn btn-outline-light" href="SendMessage.php" style="margin-left:-5px;width:160px;">Draft Message</a>
+                    <a class="btn btn-outline-light" href="Chat.php" style="margin-left:-5px;width:160px;">Draft Message</a>
                 </div>
             </div>
             <?php
@@ -40,8 +42,7 @@
             {
                 foreach($threadLastMessages as $threadLastMessage)
                 {
-                    /*TODO:: link to specific Chat Page*/
-                    echo '<a href = "Chat.php" style="text-decoration: inherit;color: inherit; cursor: auto;">';
+                    echo '<a href = "Chat.php?ThreadID=' . $threadLastMessage['Thread_ID'] . '" style="text-decoration: inherit;color: inherit; cursor: auto;">';
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
                                         echo '<div class="col-md-3">';
