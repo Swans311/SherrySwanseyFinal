@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="container gz-div-glow">
-        <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
+        <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;background-color:#41aade;">
             <div class="media mr-auto mb-5">
                 <img class="mr-3 align-self-center" style="height: 300px; width: 40%;" src="misc\images\Restaurant_Test.jpg" alt="img"/>
                 <div class="media-body ms-auto">
@@ -111,7 +111,7 @@
         </div>
     </div>
 </body>
-<footer>
+<footer style="bottom:0; position:fixed; width:100%;">
   <br/>
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:
