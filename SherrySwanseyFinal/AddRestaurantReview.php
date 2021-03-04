@@ -177,6 +177,9 @@
     {
         document.getElementById("hidden").value--;
     }
+
+
+
     function regenerateFoodReviewAreas()
     {
         var div = document.getElementById("inputs");
@@ -184,7 +187,7 @@
         for(let x = 2; x <= <?=$_SESSION['numFoodReviews']?> ; x++)
         {
             console.log(x)
-            div.innerHTML += `<div class="row border border-outline-white rounded m-2 p-2">`
+            div.innerHTML += `<div class="row border border-outline-white rounded m-2 p-2" id="item`+x+`">`
             + `<div class="row mx-2 p-1">`
                 + `<div class="col form-group">`
                     + `<h2 class="display-5 mb-5">Food Item Review</h2>`
@@ -206,6 +209,7 @@
                 + `<div class="col form-group">`
                     + `<div class="d-flex justify-content-end mb-2">`
                     + `<h2 class="text-white mr-auto" style="font-family: textFont">Review</h2>`
+                    +`<button id="removeFoodButton" class="btn btn-outline-danger text-white border-white"  onclick = removeFoodReviewArea()>Remove Food Item</button>`
                 + `</div>`
                 + `<textarea class="form-control" name="foodReview`+x+`" rows="4"></textarea>`
                 + `</div></div></div>`;
@@ -233,16 +237,16 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?=$restaurant['Restaurant_Name']?>" readonly/>
+                                    <input size="25"type="text" name="restaurantName" id="restaurantName" placeholder="Restaurant Name" value="<?php if(isset($restaurant['Restaurant_Name'])){echo $restaurant['Restaurant_Name'];}else{echo "";}?>" <?php if(isset($restaurant['Restaurant_Name'])){echo "readonly";}else{}?>/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?=$restaurant['ResAddress']?>" readonly/>
+                                    <input size="25"type="text" name="restaurantAddress" id="restaurantAddress" placeholder="Address" value="<?php if(isset($restaurant['ResAddress'])){echo $restaurant['ResAddress'];}else{echo "";}?>" <?php if(isset($restaurant['ResAddress'])){echo "readonly";}else{}?>/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?=$restaurant['Phone']?>" readonly/>
+                                    <input size="25"type="text" name="restaurantPhone" id="restaurantPhone" placeholder="Phone" value="<?php if(isset($restaurant['Phone'])){echo $restaurant['Phone'];}else{echo "";}?>" <?php if(isset($restaurant['Phone'])){echo "readonly";}else{}?>/>
                                 </div>
                                 <div class="form-group">
-                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?=$restaurant['Restaurant_URL']?>" readonly/>
+                                    <input size="25"type="text" name="restaurantURL" placeholder="URL" value="<?php if(isset($restaurant['Restaurant_URL'])){echo $restaurant['Restaurant_URL'];}else{echo "";}?>" <?php if(isset($restaurant['Restaurant_URL'])){echo "readonly";}else{}?>/>
                                 </div>
                                 <div class="form-group">
                                     <input size="25"type="text" name="restaurantCategories" id="restaurantCategories" placeholder="EX: Fast Food, Burger, Fried"  value="<?=isset($_POST['restaurantCategories'])? $_POST['restaurantCategories']: '' ?>"/>
@@ -258,7 +262,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row border border-outline-white rounded m-2 p-2">
+                    <div class="row border border-outline-white rounded m-2 p-2" id="item1">
                         <div class="row mx-2 p-1">
                             <div class="col form-group">
                                 <h2 class="display-5 mb-5">Food Item Review</h2>
@@ -291,7 +295,6 @@
                 <div class="form-group m-3 d-flex justify-content-end">
                     <input name="hidden" id="hidden" type="number" min="1" step="1" value="<?= isset($_POST['hidden']) && $_POST['hidden'] >= 1 ? $_POST['hidden']: '1'?>" hidden>
                     <button id="addFoodButton" class="btn btn-outline-success mx-3 text-white border-white"  onclick = addFoodReviewArea()>Add Food Item</button>
-                    <button id="removeFoodButton" class="btn btn-outline-danger text-white border-white"  onclick = removeFoodReviewArea()>Remove Food Item</button>
                     <button id="submitButton" class="btn btn-outline-light mx-3" name="submit" type="submit">Submit</button>
                 </div>
             </form>
