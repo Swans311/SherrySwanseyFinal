@@ -2,8 +2,15 @@
     include(__DIR__.'/NavBar.php');
     include(__DIR__.'/model/ModelReview.php');
     
-    $restaurantInfo = getRestaurantByID($_GET['id']);
-    $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
+    if(isset($_GET['id'])){
+        $restaurantInfo = getRestaurantByID($_GET['id']);
+        $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
+    }
+    else{
+        header("Location:SearchResults.php");
+    }
+    
+    
 
     
     if(isset($_GET['Totalsearch'])){
@@ -41,8 +48,8 @@
                 </div>
             </div>
             <div class="container gz-div-inner mx-auto text-center py-5 text-white" style="font-family: textFont;marign-bot:-30px;margin-top:-30px;">
-                <a class="btn btn-dark" href="Inbox.php" style="width:160px;">Reviews</a>
-                <a class="btn btn-outline-light" href="RestaurantMenu.php" style="margin-left:-5px;width:160px;">Menu</a>
+                <a class="btn btn-dark" href="" style="width:160px;" disabled>Reviews</a>
+                <a class="btn btn-outline-light" href="RestaurantMenu.php?id=<?php echo $restaurantInfo['Restaurant_ID'];?>" style="margin-left:-5px;width:160px;">Menu</a>
             </div>
             <?php
                 if(isset($_GET['id']))

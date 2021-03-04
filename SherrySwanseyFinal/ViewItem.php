@@ -2,8 +2,16 @@
     include(__DIR__.'/NavBar.php');
     include(__DIR__.'/model/ModelReview.php');
     
-    $itemInfo = getItemByID($_GET['id']);
-    $itemReviews = getMostRecentReviewsByItem($_GET['id'], 3);
+    if(isset($_GET['id'])){
+        $itemInfo = getItemByID($_GET['id']);
+        $itemReviews = getMostRecentReviewsByItem($_GET['id'], 3);
+    }
+    else{
+        header("Location:SearchResults.php");
+    }
+
+
+    
 
     if(isset($_GET['Totalsearch'])){
       $src=filter_input(INPUT_GET,'Totalsearch');
@@ -27,8 +35,8 @@
                 <img class="mr-3 align-self-center" style="height: 300px; width: auto;" src="misc\images\Fries_Test.jpeg" alt="img">
                 <div class="media-body">
                     <?php
-                        echo '<h1 class="display-4"style="font-family: titleFont;">'.$itemInfo['ItemName'].'</h1>';
-                        echo '<h1 class="display-4"style="font-family: titleFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h1>';
+                        echo '<h1 class="display-4"style="font-family: textFont;">'.$itemInfo['ItemName'].'</h1>';
+                        echo '<h1 class="display-4"style="font-family: textFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h1>';
                         echo '<h1 class="display-4">'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h1>';
                         echo '<div class="star-ratings-sprite" style="float:left;">';
                         echo '<span style="width:' .round(calculateItemStarRating($itemInfo['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
