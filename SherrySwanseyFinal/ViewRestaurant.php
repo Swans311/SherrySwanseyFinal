@@ -2,8 +2,15 @@
     include(__DIR__.'/NavBar.php');
     include(__DIR__.'/model/ModelReview.php');
     
-    $restaurantInfo = getRestaurantByID($_GET['id']);
-    $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
+    if(isset($_GET['id'])){
+        $restaurantInfo = getRestaurantByID($_GET['id']);
+        $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
+    }
+    else{
+        header("Location:SearchResults.php");
+    }
+    
+    
 
     
     if(isset($_GET['Totalsearch'])){
@@ -22,7 +29,7 @@
 </head>
 <body>
     <div class="container gz-div-glow">
-        <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
+        <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;background-color:#41aade;">
             <div class="media mr-auto mb-5">
                 <img class="mr-3 align-self-center" style="height: 300px; width: 40%;" src="misc\images\Restaurant_Test.jpg" alt="img"/>
                 <div class="media-body ms-auto">
@@ -41,8 +48,8 @@
                 </div>
             </div>
             <div class="container gz-div-inner mx-auto text-center py-5 text-white" style="font-family: textFont;marign-bot:-30px;margin-top:-30px;">
-                <a class="btn btn-dark" href="Inbox.php" style="width:160px;">Reviews</a>
-                <a class="btn btn-outline-light" href="RestaurantMenu.php" style="margin-left:-5px;width:160px;">Menu</a>
+                <a class="btn btn-dark" href="" style="width:160px;" disabled>Reviews</a>
+                <a class="btn btn-outline-light" href="RestaurantMenu.php?id=<?php echo $restaurantInfo['Restaurant_ID'];?>" style="margin-left:-5px;width:160px;">Menu</a>
             </div>
             <?php
                 if(isset($_GET['id']))
@@ -111,7 +118,7 @@
         </div>
     </div>
 </body>
-<footer>
+<footer style="bottom:0; position:fixed; width:100%;">
   <br/>
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:

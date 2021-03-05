@@ -124,7 +124,7 @@
         </div>
     </div>
 </body>
-<footer>
+<footer style="bottom:0; position:fixed; width:100%;">
   <br/>
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:

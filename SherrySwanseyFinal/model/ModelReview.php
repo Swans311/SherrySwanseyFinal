@@ -1384,3 +1384,20 @@ function addMessage($threadID, $respondingToID, $senderID, $recipientID, $messag
     }
     return json_encode($timeSent);
 }
+
+function getItemsByResID($res_ID)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM menuitem WHERE Restaurant_ID =:res_ID");
+
+    $stmt->bindValue(':res_ID', $res_ID);
+
+    $stmt->execute();
+    if ($stmt->execute() && $stmt->rowCount()>0){
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else{
+        $results=false;
+    }
+    return $results;
+}
