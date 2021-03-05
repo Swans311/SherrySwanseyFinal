@@ -13,7 +13,7 @@ if ($contentType === "application/json") {
   //If json_decode failed, the JSON is invalid.
   if( is_array($decoded)) {
      // echo json_encode($decoded['team_name']);
-      $id = $decoded['messageID'];
+      $id = $decoded['MessageID'];
       $results = getRecentMessageRespondingTo($id);
       echo json_encode ($results);
   } else {
