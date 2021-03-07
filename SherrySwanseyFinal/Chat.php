@@ -205,7 +205,7 @@
         </div>
     </div>
 </body>
-<footer style="bottom:0; position:fixed; width:100%;">
+<footer style="bottom:0; width:100%;">
   <br/>
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.4); color:red; font-size:16px">
     © 2021 Copyright:
