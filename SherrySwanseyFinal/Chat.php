@@ -63,8 +63,6 @@
             Message : message,
             Topic : topic
         };
-
-        console.log(data);
         var flag = true;
         try {
             const response = await fetch(url, {
@@ -74,7 +72,6 @@
                   'Content-Type': 'application/json'
               }
             });
-            console.log(response);
             const json = await response.json(); 
         } catch (error) {
             console.error (error);
@@ -86,19 +83,77 @@
         }
         else if(flag)
         {
+            document.querySelector("#message").value = "";
             //getNewMessage();
         }
-        
     }
     async function getNewMessage()
     {
         //get newest message/message responding to latests message
-        //compare to latest message
-        //if different
-        //update latest message
-        //javascript update the chat
+        const url = 'GetRecentMessageInChain.php';
+        console.log(lastMessage['Message_ID']);
+        const data = {
+            MessageID : lastMessage['Message_ID']
+        };
+        var flag = true;
+        try {
+            const response = await fetch(url, {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers:{
+                  'Content-Type': 'application/json'
+              }
+            });
+            const json = await response.json();
+            var responseDecoded = JSON.parse(json);
+            //compare to latest message
+            //if different
+            var isDifferent = false;
+            if(responseDecoded['Message_ID'] != lastMessage['Message_ID'] && responseDecoded.length != 0)
+            {
+                console.log(responseDecoded.length);
+                lastMessage = responseDecoded[0];
+                isDifferent = true;
+            }
+        } catch (error) {
+            console.error (error);
+            flag = false;
+        }
+        console.log(lastMessage['SenderUsername']);
+        if(isDifferent)
+        {
+            var chatContainer = document.querySelector("#convoContainer");
+            //update latest message
+            //javascript update the chat
+            if(lastMessage['Sender_ID'] == <?=$userID?>)
+            {
+                chatContainer.innerHTML += '<div class="text-right" style="font-family: textFont; width:100%;margin-right:50px; margin-top:20px; color:black">'
+                    + '<div style="background-color:white;border-radius:8px;border:3px inset silver; text-align:left;width:50%;float:right;padding:10px;">'
+                        + lastMessage['Message']
+                        + '<div style="font-size:10px; marigin-left:10px;">'
+                            + '-Sent by ' + lastMessage['SenderUsername'] + ' at ' + lastMessage['TimeSent']
+                        + '</div>'
+                    + '</div>'
+                + '</div>';
+            }
+            else
+            {
+                chatContainer.innerHTML += '<div class="text-left" style="font-family: textFont; width:100%;margin-left:50px; margin-top:20px; color:black">'
+                    + '<div style="background-color:white;border-radius:8px;border:3px inset silver; text-align:left;width:50%;padding:10px;">'
+                        + lastMessage['Message']
+                        + '<div style="font-size:10px; marigin-left:10px;">'
+                            + '-Sent by ' + lastMessage['SenderUsername'] + ' at ' + lastMessage['TimeSent']
+                        + '</div>'
+                    + '</div>'
+                + '</div>';
+            }
+        }
     }
-    //Every 10s getNewMessage
+    //Every 10s getNewMessage if lastMessage set
+    if(<?= isset($lastMessage)?>)
+        window.setInterval(function(){
+            getNewMessage();
+        }, 3000);
 </script>
 <body>
     <div class="container gz-div-glow">
@@ -134,7 +189,8 @@
                         }
                     }
                 ?>
-                <form method="post" style="width:90%;">
+            </div>
+            <form method="post" style="width:90%;">
                     <?php
                         if($threadID == 0)
                             {
@@ -146,7 +202,6 @@
                     <textarea name="message" id="message" style="padding:5px; width:100%; margin:40px;background-color:white; border-radius:15px; border:3px inset silver;" rows="5" cols="100" text=""></textarea>
                     <input style="margin-bottom:20px;margin-top:-20px;float:right;width:100px;" type="button" value="Send" onclick="sendMessage()">
                 </form>
-            </div>
         </div>
     </div>
 </body>
