@@ -41,7 +41,7 @@
 	background-color: #fff; margin-top: 50px; border-radius: 25px; box-shadow: 0 0 10px 6px #0cf, 0 0 20px 12px #fff; padding: 0px;
   }
   .gz-div-inner{
-	width:100%; background-color: #0095EF; border-radius: 25px; 
+	width:100%; background-color:#41aade; border-radius: 25px; 
   }
   /*Code for star ratings
   	Code taken from
@@ -71,4 +71,9 @@
 	  height: 21px;
 	  display:block;
 
+	}
+
+	footer{
+		margin-top:5%;
+		position:relative;
 	}
