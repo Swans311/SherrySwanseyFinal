@@ -1401,3 +1401,16 @@ function getItemsByResID($res_ID)
     }
     return $results;
 }
+
+function getMostPopularSearches(){
+    global $db;
+        $stmt = $db->prepare("SELECT DISTINCT Term FROM searches ORDER BY Counter DESC LIMIT 6");
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+        return $results;
+}
+
+
+
