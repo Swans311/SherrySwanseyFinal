@@ -40,7 +40,7 @@
                 <form action="homepage.php" method="POST" style="width:50%;margin:auto;">
                     <table class="table-borderless">
                         <?php 
-                            $commonCats = getMostPopularSearches();
+                            $commonCats = getMostPopularSearches(6);
                             $rowCount = 0;
                             $i=0;
                             foreach($commonCats as $commonCat):

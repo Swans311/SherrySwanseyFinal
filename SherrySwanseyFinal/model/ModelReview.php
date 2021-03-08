@@ -1332,6 +1332,20 @@ function getItemsByResID($res_ID)
     }
     return $results;
 }
+
+function getMostPopularSearches($num){
+    global $db;
+        $stmt = $db->prepare("SELECT DISTINCT Term FROM searches ORDER BY Counter DESC LIMIT :num");
+
+        $stmt->bindValue(':num', $num, PDO::PARAM_STR);
+
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+        return $results;
+}
+
 ################################################
 #
 # AJAX Stuff
@@ -1402,32 +1416,9 @@ function addMessage($threadID, $respondingToID, $senderID, $recipientID, $messag
     return json_encode($timeSent);
 }
 
-function getItemsByResID($res_ID)
-{
-    global $db;
-    $stmt = $db->prepare("SELECT * FROM menuitem WHERE Restaurant_ID =:res_ID");
 
-    $stmt->bindValue(':res_ID', $res_ID);
 
-    $stmt->execute();
-    if ($stmt->execute() && $stmt->rowCount()>0){
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    else{
-        $results=false;
-    }
-    return $results;
-}
 
-function getMostPopularSearches(){
-    global $db;
-        $stmt = $db->prepare("SELECT DISTINCT Term FROM searches ORDER BY Counter DESC LIMIT 6");
-
-        $stmt->execute();
-        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
-
-        return $results;
-}
 
 
 
