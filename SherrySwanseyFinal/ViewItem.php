@@ -36,8 +36,8 @@
                 <div class="media-body">
                     <?php
                         echo '<h1 class="display-4"style="font-family: textFont;">'.$itemInfo['ItemName'].'</h1>';
-                        echo '<h1 class="display-4"style="font-family: textFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h1>';
-                        echo '<h1 class="display-4">'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h1>';
+                        echo '<h3 class="display-4"style="font-family: textFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h3>';
+                        echo '<h3 class="display-4">'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h3>';
                         echo '<div class="star-ratings-sprite" style="float:left;">';
                         echo '<span style="width:' .round(calculateItemStarRating($itemInfo['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                         echo '</span></div>';
@@ -52,9 +52,12 @@
                 {
                     foreach($itemReviews as $itemRev)
                     {
+                        
+                        
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                         echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
-                            echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
+                        $pic = getReviewPictures($itemRev['Review_ID']);
+                        //image goes here***********************
                                 echo '<div class="media-body">';
                                     echo '<div>';
                                         echo '<h3>'.getUsername($itemRev['User_ID']).'</h3>';
