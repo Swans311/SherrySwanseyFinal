@@ -47,7 +47,7 @@
   	Code taken from
 	https://codepen.io/Bluetidepro/pen/GkpEa */ 
   .star-ratings-sprite {
-	background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+	background: url("../images/star-rating-sprite-new.png") repeat-x;
 	font-size: 0;
 	height: 21px;
 	line-height: 0;
@@ -58,7 +58,7 @@
   }
 	
   .star-ratings-sprite-rating {
-	  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+	  background: url("../images/star-rating-sprite-new.png") repeat-x;
 	  font-size: 0;
 	  height: 21px;
 	  line-height: 0;
