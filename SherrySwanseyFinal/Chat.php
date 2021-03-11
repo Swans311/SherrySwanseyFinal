@@ -156,7 +156,7 @@
 <body>
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-center py-5 text-white" style="font-family: textFont;">
-            <div id="convoContainer" class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">
+            <div id="convoContainer" class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08); padding:20px;" <?=$threadID == 0 ? "hidden" : ""?>>
                 <?php
                     if($threadID != 0)
                     {
@@ -203,11 +203,11 @@
         </div>
     </div>
 </body>
-<footer style="bottom:0; width:100%;">
+<footer style="bottom:0;  width:100%;">
   <br/>
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.4); color:red; font-size:16px">
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.9); color:#ff3300; font-size:16px">
     © 2021 Copyright:
     <a class="text-blue" href="AboutUs.php">About Us</a>
   </div>
-  </footer>
+</footer>
 </html>
