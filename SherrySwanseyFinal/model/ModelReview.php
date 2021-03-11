@@ -10,7 +10,12 @@
         $stmt3= $db->prepare("SELECT * FROM rusers WHERE User_Email = :email");
         $stmt3->bindValue(":email", $email);
 
-        if ($stmt2->execute() && $stmt2->rowCount()==0 && $stmt3->execute() && $stmt3->rowCount()==0)
+        if (($stmt3->execute() && $stmt3->rowCount()>0) || ($stmt2->execute() && $stmt2->rowCount()>0)){
+            $results = false;
+            return $results;
+        }
+
+        else if ($stmt2->execute() && $stmt2->rowCount()==0 && $stmt3->execute() && $stmt3->rowCount()==0)
         {
             $stmt = $db->prepare("INSERT INTO rusers SET Username = :username, User_Password = :hashedPass, User_Email = :email, FName = :fname, LName = :lname");
 
