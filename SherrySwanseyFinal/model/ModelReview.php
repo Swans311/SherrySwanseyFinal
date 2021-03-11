@@ -157,21 +157,29 @@
 
         return $results;
     }
-    function addItemReview($restaurantID, $userID, $itemID, $resReviewID, $dateTime, $categories, $rating, $review, $anonymous, $imageFilePath)
+    function addItemReview($restaurantID, $userID, $itemName, $resReviewID, $dateTime, $categories, $rating, $review, $anonymous, $imageFilePath)
     {
+        $itemID = searchOneItemId($restaurantID, $itemName);
+        if($itemID == false)
+        {
+            addItem($restaurantID, $itemName);
+            //Should be guaranteed to exist now
+            $itemID = searchOneItemID($restaurantID, $itemName);
+        }
+
         global $db;
         $results = 'Data NOT Added';
-        $stmt = $db->prepare("INSERT INTO review SET Restaurant_ID = :restaurantID, User_ID = :userID, Item_ID = :itemID, Review = :review, Star_lvl = :rating, Username = :username, Uname_Visible = :visible, ReviewDate = :revDate, Category = :cat, ResReview_ID = :resRevID");
 
         //Convert comma separated tag names into tagIDs and add/increment in database
-        $tags = explode(',', $categories); 
+        $tags = explode(',', $categories);
         $catArray = array();
         foreach($tags as $tag)
         {
-            addTagByItem($tag, $itemID);
-            array_push($catArray, getTagIdByNameAndItem($tag, $itemID));
+            addTagByItem(trim($tag), $itemID);
+            array_push($catArray, getTagIdByNameAndItem(trim($tag), $itemID));
         }
-
+        /*
+        $stmt = $db->prepare("INSERT INTO review SET Restaurant_ID = :restaurantID, User_ID = :userID, Item_ID = :itemID, Review = :review, Star_lvl = :rating, Username = :username, Uname_Visible = :visible, ReviewDate = :revDate, Category = :cat, ResReview_ID = :resRevID");
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
         $stmt->bindValue(':itemID', $itemID);
@@ -182,11 +190,15 @@
         $stmt->bindValue(':revDate', $dateTime);
         $stmt->bindValue(':cat', implode(',', $catArray));
         $stmt->bindValue(':resRevID', $resReviewID);
+        */
 
+        $str = "INSERT INTO review SET Restaurant_ID = " . $restaurantID . ", User_ID = " . $userID . ", Item_ID = " . $itemID . ", Review = '" . $review . "', Star_lvl = " . $rating . ", Username = '" . getUsername($userID) . "', Uname_Visible = " . $anonymous . ", ReviewDate = '" . $dateTime . "', Category = '" . implode(',', $catArray) . "', ResReview_ID = " . $resReviewID . "";
+        $stmt = $db->prepare($str);
         $stmt->execute ();
 
-        $stmt2 = $db->prepare("SELECT Review_ID FROM review WHERE User_ID = :userID ORDER BY Review_ID  DESC LIMIT 1");
+        $stmt2 = $db->prepare("SELECT Review_ID FROM review WHERE User_ID = :userID AND ReviewDate = :revDate");
         $stmt2 ->bindValue(":userID", $userID);
+        $stmt2 ->bindValue(":revDate", $dateTime);
         $stmt2->execute();
 
         $results = $stmt2->fetch(PDO::FETCH_ASSOC);
@@ -194,30 +206,35 @@
 
         $stmt1 = $db->prepare("UPDATE review SET Rimage = :Img WHERE (Review_ID = :revID)");
         
-        var_dump($imageFilePath);
+        //var_dump($imageFilePath);
         $stmt1->bindValue(":Img", $imageFilePath);
         $stmt1->bindValue(':revID', $revID);
 
         $stmt1->execute();
-
-
-        return( $stmt->rowCount() > 0);
     }
-    function addRestaurantReview($restaurantID, $userID, $restaurantReview, $rating,  $anonymous, $imageFilePath, $itemReview2DList, $categories)
+    function addRestaurantReview($restaurantName, $restaurantAddress, $restaurantPhone, $restaurantURL, $userID, $restaurantReview, $rating,  $uNameVis, $imageFilePath, $itemReview2DList, $categories)
     {
         global $db;
         $results = 'Data NOT Added';
-      
+
+        $restaurantID = searchOneRestaurantID($restaurantName, $restaurantAddress, $restaurantPhone, $restaurantURL);
+
+        if($restaurantID == false)//if restaurantID wasnt found add restaurant
+        {
+            addRestaurant($restaurantName, $restaurantAddress, $restaurantPhone, $restaurantURL);
+            $restaurantID = searchOneRestaurantID($restaurantName, $restaurantAddress, $restaurantPhone, $restaurantURL);
+        }
+
         //Convert comma separated tag names into tagIDs and add/increment in database
         $tags = explode(',', $categories); 
         $catArray = array();
         foreach($tags as $tag)
         {
             addTagByRes(trim($tag), $restaurantID);
-            array_push($catArray, getTagIdByNameAndRestaurant($tag, $restaurantID));
+            array_push($catArray, getTagIdByNameAndRestaurant(trim($tag), $restaurantID));
         }
       
-        $stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Category = :cat");
+        /*$stmt = $db->prepare("INSERT INTO restaurantreview SET Restaurant_ID = :restaurantID, User_ID = :userID, Review = :review, Star_lvl = :rating, UserName = :username, ReviewDate = :revDate, Category = :cat, Visible = :visible");
       
         $stmt->bindValue(':restaurantID', $restaurantID);
         $stmt->bindValue(':userID', $userID);
@@ -227,36 +244,45 @@
         $stmt->bindValue(':cat', implode(',', $catArray));
         $time = date('Y-m-d H:i:s');
         $stmt->bindValue(':revDate', $time);
+        $stmt->bindValue(':visible', $uNameVis);
+        */
+        $time = date('Y-m-d H:i:s');
+        $str = $str = "INSERT INTO restaurantreview SET Restaurant_ID = " . $restaurantID .", User_ID = " . $userID . ", Review = '" . $restaurantReview . "', Star_lvl = " . $rating . ", UserName = '" . getUsername($userID) . "', ReviewDate = '" . $time . "', Category = '" . implode(',', $catArray) . "', Visible = " . $uNameVis . "";
+        $stmt = $db->prepare($str);
         //$stmt->debugDumpParams();
 
         $stmt->execute();
         //var_dump($stmt);
         
+        //TODO:: REMOVE THIS DUMMY
+        //return json_encode($returnVal);
 
         $success = $stmt->rowCount();
-        var_dump($success);
 
-        $stmt2 = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :userID ORDER BY ResReview_ID  DESC LIMIT 1");
+        $stmt2 = $db->prepare("SELECT ResReview_ID FROM restaurantreview WHERE User_ID = :userID AND ReviewDate = :revDate LIMIT 1");
+        $stmt2 ->bindValue(":revDate", $time);
         $stmt2 ->bindValue(":userID", $userID);
         $stmt2->execute();
 
         $results = $stmt2->fetch(PDO::FETCH_ASSOC);
-        $resRevID = $results['ResReview_ID'];        
+        $resRevID = $results['ResReview_ID'];
 
-        $stmt1 = $db->prepare("UPDATE restaurantreview SET ResImage = :Img, Visible=:visible WHERE (ResReview_ID = :resRevID)");
-        
-        var_dump($imageFilePath);
-        $stmt1->bindValue(":Img", $imageFilePath);
-        $stmt1->bindValue(':visible', $anonymous);
-        $stmt1->bindValue(':resRevID', $resRevID);
+        if($imageFilePath != "")
+        {
+            $stmt1 = $db->prepare("UPDATE restaurantreview SET ResImage = :Img WHERE (ResReview_ID = :resRevID)");
+            
+            $stmt1->bindValue(":Img", $imageFilePath);
+            $stmt1->bindValue(':resRevID', $resRevID);
 
-        $stmt1->execute();
-
+            $stmt1->execute();
+        }
+        $testing = array();
         //loop throught list and call addItemReview()
         foreach($itemReview2DList as $itemReviewList)
         {
-            addItemReview($restaurantID, $userID, $itemReviewList['itemID'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $anonymous, $itemReviewList['imgFilePath']);
+            array_push($testing, addItemReview($restaurantID, $userID, $itemReviewList['itemName'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $uNameVis, $itemReviewList['imageFilePath']));
         }
+        return json_encode($catArray);
     }
     //use minRating = -1 to ignore rating and 0 to get all restaurants that have been reviewed at least once
     function searchByRestaurant($name, $category, $minRating)
