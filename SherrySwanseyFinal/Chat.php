@@ -156,7 +156,7 @@
 <body>
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-center py-5 text-white" style="font-family: textFont;">
-            <div id="convoContainer" class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08); padding:20px;">
+            <div id="convoContainer" class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08); padding:20px;" <?=$threadID == 0 ? "hidden" : ""?>>
                 <?php
                     if($threadID != 0)
                     {
