@@ -1358,6 +1358,48 @@ function getItemsByResID($res_ID)
     }
     return $results;
 }
+
+function getMostPopularSearches($num){
+    global $db;
+        $stmt = $db->prepare("SELECT DISTINCT Term FROM searches ORDER BY Counter DESC LIMIT :num");
+
+        $stmt->bindValue(':num', $num, PDO::PARAM_STR);
+
+
+        $stmt->execute();
+        $results = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+        return $results;
+}
+function getReviewPictures($id){
+    global $db;
+    $sql = "SELECT rimage FROM review WHERE Review_ID=:id";
+    $query = $db->prepare($sql);
+    $query->execute(array(':id' => $id));
+
+    $query->bindColumn(1, $rimage, PDO::PARAM_LOB);
+    $query->fetch(PDO::FETCH_BOUND);
+    //header("Content-Type: image");
+    echo '<img style = "width:30%; height:100%; padding-right:5%" src="data:image/png;base64,'.base64_encode($rimage).'"/>';
+}
+
+function getResReviewPictures($id){
+    global $db;
+    $sql = "SELECT ResImage FROM restaurantreview WHERE ResReview_ID=:id";
+    $query = $db->prepare($sql);
+    $query->execute(array(':id' => $id));
+
+    $query->bindColumn(1, $rimage, PDO::PARAM_LOB);
+    $query->fetch(PDO::FETCH_BOUND);
+    //header("Content-Type: image");
+    echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="data:image/png;base64,'.base64_encode($rimage).'" alt="img">';
+}
+
+//$pic=getReviewPictures(2);
+//var_dump($pic);
+//getReviewPictures(1);
+//var_dump($pic);
+
 ################################################
 #
 # AJAX Stuff
@@ -1427,4 +1469,9 @@ function addMessage($threadID, $respondingToID, $senderID, $recipientID, $messag
     }
     return json_encode($timeSent);
 }
+
+
+
+
+
 

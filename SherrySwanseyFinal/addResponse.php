@@ -8,6 +8,17 @@
     {
         $reviewarray = findReview($_GET['id']);
     }
+    $uID=getUserID($_SESSION['email']);
+
+    $restaurantInfo = getRestaurantByID($_GET['id']);
+    $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
+
+    if($uID == $restaurantInfo['ResOwnerId']){
+
+    }
+    else{
+        header("Location: SearchResults.php");
+    }
     
     
     if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) 
@@ -59,7 +70,17 @@
                             <div class="col">
                                 <div class="form-group">
                                     <p><?php echo $reviewarray[0]['Review']; ?></p>
-                                    <p>- <?= $reviewarray[0]['UserName'];?></p>
+                                    <?php 
+                                    if ($reviewarray[0]['Visible']==false)
+                                    {
+                                        echo '<p>- Anonymous</p>';
+                                    }
+                                    else
+                                    {
+                                      echo '<p>- '.$reviewarray[0]['UserName'].'</p>';  
+                                    }
+                                    ?>
+                                    
                                 </div>
                                 </div>
                             </div>

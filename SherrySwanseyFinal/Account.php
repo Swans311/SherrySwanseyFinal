@@ -43,7 +43,7 @@
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="container mr-auto mb-5">
-                <h1 class="display-4"style="font-family: textFont; color:#999;">
+                <h1 class="display-4"style="font-family: textFont; color:#505050;">
                     <?=$user['Username'];?>
                     <a href="Inbox.php">
                         <img src="misc/images/Mail_Icon.png" style="width:64px;height:64px;margin-top:-10px;">
@@ -106,7 +106,7 @@
                                 echo '<div style="width:180%;margin:15%;">';
                                     echo '<h3 width:100%;>' . $resInfo['Restaurant_Name'] . '</h3>';
                                     echo '<div class="star-ratings-sprite" style="float:left;">';
-                                    echo '<span style="width:' . round(calculateRestaurantStarRating($resInfo['Restaurant_ID']),2)* 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '<span style="width:' . round(calculateRestaurantStarRating($restInfo['Restaurant_ID']),2) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                                     echo '</span></div>';
                                     echo '<br>';
                                     echo '<p>'.$resInfo['ResAddress'] . '</p>';
@@ -116,15 +116,20 @@
                             echo "</div>";
                     }
                     echo "<br/><br/><br/>";
-                    echo '<h4>My Reviews </h4>';
+                    echo '<h4 style="text-decoration:underline;">My Reviews: </h4>';
+
                     foreach($resReviewArray as $resReview)
                     {
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
                                 echo '<div class="media-body">';
+                                $respic=getResReviewPictures($resReview['ResReview_ID']);
                                     echo '<div>';
                                         echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
-                                        echo '<h3>Stars: '. number_format($resReview['Star_lvl'], 2, '.', '') . '</h3>';
+                                        echo '<div class="star-ratings-sprite" style="float:left;">';
+                                        echo '<span style="width:' . $resReview['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                        echo '</span></div>';
+                                        echo '&nbsp';
                                         echo '<p style="min-height: 110px">' . $resReview['Review'] . '</p>';
                                         echo '<p>Date: ' . $resReview['ReviewDate'] .'</p>'; 
                                     echo '</div>';
@@ -134,11 +139,16 @@
                                         echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                         echo '<div class="media my-3">';
                                             echo'<!-- Adjust image source-->';
+                                            $pic=getReviewPictures($review['Review_ID']);
+
                                                 echo'<div class="media-body">';
                                                     echo '<div class="mx-5">';
                                                     echo '<!-- Adjust data-->';
                                                     echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
-                                                    echo '<h3>Stars '.number_format($review['Star_lvl'], 2, '.', '').'</h3>';
+                                                    echo '<div class="star-ratings-sprite" style="float:left;">';
+                                                    echo '<span style="width:100%;' . $review['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                                    echo '</span></div>';
+                                                    echo '&nbsp';
                                                     echo '<p>'.$review['Review'].' </p>';
                                                 echo '</div>';
                                             echo '</div>';

@@ -63,8 +63,8 @@
                     {
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
-                                echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
-                                    echo '<div class="media-body">';
+                            $respic=getResReviewPictures($resRev['ResReview_ID']);
+                            echo '<div class="media-body">';
                                         echo '<div>';
                                             if($resRev['Visible']==false){
                                                 echo '<h3>Anonymous</h3>';
@@ -87,12 +87,7 @@
                                         {
                                             echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                             echo '<div class="media my-3">';
-                                                if(is_null($itemRev['Rimage'])){
-                                                    echo '<img class="mr-3 align-self-center" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
-                                                }
-                                                else{
-                                                    echo '<img class="mr-3 align-self-center" style="height: auto; width: 25%;" src="uploads"'.$itemRev["Rimage"].'" alt="img">';
-                                                }
+                                                $pic=getReviewPictures($itemRev['Review_ID']);
                                                 echo '<div class="media-body">';
                                                     echo '<div>';
                                                         echo '<h3>'.getItemName($itemRev['Item_ID']).'</h3>';
