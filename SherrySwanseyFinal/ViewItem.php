@@ -32,7 +32,7 @@
 <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="media mr-auto mb-5">
-                <img class="mr-3 align-self-center" style="height: 300px; width: auto;" src="misc\images\Fries_Test.jpeg" alt="img">
+                <img class="mr-3 align-self-center" style="height: 300px; width: auto;" src="misc\images\Fries_Test.jpg" alt="img">
                 <div class="media-body">
                     <?php
                         echo '<h1 class="display-4"style="font-family: textFont;">'.$itemInfo['ItemName'].'</h1>';

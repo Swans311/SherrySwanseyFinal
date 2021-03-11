@@ -194,7 +194,7 @@
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
-                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
+                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
@@ -214,7 +214,7 @@
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
-                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
+                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpg" alt="img">';
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
@@ -282,7 +282,7 @@
                             echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                             echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                                 /*Adjust image source*/
-                                echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpeg" alt="img">';
+                                echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpg" alt="img">';
                                 echo '<div class="media-body">';
                                     echo '<div class="row">';
                                         echo '<div class="col">';
