@@ -33,7 +33,7 @@
     <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;background-color:#41aade;">
             <div class="media mr-auto mb-5">
-                <img class="mr-3 align-self-center" style="height: 300px; width: 40%;" src="misc\images\Restaurant_Test.jpg" alt="img"/>
+            <?php $pic=getRecentResReviewPictures($restaurantInfo['Restaurant_ID']); ?>
                 <div class="media-body ms-auto">
                     <?php
                         echo '<h1 class="display-4"style="font-family: textFont;">'.$restaurantInfo['Restaurant_Name'].'</h1>';

@@ -63,6 +63,7 @@
                     {
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                             echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
+                            $respic=getResReviewPictures($resReview['ResReview_ID']);
                                 echo '<div class="media-body">';
                                     echo '<div>';
                                         echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
@@ -78,7 +79,7 @@
                                     {
                                         echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                         echo '<div class="media my-3">';
-                                            echo'<!-- Adjust image source-->';
+                                        $pic=getReviewPictures($review['Review_ID']);
                                                 echo'<div class="media-body">';
                                                     echo '<div class="mx-5">';
                                                     echo '<!-- Adjust data-->';
@@ -102,7 +103,7 @@
                     {
                         echo "<a href=ViewOwnedRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
-                            echo "<div style='margin-left:30%;'>"; //this is where a picture would go
+                            $respic=getRecentResReviewPictures($resInfo['Restaurant_ID']);
                                 echo '<div style="width:180%;margin:15%;">';
                                     echo '<h3 width:100%;>' . $resInfo['Restaurant_Name'] . '</h3>';
                                     echo '<div class="star-ratings-sprite" style="float:left;">';
