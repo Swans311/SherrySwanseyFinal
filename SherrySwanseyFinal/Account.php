@@ -79,7 +79,7 @@
                                     {
                                         echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
                                         echo '<div class="media my-3">';
-                                        $pic=getReviewPictures($review['Review_ID']);
+                                        $pic=getReviewPictures($review['Item_ID']);
                                                 echo'<div class="media-body">';
                                                     echo '<div class="mx-5">';
                                                     echo '<!-- Adjust data-->';
@@ -103,16 +103,18 @@
                     {
                         echo "<a href=ViewOwnedRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
+                        echo '<div class="media mr-auto mb-5">';
                             $respic=getRecentResReviewPictures($resInfo['Restaurant_ID']);
-                                echo '<div style="width:180%;margin:15%;">';
+                                echo '<div class="media-body ms-auto">';
                                     echo '<h3 width:100%;>' . $resInfo['Restaurant_Name'] . '</h3>';
                                     echo '<div class="star-ratings-sprite" style="float:left;">';
-                                    echo '<span style="width:' . round(calculateRestaurantStarRating($restInfo['Restaurant_ID']),2) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
+                                    echo '<span style="width:' . round(calculateRestaurantStarRating($resInfo['Restaurant_ID']),2) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                                     echo '</span></div>';
                                     echo '<br>';
                                     echo '<p>'.$resInfo['ResAddress'] . '</p>';
                                     echo "</div>";
                                 echo '</div>';
+
                             echo '</a>';
                             echo "</div>";
                     }
