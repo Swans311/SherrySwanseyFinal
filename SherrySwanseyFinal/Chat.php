@@ -16,7 +16,6 @@
         $lastMessage = end($thread);
     }
     $adminIDs = getAllAdminIDs();
-    var_dump(json_encode($adminIDs[array_rand($adminIDs, 1)]));
     $userID = getUserID($_SESSION['email']);
 ?>
 
@@ -29,7 +28,8 @@
 </head>
 <script>
     if(<?= $threadID?> != 0)
-        var lastMessage = <?= isset($lastMessage) ? json_encode($lastMessage) : null ?>;
+        var lastMessage = <?= isset($lastMessage) ? json_encode($lastMessage) : json_encode(array()) ?>;
+    console.log(lastMessage);
 
     async function sendMessage(event)
     {
@@ -91,7 +91,6 @@
     {
         //get newest message/message responding to latests message
         const url = 'GetRecentMessageInChain.php';
-        console.log(lastMessage['Message_ID']);
         const data = {
             MessageID : lastMessage['Message_ID']
         };
@@ -111,7 +110,6 @@
             var isDifferent = false;
             if(responseDecoded['Message_ID'] != lastMessage['Message_ID'] && responseDecoded.length != 0)
             {
-                console.log(responseDecoded.length);
                 lastMessage = responseDecoded[0];
                 isDifferent = true;
             }
@@ -150,7 +148,7 @@
         }
     }
     //Every 10s getNewMessage if lastMessage set
-    if(<?= isset($lastMessage)?>)
+    if(<?= isset($_GET['ThreadID']) ? 1 : 0?>)
         window.setInterval(function(){
             getNewMessage();
         }, 3000);
