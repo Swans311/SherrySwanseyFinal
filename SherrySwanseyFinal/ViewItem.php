@@ -32,12 +32,12 @@
 <div class="container gz-div-glow">
         <div class="container gz-div-inner mx-auto text-left py-5 text-white" style="font-family: textFont;">
             <div class="media mr-auto mb-5">
-                <img class="mr-3 align-self-center" style="height: 300px; width: auto;" src="misc\images\Fries_Test.jpg" alt="img">
+                <?php $pic=getRecentReviewPictures($itemInfo['Item_ID']); ?>
                 <div class="media-body">
                     <?php
                         echo '<h1 class="display-4"style="font-family: textFont;">'.$itemInfo['ItemName'].'</h1>';
-                        echo '<h3 class="display-4"style="font-family: textFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h3>';
-                        echo '<h3 class="display-4">'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h3>';
+                        echo '<h4 style="font-family: textFont;">'.getRestaurantName($itemInfo['Restaurant_ID']).'</h4>';
+                        echo '<h4>'.implode(', ', extractNames(getCommonItemCategories($itemInfo['Item_ID'], 3))).'</h4>';
                         echo '<div class="star-ratings-sprite" style="float:left;">';
                         echo '<span style="width:' .round(calculateItemStarRating($itemInfo['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                         echo '</span></div>';
@@ -57,7 +57,6 @@
                         echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08)">';
                         echo '<div class="media mx-3" style="padding-top: 15px; padding-bottom: 15px;">';
                         $pic = getReviewPictures($itemRev['Review_ID']);
-                        //image goes here***********************
                                 echo '<div class="media-body">';
                                     echo '<div>';
                                         echo '<h3>'.getUsername($itemRev['User_ID']).'</h3>';

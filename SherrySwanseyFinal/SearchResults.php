@@ -174,8 +174,8 @@
                     echo '<a href = "ViewRestaurant.php?id='.$resultByResName['Restaurant_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: white; cursor: pointer;">';
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
-                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
-                        echo '<div class="media-body">';
+                        $pic=getRecentResReviewPictures($resultByResName['Restaurant_ID']);
+                            echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
                                     echo '<h3>'.$resultByResName['Restaurant_Name'].'</h3>';
@@ -194,8 +194,8 @@
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
-                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpg" alt="img">';
-                        echo '<div class="media-body">';
+                        $pic=getRecentReviewPictures($resultByItemName['Item_ID']);
+                            echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
                                     echo '<h3>'.$resultByItemName['ItemName'].'</h3>';
@@ -214,7 +214,7 @@
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                         /*Adjust image source*/
-                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpg" alt="img">';
+                        $pic = getRecentReviewPictures($resultByItemCats['Item_ID']);
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
@@ -236,7 +236,7 @@
                     echo '<a href = "ViewRestaurant.php?id='.$res['Restaurant_ID'].'" style="text-decoration: inherit;text-shadow: -1px 1px #000; color: white; cursor: pointer;">';
                     echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                     echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
-                        echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
+                        $pic=getRecentResReviewPictures($res['Restaurant_ID']);
                         echo '<div class="media-body">';
                             echo '<div class="row">';
                                 echo '<div class="col">';
@@ -260,7 +260,7 @@
                             echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                                 echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                                     /*Adjust image source*/
-                                    echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Restaurant_Test.jpg" alt="img">';
+                                    $pic=getRecentResReviewPictures($searchResult['Restaurant_ID']);
                                     echo '<div class="media-body">';
                                         echo '<div class="row">';
                                             echo '<div class="col">';
@@ -282,7 +282,7 @@
                             echo '<div class="row border border-white rounded m-2" style="background-image: radial-gradient(ellipse at center, #e75480,#f71a08);">';
                             echo '<div class="media mx-3 " style="padding-top: 15px; padding-bottom: 15px;">';
                                 /*Adjust image source*/
-                                echo '<img class="mr-3 align-self-top" style="height: auto; width: 25%;" src="misc\images\Fries_Test.jpg" alt="img">';
+                                $pic=getRecentReviewPictures($searchResult['Item_ID']);
                                 echo '<div class="media-body">';
                                     echo '<div class="row">';
                                         echo '<div class="col">';
