@@ -1470,7 +1470,8 @@ function addMessage($threadID, $respondingToID, $senderID, $recipientID, $messag
     if($threadID == NULL)
     {
         $stmt = $db->prepare("SELECT MAX(Thread_ID) FROM adminmessage;");
-        $threadID = $stmt-> fetch(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $threadID = ($stmt-> fetch(PDO::FETCH_ASSOC))['MAX(Thread_ID)'];
         $threadID = $threadID == NULL ? 1 : $threadID + 1;
     }
 
