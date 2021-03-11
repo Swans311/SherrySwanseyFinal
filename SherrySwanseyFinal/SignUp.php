@@ -51,8 +51,13 @@
         }
 
         if($errorMsg==''){
-            addUser($uName, $email, $pw, $fName, $lName, "");                
-            header('Location: Login.php');    
+            $addUser=addUser($uName, $email, $pw, $fName, $lName, ""); 
+            if ($addUser == false){
+                echo '<script>alert("User Already Exists")</script>';
+            }   
+            else{
+                header('Location: Login.php');
+            }          
         }
         else{
             

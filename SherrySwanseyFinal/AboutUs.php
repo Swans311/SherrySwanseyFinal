@@ -65,7 +65,7 @@
                         </div>
                         <img class="mr-3 align-self-top" style="height: auto; width: 28%;" src="misc\images\Casey_Bio.jpg" alt="img">
                     </div>
-                    <p>My main role with the project was learning Bootstrap and using it to design our site around our theme. With food in mind, we wanted to design the site around a retro diner theme, with a checkered tiled background and glowing neon lights. As I completed styling each page I met with my group to make adjustments and make sure we all agreed on the style choices that were made. This was definitly and process, but I learned a lot from it. </p>
+                    <p>Designed original Bootstrap format.</p>
                 </div>
             </div>
         </div>
