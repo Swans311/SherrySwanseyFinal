@@ -42,7 +42,7 @@
                         echo '<span style="width:' .round(calculateItemStarRating($itemInfo['Item_ID']),2 ) * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                         echo '</span></div>';
                         echo '<br>';
-                        echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$itemInfo['Restaurant_ID'].'`">Add Review</button>';
+                        echo '<button class="btn btn-outline-light m-3" onclick="window.location.href=`AddRestaurantReview.php?itemID='.$itemInfo['Item_ID'].'`">Add Review</button>';
 
                     ?>
                 </div>
