@@ -4,9 +4,9 @@
 
     $reviewarray=[];
 
-    if(isset($_GET['id']))
+    if(isset($_GET['rid']))
     {
-        $reviewarray = findReview($_GET['id']);
+        $reviewarray = findReview($_GET['rid']);
     }
     $uID=getUserID($_SESSION['email']);
 
@@ -14,10 +14,9 @@
     $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
 
     if($uID == $restaurantInfo['ResOwnerId']){
-
     }
     else{
-        header("Location: SearchResults.php");
+        //header("Location: SearchResults.php");
     }
     
     
