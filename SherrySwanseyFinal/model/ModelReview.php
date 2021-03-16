@@ -287,7 +287,7 @@
         {
             array_push($testing, addItemReview($restaurantID, $userID, $itemReviewList['itemName'], $resRevID, $time, $itemReviewList['category'], $itemReviewList['rating'], $itemReviewList['review'], $uNameVis, $itemReviewList['imageFilePath']));
         }
-        return json_encode($catArray);
+        return json_encode($restaurantID);
     }
     //use minRating = -1 to ignore rating and 0 to get all restaurants that have been reviewed at least once
     function searchByRestaurant($name, $category, $minRating)
@@ -1412,7 +1412,6 @@ function getRecentResReviewPictures($id){
     //header("Content-Type: image");
     echo '<img class="mr-3 align-self-top" style="height: auto; width: 30%;" src="data:image/png;base64,'.base64_encode($rimage).'" alt="img">';
 }
-
 
 function getRecentReviewPictures($id){
     global $db;
