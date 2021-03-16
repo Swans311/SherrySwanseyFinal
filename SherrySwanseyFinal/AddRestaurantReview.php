@@ -215,6 +215,7 @@
                 if(flag)
                 {
                     //redirect
+                    window.location.href = "ViewRestaurant.php?id="+response;
                 }
             }
         }
