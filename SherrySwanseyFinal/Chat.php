@@ -79,7 +79,7 @@
         }
         if (flag && <?= $threadID?> == 0)
         {
-            document.location.href = "inbox.php";
+            document.location.href = "Inbox.php";
         }
         else if(flag)
         {

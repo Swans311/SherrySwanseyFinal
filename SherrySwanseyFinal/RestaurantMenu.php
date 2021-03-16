@@ -63,7 +63,7 @@
                                 echo '<tr>';
                             $rowCount ++;
                             $i++;
-                            echo '<td style="padding:20px; text-align:center;  " class="col-md-4"><a href="ViewItem.php?id='.$mInfo['Item_ID'].'" class="btn btn-outline-light" style="min-height:75px; min-width:100%;">'. $mInfo['ItemName'] . '</a></td>'; 
+                            echo '<td style="padding:20px; text-align:center; text-height:50%;  " class="col-md-4"><a href="ViewItem.php?id='.$mInfo['Item_ID'].'" class="btn btn-outline-light" style="min-height:75px; min-width:100%;">'. $mInfo['ItemName'] . '</a></td>'; 
                             if($rowCount == 4)
                             {
                                 echo "</tr>";
