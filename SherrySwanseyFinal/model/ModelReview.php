@@ -1413,6 +1413,7 @@ function getRecentResReviewPictures($id){
     echo '<img class="mr-3 align-self-top" style="height: auto; width: 30%;" src="data:image/png;base64,'.base64_encode($rimage).'" alt="img">';
 }
 
+
 function getRecentReviewPictures($id){
     global $db;
     $sql = "SELECT rimage FROM review WHERE Item_ID = :id ORDER BY RAND() DESC LIMIT 1";
