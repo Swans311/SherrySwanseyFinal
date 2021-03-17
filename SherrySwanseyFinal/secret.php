@@ -21,6 +21,9 @@
         <div class="container gz-div-inner mx-auto text-left p-5 text-white" style="font-family: textFont;">
             <div class="media mr-auto mb-5">
                 <div>
+                    <h4 style="color:black; text-decoration:underline;">Our Story</h4>
+                    <p>Dave's portion of this project was to build out the user's accounts and connectivity. From Restaurant Owners being able to respond to reviews, to being able to log in was Dave's objective. He was also the mastermind behind the MySQL database, as well as the search bar and the code involved. Style wise, there were many changes that Dave had changed, and many bug fixes as well. A lot of work that was done for improving UX and UI was implemented by Dave while Joe was doing other very important work.</p>
+                    <p>Joe's part will go here. Try to make it short and sweet.</p>
                     <h4 style="text-decoration:underline; color:black;">Our Links:</h4>
                     <a href="pdfs/proposal.pdf" style="color:white;">Proposal Pdf</a>
                     <p> </p>
