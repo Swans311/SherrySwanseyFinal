@@ -21,15 +21,22 @@
         <div class="container gz-div-inner mx-auto text-left p-5 text-white" style="font-family: textFont;">
             <div class="media mr-auto mb-5">
                 <div>
-                    <h4 style="text-decoration:underline;">Our Links</h4>
-                    <p>Proposal: </p>
-                    <p>Prototype: </p>
-                    <p>Technical Design: </p>
-                    <p>Relationship Design: </p>
-                    <p>Screenshots: </p>
-                    <p>PowerPoint Presentation: </p>
-                    <p>Zip File of Source Code: </p>
-                    <p>Github: </p>
+                    <h4 style="text-decoration:underline; color:black;">Our Links:</h4>
+                    <a href="pdfs/proposal.pdf" style="color:white;">Proposal Pdf</a>
+                    <p> </p>
+                    <a href="https://marvelapp.com/project/5331792" style="color:white;">Wireframe Prototypes (Sorry I don't want to pay for these)</a>
+                    <p> </p>
+                    <a href="pdfs/TechSpec.pdf" style="color:white;">Technical Design Pdf</a>
+                    <p> </p>
+                    <a href="pdfs/RelationalTables" style="color:white;">Relational Tables</a>
+                    <p> </p>
+                    <a href="pdfs/Screenshots.pdf" style="color:white;">Screenshots</a>
+                    <p> </p>
+                    <a href="pdfs/Presentation.pdf" style="color:white;">Presentation PowerPoint</a>
+                    <p> </p>
+                    <a href="misc/SherrySwanseyFinal.zip" style="color:white;">Zip File of Code</a>
+                    <p> </p>
+                    <a href="https://github.com/Swans311/SherrySwanseyFinal" style="color:white;"> Github Link</a>
                 </div>
             </div>
         </div>
