@@ -28,7 +28,7 @@
                     <p> </p>
                     <a href="pdfs/TechSpec.pdf" style="color:white;">Technical Design Pdf</a>
                     <p> </p>
-                    <a href="pdfs/RelationalTables" style="color:white;">Relational Tables</a>
+                    <a href="pdfs/RelationalTables.pdf" style="color:white;">Relational Tables</a>
                     <p> </p>
                     <a href="pdfs/Screenshots.pdf" style="color:white;">Screenshots</a>
                     <p> </p>
