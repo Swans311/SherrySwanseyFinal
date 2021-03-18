@@ -23,7 +23,7 @@
                 <div>
                     <h4 style="color:black; text-decoration:underline;">Our Story</h4>
                     <p>Dave's portion of this project was to build out the user's accounts and connectivity. From Restaurant Owners being able to respond to reviews, to being able to log in was Dave's objective. He was also the mastermind behind the MySQL database, as well as the search bar and the code involved. Style wise, there were many changes that Dave had changed, and many bug fixes as well. A lot of work that was done for improving UX and UI was implemented by Dave while Joe was doing other very important work.</p>
-                    <p>Joe's part will go here. Try to make it short and sweet.</p>
+                    <p>Joe was an all-rounder and did a bit all over the place. I tried to focus effort on parts of project that were a bit more than we can chew and taken on by my insistence. I was solely responsible for all of the ajax, a lot of the php functions. Really all over the project and basically whatever excited me or I decided was better done myself I would pick up.</p>
                     <h4 style="text-decoration:underline; color:black;">Our Links:</h4>
                     <a href="pdfs/proposal.pdf" style="color:white;">Proposal Pdf</a>
                     <p> </p>
