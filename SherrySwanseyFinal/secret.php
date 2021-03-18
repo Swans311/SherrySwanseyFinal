@@ -38,7 +38,8 @@
                     <a href="pdfs/Presentation.pdf" style="color:white;">Presentation PowerPoint</a>
                     <p> </p>
                     <a href="misc/SherrySwanseyFinal.zip" style="color:white;">Zip File of Code</a>
-                    <p> </p>
+                    <p>To properly run the site, the user must run the code from the zip file along with XAMPP (run XAMPP as admin for ease of use), with the Apache service running. Ensure that the tasks.json has the accurate location of your preffered web browser. In addition, ensuring that launch.json has the correct information available to connect with your preffered web browser will make running the program much easier. In the url make sure that the location referred to follows the correct pathways when running files. Otherwise the optimal way to run the code is through this link active on heroku.com </p>
+                    <p></p>
                     <a href="https://github.com/Swans311/SherrySwanseyFinal" style="color:white;"> Github Link</a>
                 </div>
             </div>
