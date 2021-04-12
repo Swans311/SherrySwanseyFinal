@@ -6,6 +6,7 @@
       $src= $_GET['Totalsearch'];
       header("Location: SearchResults.php?Totalsearch=".$src."");
     }
+    
 ?>
 
 

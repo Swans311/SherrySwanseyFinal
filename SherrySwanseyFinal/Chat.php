@@ -1,5 +1,6 @@
 <?php 
     include (__DIR__.'/NavBar.php');
+    
     include (__DIR__. '/model/ModelReview.php');
     $result='';
     
@@ -17,6 +18,7 @@
     }
     $adminIDs = getAllAdminIDs();
     $userID = getUserID($_SESSION['email']);
+    
 ?>
 
 <!DOCTYPE html>

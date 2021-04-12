@@ -1,12 +1,13 @@
 <?php 
     include (__DIR__.'/NavBar.php');
+    
     include (__DIR__. '/Model/ModelReview.php');
 
     session_destroy();
     session_start();
     $_SESSION['loggedIn']=false;
     
-    /*if (isPostRequest()){
+    if (isPostRequest()){
         $_SESSION['email']=filter_input(INPUT_POST,'email');
         $_SESSION['userEncryptedPassword']=filter_input(INPUT_POST, 'userEncryptedPassword');
 
@@ -21,7 +22,7 @@
         }
         else{
         }
-    }*/
+    }
     header("Location: Login.php");
 
 

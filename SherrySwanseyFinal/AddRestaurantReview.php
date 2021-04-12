@@ -1,5 +1,6 @@
 <?php 
     include (__DIR__.'/NavBar.php');
+    
     include (__DIR__.'/model/ModelReview.php');
 
     //Sets Restaurant ID (stays php)
@@ -12,7 +13,7 @@
     {
         $restaurant = getRestaurantByID($_GET['RestaurantID']);
     }
-    
+    */
     //Hidden Number counting foods in this review (wont be needed)
     $numFoodReviews = isset($_POST['hidden']) ? $_POST['hidden'] : 1;
     if(!isset($_POST))
@@ -20,6 +21,7 @@
     else
         $_SESSION['numFoodReviews'] = $numFoodReviews;
     //Make sure user logged in
+    
     if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) 
     {
         header('Location: Login.php');
@@ -31,6 +33,7 @@
       $src= $_GET['Totalsearch'];
       header("Location: SearchResults.php?Totalsearch=".$src."");
     }
+    
 ?>
 
 

@@ -1,5 +1,6 @@
 <?php 
     include (__DIR__.'/NavBar.php');
+    
     include (__DIR__.'/model/ModelReview.php');
 
     $reviewarray=[];
@@ -16,7 +17,7 @@
     if($uID == $restaurantInfo['ResOwnerId']){
     }
     else{
-        //header("Location: SearchResults.php");
+        header("Location: SearchResults.php");
     }
     
     
@@ -45,6 +46,7 @@
       $src= $_GET['Totalsearch'];
       header("Location: SearchResults.php?Totalsearch=".$src."");
     }
+    
 ?>
 
 

@@ -1,5 +1,6 @@
 <?php 
     include (__DIR__.'/NavBar.php');
+    
     include (__DIR__. '/model/ModelReview.php');
     $result='';
     
@@ -31,6 +32,7 @@
       $src= $_GET['Totalsearch'];
       header("Location: SearchResults.php?Totalsearch=".$src."");
     }
+    
 ?>
 
 <!DOCTYPE html>

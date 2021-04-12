@@ -1,5 +1,6 @@
 <?php 
     include(__DIR__.'/NavBar.php');
+    
     include(__DIR__.'/model/ModelReview.php');
     
     $uID=getUserID($_SESSION['email']);
