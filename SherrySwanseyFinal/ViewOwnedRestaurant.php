@@ -8,7 +8,7 @@
     $restaurantInfo = getRestaurantByID($_GET['id']);
     $restaurantReviews = getMostRecentReviewsByRestaurant($_GET['id'], 3);
 
-    if($uID == $restaurantInfo['ResOwnerId']){
+    if($uID == $restaurantInfo['ResOwnerID']){
 
     }
     else{
@@ -104,15 +104,16 @@
                                                         echo implode(', ', $tags);
                                                         echo '</p>';
                                                     echo '</div></div></div>';
-                                                    if($resRev['Response']==NULL){
-                                                        echo '<button class="btn btn-dark"><a href="AddResponse.php?rid='.$itemRev['ResReview_ID'].'&id='.$restaurantInfo['Restaurant_ID'].'"> Respond </a></button>';
-                                                    }
-                                                    else{
-                                                        echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
-                                                        echo '<p>'.$resRev['Response'].'</p>';
-                                                    }
-
                                         }
+                                        if($resRev['Response']==NULL){
+                                            echo '<button class="btn btn-dark"><a href="AddResponse.php?rid='.$itemRev['ResReview_ID'].'&id='.$restaurantInfo['Restaurant_ID'].'"> Respond </a></button>';
+                                        }
+                                        else{
+                                            echo '<hr style="width:100%!important; border-top:2px solid white;"/>';
+                                            echo '<p>'.$resRev['Response'].'</p>';
+                                        }
+
+                                        
                                         echo '</div></div></div>';
 
                     }

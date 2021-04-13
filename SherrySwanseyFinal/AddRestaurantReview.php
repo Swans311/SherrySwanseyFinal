@@ -13,7 +13,7 @@
     {
         $restaurant = getRestaurantByID($_GET['RestaurantID']);
     }
-    */
+    
     //Hidden Number counting foods in this review (wont be needed)
     $numFoodReviews = isset($_POST['hidden']) ? $_POST['hidden'] : 1;
     if(!isset($_POST))

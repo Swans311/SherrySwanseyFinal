@@ -308,7 +308,7 @@
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         $returnArray = [];
-        $categories = explode(',', $category);
+        /*$categories = explode(',', $category);
         foreach($results as $result)
         {
             $commonResCats = getCommonRestaurantCategories($result['Restaurant_ID'], 5);
@@ -319,7 +319,7 @@
                             if(!in_array($result, $returnArray))
                                 array_push($returnArray, $result);
         }
-
+        */
         return ($returnArray);
     }
     //use minRating = -1 to ignore rating and 0 to get all items that have been reviewed at least once
@@ -541,7 +541,7 @@
     function getAllReviewsForItemChronological($itemID, $limit, $newestFirst)
     {
         global $db;
-        $string = "SELECT Review_ID FROM review WHERE Item_ID = :ID ORDER BY ReviewDate ";
+        $string = "SELECT Review_ID FROM review WHERE Item_ID = :ID ORDER BY Review_Date ";
         $string .= $newestFirst == True ? "DESC LIMIT :Lim;" : "ASC LIMIT :Lim;";
         //get connected ItemReviews
         $stmt = $db->prepare($string);
@@ -1157,7 +1157,7 @@
     function getCommonItemCategories($itemID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT * FROM tags WHERE Item_ID = :itemID AND Active = 1 AND Counter >= 1 LIMIT :num");
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Item_ID = :itemID AND Counter >= 1 LIMIT :num");
 
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':itemID', $itemID, PDO::PARAM_STR);
@@ -1170,7 +1170,7 @@
     function getCommonRestaurantCategories($restaurantID, $numCategories)
     {
         global $db;
-        $stmt = $db->prepare("SELECT * FROM tags WHERE Restaurant_ID = :restaurantID AND Active = 1 AND Counter >= 1 LIMIT :num");
+        $stmt = $db->prepare("SELECT * FROM tags WHERE Restaurant_ID = :restaurantID AND Counter >= 1 LIMIT :num");
         $stmt->bindValue(':num', $numCategories, PDO::PARAM_STR);
         $stmt->bindValue(':restaurantID', $restaurantID, PDO::PARAM_STR);
 

@@ -67,7 +67,7 @@
                             $respic=getResReviewPictures($resReview['ResReview_ID']);
                                 echo '<div class="media-body">';
                                     echo '<div>';
-                                        echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
+                                        echo '<h3>' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
                                         echo '<div class="star-ratings-sprite" style="float:left;">';
                                         echo '<span style="width:' . number_format($resReview['Star_lvl'], 2, '.', '') * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                                         echo '</span></div>';
@@ -84,7 +84,7 @@
                                                 echo'<div class="media-body">';
                                                     echo '<div class="mx-5">';
                                                     echo '<!-- Adjust data-->';
-                                                    echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
+                                                    echo'<h3>'. getItemName($review['Item_ID']) .'</h3>'; 
                                                     echo '<div class="star-ratings-sprite" style="float:left;">';
                                                     echo '<span style="width:' . number_format($review['Star_lvl'], 2, '.', '')* 20 . '%' . ';" class="star-ratings-sprite-rating">';
                                                     echo '</span></div>';
@@ -100,6 +100,8 @@
                     }
                 }
                 elseif($owner==True){echo '</div>';
+                    echo '<h4 style="text-decoration:underline;">My Restaurants: </h4>';
+
                     foreach($resInfoArray as $resInfo)
                     {
                         echo "<a href=ViewOwnedRestaurant.php?id=".$resInfo['Restaurant_ID']." style='color:white;'>";
@@ -129,7 +131,7 @@
                                 echo '<div class="media-body">';
                                 $respic=getResReviewPictures($resReview['ResReview_ID']);
                                     echo '<div>';
-                                        echo '<h3>Restaurant Name: ' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
+                                        echo '<h3>' . getRestaurantName($resReview['Restaurant_ID']) . '</h3>';
                                         echo '<div class="star-ratings-sprite" style="float:left;">';
                                         echo '<span style="width:' . $resReview['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                                         echo '</span></div>';
@@ -148,7 +150,7 @@
                                                 echo'<div class="media-body">';
                                                     echo '<div class="mx-5">';
                                                     echo '<!-- Adjust data-->';
-                                                    echo'<h3>Food Name: '. getItemName($review['Item_ID']) .'</h3>'; 
+                                                    echo'<h3>'. getItemName($review['Item_ID']) .'</h3>'; 
                                                     echo '<div class="star-ratings-sprite" style="float:left;">';
                                                     echo '<span style="width:100%;' . $review['Star_lvl'] * 20 . '%' . ';" class="star-ratings-sprite-rating">';
                                                     echo '</span></div>';
